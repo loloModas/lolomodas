@@ -4,8 +4,1078 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lolo Modas - Calçados Masculinos e Femininos</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #8B4513;
+            --secondary: #D2691E;
+            --accent: #CD853F;
+            --dark: #3E2723;
+            --light: #FFF8DC;
+            --gray: #8D6E63;
+            --border: #D7CCC8;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --fonte-principal: 'Inter', sans-serif;
+            --fonte-titulos: 'Playfair Display', serif;
+            --banner-text-color: #ffffff;
+            --banner-button-color: #CD853F;
+        }
+
+        body {
+            background-color: #fefaf6;
+            color: var(--dark);
+            line-height: 1.6;
+            font-family: var(--fonte-principal);
+            font-size: 16px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--light);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            font-family: var(--fonte-titulos);
+        }
+
+        .logo i {
+            margin-right: 10px;
+            color: var(--secondary);
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 500px;
+            margin: 0 20px;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.1);
+        }
+
+        .search-bar button {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .search-bar button:hover {
+            color: var(--primary);
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .action-btn {
+            position: relative;
+            background: none;
+            border: none;
+            color: var(--dark);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .action-btn:hover {
+            background-color: rgba(0,0,0,0.05);
+            transform: translateY(-2px);
+        }
+
+        .count-badge {
+            background-color: var(--accent);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: -5px;
+            right: -5px;
+        }
+
+        nav {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            padding: 12px 0;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        /* BANNER COM TEXTO PRIMEIRO E IMAGENS DEPOIS */
+        .banner {
+            position: relative;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            color: var(--banner-text-color);
+            padding: 60px 0 30px;
+            text-align: center;
+            margin-bottom: 40px;
+            overflow: hidden;
+        }
+
+        .banner-content {
+            position: relative;
+            z-index: 3;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px 30px;
+        }
+
+        .banner h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+            animation: fadeInUp 1s ease-out;
+            font-family: var(--fonte-titulos);
+            color: inherit;
+        }
+
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        .banner p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+            animation: fadeInUp 1s ease-out 0.3s both;
+            color: inherit;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--banner-button-color);
+            color: var(--banner-text-color);
+            padding: 15px 35px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            animation: fadeInUp 1s ease-out 0.6s both;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .btn:hover {
+            background-color: var(--secondary);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .shoes-scroll-container {
+            position: relative;
+            width: 100%;
+            height: 150px;
+            overflow: hidden;
+            z-index: 2;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px 0;
+        }
+
+        .shoes-scroll {
+            display: flex;
+            animation: scrollShoes 30s linear infinite;
+            height: 100%;
+            align-items: center;
+        }
+
+        .shoe-item {
+            flex: 0 0 auto;
+            width: 160px;
+            height: 120px;
+            margin: 0 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        .shoe-item:hover {
+            opacity: 1;
+        }
+
+        .shoe-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+        }
+
+        @keyframes scrollShoes {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .shoes-scroll-container:hover .shoes-scroll {
+            animation-play-state: paused;
+        }
+
+        /* Resto do CSS */
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: white;
+            border: 2px solid var(--border);
+            padding: 8px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .section-title {
+            text-align: center;
+            margin: 40px 0 30px;
+            font-size: 1.8rem;
+            color: var(--dark);
+            position: relative;
+            padding-bottom: 15px;
+            font-family: var(--fonte-titulos);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--primary);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--success);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .product-badge.destaque {
+            background: var(--warning);
+        }
+
+        .product-badge.novo {
+            background: var(--danger);
+        }
+
+        .product-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .product-card:hover .product-actions {
+            opacity: 1;
+        }
+
+        .action-icon {
+            width: 35px;
+            height: 35px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .action-icon:hover {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .action-icon.favorito.active {
+            background: var(--danger);
+            color: white;
+        }
+
+        /* IMAGEM CORRIGIDA - SEM CORTES */
+        .product-image {
+            background-color: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s;
+            background-color: white;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 1rem;
+            height: 40px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+
+        .stars {
+            color: var(--warning);
+        }
+
+        .rating-count {
+            color: var(--gray);
+            font-size: 0.8rem;
+        }
+
+        .product-price {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+        }
+
+        .product-views {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--gray);
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+
+        .product-actions-bottom {
+            display: flex;
+            gap: 10px;
+        }
+
+        .add-to-cart {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            flex: 1;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .add-to-cart:hover {
+            background-color: var(--secondary);
+        }
+
+        .details-btn {
+            background-color: transparent;
+            border: 2px solid var(--border);
+            color: var(--dark);
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .details-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* BOTÃO WHATSAPP */
+        .whatsapp-btn {
+            background-color: #25D366;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            flex: 1;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .whatsapp-btn:hover {
+            background-color: #128C7E;
+        }
+
+        /* Modal Melhorado para Múltiplas Fotos */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            max-width: 900px;
+            width: 95%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideUp 0.3s;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+            z-index: 2;
+        }
+
+        .close-modal:hover {
+            color: var(--dark);
+        }
+
+        /* Galeria de Imagens no Modal */
+        .product-gallery {
+            display: grid;
+            grid-template-columns: 100px 1fr;
+            gap: 20px;
+            padding: 30px;
+        }
+
+        .gallery-thumbnails {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .thumbnail.active {
+            border-color: var(--primary);
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .gallery-main {
+            position: relative;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 400px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .main-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .gallery-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            padding: 0 20px;
+        }
+
+        .gallery-nav button {
+            background: rgba(255,255,255,0.9);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .gallery-nav button:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--success);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 1001;
+            transform: translateX(400px);
+            transition: transform 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.error {
+            background: var(--danger);
+        }
+
+        .toast.warning {
+            background: var(--warning);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 50px 0 20px;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            font-family: var(--fonte-titulos);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #495057;
+            color: #adb5bd;
+            font-size: 0.9rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gray);
+            grid-column: 1 / -1;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--border);
+        }
+
+        /* Loading */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            grid-column: 1 / -1;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--border);
+            border-left: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ========== NOVOS ESTILOS - CARRINHO ========== */
+        .carrinho-container {
+            padding: 20px;
+        }
+
+        .carrinho-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+            gap: 15px;
+        }
+
+        .carrinho-item-imagem {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .carrinho-item-info {
+            flex: 1;
+        }
+
+        .carrinho-item-nome {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .carrinho-item-preco {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .carrinho-item-controles {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quantidade-btn {
+            width: 30px;
+            height: 30px;
+            border: 1px solid var(--border);
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quantidade-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .quantidade-value {
+            min-width: 30px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .remover-item {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .carrinho-total {
+            background: var(--light);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .total-line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .total-line.total {
+            border-top: 2px solid var(--primary);
+            padding-top: 10px;
+            font-size: 1.2rem;
+        }
+
+        .carrinho-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-cancel {
+            background: var(--gray);
+        }
+
+        .btn-cancel:hover {
+            background: #7a6c64;
+        }
+
+        /* Estilos da Finalização */
+        .finalizar-container {
+            padding: 20px;
+        }
+
+        .resumo-pedido {
+            background: var(--light);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .resumo-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        /* Páginas Institucionais */
+        .page-section {
+            padding: 60px 0;
+        }
+
+        .page-content {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .page-content h1 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-family: var(--fonte-titulos);
+        }
+
+        .page-content h2 {
+            color: var(--secondary);
+            margin: 30px 0 15px;
+        }
+
+        .page-content p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        .page-content ul {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .page-content li {
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .header-top {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .search-bar {
+                max-width: 100%;
+                margin: 10px 0;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            .banner h1 {
+                font-size: 2rem;
+            }
+
+            .banner p {
+                font-size: 1.1rem;
+            }
+
+            .shoe-item {
+                width: 140px;
+                height: 105px;
+                margin: 0 10px;
+            }
+
+            .shoes-scroll-container {
+                height: 120px;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+
+            .product-actions-bottom {
+                flex-direction: column;
+            }
+
+            .product-gallery {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-thumbnails {
+                flex-direction: row;
+                order: 2;
+                justify-content: center;
+            }
+
+            .gallery-main {
+                order: 1;
+            }
+
+            .carrinho-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .carrinho-actions {
+                flex-direction: column;
+            }
+
+            .page-content {
+                padding: 20px;
+                margin: 0 15px;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Header -->
@@ -48,7 +1118,7 @@
 
     <!-- Conteúdo Principal -->
     <main id="conteudoPrincipal">
-        <!-- Banner -->
+        <!-- Banner com Texto Primeiro e Rolagem de Tênis Depois -->
         <section class="banner" id="bannerSection">
             <div class="banner-content">
                 <h1 id="bannerTitulo">Calçados de Qualidade para Todos os Estilos</h1>
@@ -56,11 +1126,13 @@
                 <a href="#" class="btn" onclick="filtrarCategoria('destaques')" id="bannerBotao">Ver Coleção</a>
             </div>
             <div class="shoes-scroll-container">
-                <div class="shoes-scroll" id="shoesScroll"></div>
+                <div class="shoes-scroll" id="shoesScroll">
+                    <!-- Tênis serão adicionados via JavaScript -->
+                </div>
             </div>
         </section>
 
-        <!-- Filtros -->
+        <!-- Filtros Rápidos -->
         <div class="container">
             <div class="filters">
                 <button class="filter-btn active" onclick="filtrarCategoria('todos')">Todos</button>
@@ -74,24 +1146,1199 @@
         <div class="container">
             <h2 class="section-title" id="tituloProdutos">Nossos Produtos</h2>
             <div class="products-grid" id="produtosContainer">
-                <!-- Os produtos serão carregados aqui pelo JavaScript -->
+                <!-- Produtos carregados via JavaScript -->
             </div>
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer style="background: #333; color: white; padding: 40px 0; margin-top: 50px;">
+    <!-- Páginas Institucionais -->
+    <section id="paginaSobre" class="page-section" style="display: none;">
         <div class="container">
-            <div style="text-align: center;">
-                <h3>Lolo Modas</h3>
-                <p>Especializada em calçados masculinos e femininos de qualidade.</p>
-                <p>Telefone: (11) 9999-9999 | Email: contato@lolomodas.com</p>
+            <div class="page-content">
+                <h1>Sobre a Lolo Modas</h1>
+                <p>Bem-vindo à Lolo Modas, sua loja especializada em calçados de qualidade para toda a família. Desde 2023, temos o compromisso de oferecer os melhores produtos com conforto, estilo e preços acessíveis.</p>
+                
+                <h2>Nossa Missão</h2>
+                <p>Proporcionar aos nossos clientes uma experiência de compra excepcional, oferecendo calçados que combinam qualidade, conforto e tendências da moda.</p>
+                
+                <h2>Nossos Valores</h2>
+                <ul>
+                    <li><strong>Qualidade:</strong> Selecionamos cuidadosamente cada produto</li>
+                    <li><strong>Conforto:</strong> Priorizamos o bem-estar dos seus pés</li>
+                    <li><strong>Variedade:</strong> Amplo sortimento para todos os gostos</li>
+                    <li><strong>Atendimento:</strong> Relacionamento próximo e personalizado</li>
+                </ul>
+                
+                <h2>Por que escolher a Lolo Modas?</h2>
+                <p>Somos apaixonados por calçados e acreditamos que um bom par de sapatos pode transformar não apenas o visual, mas também a autoestima e confiança de uma pessoa.</p>
+                
+                <button class="btn" onclick="mostrarPagina('home')">
+                    <i class="fas fa-arrow-left"></i> Voltar para a Loja
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section id="paginaContato" class="page-section" style="display: none;">
+        <div class="container">
+            <div class="page-content">
+                <h1>Entre em Contato</h1>
+                <p>Estamos aqui para ajudar! Entre em contato conosco através dos canais abaixo:</p>
+                
+                <div style="display: grid; gap: 20px; margin: 30px 0;">
+                    <div style="display: flex; align-items: center; gap: 15px; padding: 15px; background: var(--light); border-radius: 8px;">
+                        <i class="fab fa-whatsapp" style="font-size: 2rem; color: #25D366;"></i>
+                        <div>
+                            <h3 style="margin: 0; color: var(--primary);">WhatsApp</h3>
+                            <p style="margin: 5px 0; font-size: 1.1rem;" id="contatoWhatsApp">(11) 9999-9999</p>
+                            <small>Atendimento rápido e personalizado</small>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; gap: 15px; padding: 15px; background: var(--light); border-radius: 8px;">
+                        <i class="fas fa-envelope" style="font-size: 2rem; color: var(--primary);"></i>
+                        <div>
+                            <h3 style="margin: 0; color: var(--primary);">E-mail</h3>
+                            <p style="margin: 5px 0; font-size: 1.1rem;" id="contatoEmail">contato@lolomodas.com</p>
+                            <small>Respondemos em até 24h</small>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; gap: 15px; padding: 15px; background: var(--light); border-radius: 8px;">
+                        <i class="fas fa-clock" style="font-size: 2rem; color: var(--secondary);"></i>
+                        <div>
+                            <h3 style="margin: 0; color: var(--primary);">Horário de Atendimento</h3>
+                            <p style="margin: 5px 0; font-size: 1.1rem;">Segunda a Sexta: 9h às 18h</p>
+                            <p style="margin: 5px 0; font-size: 1.1rem;">Sábado: 9h às 13h</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <h2>Formulário de Contato</h2>
+                <form id="formContato">
+                    <div class="form-group">
+                        <label>Seu Nome</label>
+                        <input type="text" id="contatoNome" placeholder="Digite seu nome" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Seu WhatsApp</label>
+                        <input type="tel" id="contatoTelefone" placeholder="(11) 99999-9999" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Mensagem</label>
+                        <textarea id="contatoMensagem" placeholder="Como podemos ajudar você?" rows="5" required></textarea>
+                    </div>
+                    
+                    <button type="button" class="btn" onclick="enviarMensagemContato()" style="width: 100%;">
+                        <i class="fas fa-paper-plane"></i> Enviar Mensagem
+                    </button>
+                </form>
+                
+                <button class="btn btn-cancel" onclick="mostrarPagina('home')" style="margin-top: 20px; width: 100%;">
+                    <i class="fas fa-arrow-left"></i> Voltar para a Loja
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal de Produto com Galeria -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="fecharModal()">&times;</button>
+            <div id="modalContent">
+                <!-- Conteúdo do modal carregado via JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal do Carrinho -->
+    <div class="modal" id="carrinhoModal">
+        <div class="modal-content" style="max-width: 800px;">
+            <button class="close-modal" onclick="fecharCarrinho()">&times;</button>
+            <div class="carrinho-container">
+                <h2 style="margin-bottom: 20px; color: var(--primary);">
+                    <i class="fas fa-shopping-cart"></i> Meu Carrinho
+                </h2>
+                
+                <div id="carrinhoVazio" class="empty-state" style="display: none;">
+                    <i class="fas fa-shopping-cart" style="font-size: 3rem;"></i>
+                    <h3>Seu carrinho está vazio</h3>
+                    <p>Adicione alguns produtos incríveis!</p>
+                    <button class="btn" onclick="fecharCarrinho()">Continuar Comprando</button>
+                </div>
+                
+                <div id="carrinhoItens">
+                    <!-- Itens do carrinho serão inseridos aqui -->
+                </div>
+                
+                <div class="carrinho-total" id="carrinhoTotalSection" style="display: none;">
+                    <div class="total-line">
+                        <span>Subtotal:</span>
+                        <span id="carrinhoSubtotal">R$ 0,00</span>
+                    </div>
+                    <div class="total-line">
+                        <span>Frete:</span>
+                        <span id="carrinhoFrete">A calcular</span>
+                    </div>
+                    <div class="total-line total">
+                        <span><strong>Total:</strong></span>
+                        <span><strong id="carrinhoTotal">R$ 0,00</strong></span>
+                    </div>
+                </div>
+                
+                <div class="carrinho-actions" id="carrinhoActions" style="display: none;">
+                    <button class="btn" onclick="finalizarPedido()" style="flex: 2; background: #25D366;">
+                        <i class="fab fa-whatsapp"></i> Finalizar Pedido via WhatsApp
+                    </button>
+                    <button class="btn btn-cancel" onclick="fecharCarrinho()" style="flex: 1;">
+                        Continuar Comprando
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Finalização -->
+    <div class="modal" id="finalizarModal">
+        <div class="modal-content" style="max-width: 500px;">
+            <button class="close-modal" onclick="fecharFinalizar()">&times;</button>
+            <div class="finalizar-container">
+                <h2 style="margin-bottom: 20px; color: var(--success);">
+                    <i class="fas fa-check-circle"></i> Finalizar Pedido
+                </h2>
+                
+                <div class="form-group">
+                    <label>Seu Nome</label>
+                    <input type="text" id="clienteNome" placeholder="Digite seu nome completo">
+                </div>
+                
+                <div class="form-group">
+                    <label>WhatsApp</label>
+                    <input type="tel" id="clienteWhatsApp" placeholder="(11) 99999-9999">
+                </div>
+                
+                <div class="form-group">
+                    <label>Endereço de Entrega</label>
+                    <textarea id="clienteEndereco" placeholder="Rua, número, bairro, cidade - CEP"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Observações (opcional)</label>
+                    <textarea id="clienteObservacoes" placeholder="Alguma observação sobre o pedido?"></textarea>
+                </div>
+                
+                <div class="resumo-pedido">
+                    <h4>Resumo do Pedido</h4>
+                    <div id="resumoItens"></div>
+                    <div style="border-top: 1px solid var(--border); padding-top: 10px; margin-top: 10px;">
+                        <strong>Total: <span id="resumoTotal">R$ 0,00</span></strong>
+                    </div>
+                </div>
+                
+                <button class="btn" onclick="enviarPedidoWhatsApp()" style="background: #25D366; width: 100%;">
+                    <i class="fab fa-whatsapp"></i> Enviar Pedido via WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Produto adicionado ao carrinho!</span>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3 id="footerNome">Lolo Modas</h3>
+                    <p id="footerDescricao">Especializada em calçados masculinos e femininos de qualidade.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Contato</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-phone"></i> <span id="footerTelefone">(11) 9999-9999</span></li>
+                        <li><i class="fas fa-envelope"></i> <span id="footerEmail">contato@lolomodas.com</span></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Links Rápidos</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" onclick="mostrarPagina('sobre')">Sobre Nós</a></li>
+                        <li><a href="#" onclick="mostrarPagina('contato')">Contato</a></li>
+                        <li><a href="#" onclick="filtrarCategoria('masculino')">Calçados Masculinos</a></li>
+                        <li><a href="#" onclick="filtrarCategoria('feminino')">Calçados Femininos</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 <span id="footerCopy">Lolo Modas</span> - Todos os direitos reservados.</p>
             </div>
         </div>
     </footer>
 
-    <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
-    <script src="script.js"></script>
+    <script>
+        // IMAGENS DE TÊNIS PARA A ROLAGEM
+        const shoesImages = [
+            'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=250&h=188&fit=crop',
+            'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=250&h=188&fit=crop',
+            'https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=250&h=188&fit=crop',
+            'https://images.unsplash.com/photo-1605348532760-6753d2c43329?w=250&h=188&fit=crop',
+            'https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?w=250&h=188&fit=crop',
+            'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=250&h=188&fit=crop',
+            'https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=250&h=188&fit=crop',
+            'https://images.unsplash.com/photo-1542280756-74b2f55e73ab?w=250&h=188&fit=crop'
+        ];
+
+        // FUNÇÃO PARA CRIAR A ROLAGEM DE TÊNIS COM IMAGENS PERSONALIZADAS
+        function criarRolagemTenis() {
+            const scrollContainer = document.getElementById('shoesScroll');
+            
+            // PRIMEIRO: Tentar carregar imagens personalizadas do painel admin
+            const config = JSON.parse(localStorage.getItem('loloModasConfig')) || {};
+            const bannerImages = config.bannerImages || [];
+            
+            let imagesToUse = [];
+            
+            if (bannerImages.length > 0) {
+                // Usar imagens personalizadas do painel admin
+                imagesToUse = bannerImages;
+                console.log(`🎨 Carregadas ${bannerImages.length} imagens personalizadas do banner`);
+            } else {
+                // Usar imagens padrão se não houver personalizadas
+                imagesToUse = shoesImages;
+                console.log('ℹ️ Usando imagens padrão do banner');
+            }
+            
+            // Aplicar tamanho personalizado do banner
+            const bannerImageSize = config.bannerImageSize || 160;
+            document.querySelectorAll('.shoe-item').forEach(item => {
+                item.style.width = `${bannerImageSize}px`;
+                item.style.height = `${bannerImageSize * 0.75}px`;
+            });
+            
+            // Duplicar as imagens para criar um efeito de loop contínuo
+            const duplicatedImages = [...imagesToUse, ...imagesToUse];
+            
+            scrollContainer.innerHTML = duplicatedImages.map((img, index) => `
+                <div class="shoe-item">
+                    <img src="${img}" alt="Produto ${index + 1}" 
+                         onerror="this.src='https://via.placeholder.com/${bannerImageSize}x${bannerImageSize * 0.75}/8B4513/FFFFFF?text=Produto+${index + 1}'">
+                </div>
+            `).join('');
+        }
+
+        // CONFIGURAÇÃO PADRÃO MELHORADA
+        const CONFIG_PADRAO = {
+            cores: {
+                primaria: "#8B4513",
+                secundaria: "#D2691E",
+                destaque: "#CD853F",
+                texto: "#3E2723",
+                fundo: "#fefaf6"
+            },
+            tipografia: {
+                fontePrincipal: "'Inter', sans-serif",
+                fonteTitulos: "'Playfair Display', serif",
+                tamanhoFonte: "16"
+            },
+            banner: {
+                titulo: "Calçados de Qualidade para Todos os Estilos",
+                subtitulo: "Encontre os melhores calçados masculinos e femininos com conforto, estilo e preços incríveis!",
+                botao: "Ver Coleção",
+                corTexto: "#ffffff",
+                corBotao: "#CD853F"
+            },
+            textos: {
+                nomeLoja: "Lolo Modas",
+                descricao: "Especializada em calçados masculinos e femininos de qualidade.",
+                telefone: "(11) 9999-9999",
+                email: "contato@lolomodas.com"
+            },
+            produtos: [
+                {
+                    id: 1,
+                    nome: "Tênis Masculino Esportivo Premium",
+                    preco: 199.90,
+                    precoOriginal: 249.90,
+                    categoria: "masculino",
+                    tags: ["destaque", "novo"],
+                    imagens: [
+                        "https://via.placeholder.com/400x300/8B4513/FFFFFF?text=Tênis+Frontal",
+                        "https://via.placeholder.com/400x300/8B4513/FFFFFF?text=Tênis+Lateral",
+                        "https://via.placeholder.com/400x300/8B4513/FFFFFF?text=Tênis+Traseira"
+                    ],
+                    descricao: "Tênis esportivo masculino com tecnologia de amortecimento avançada para máximo conforto.",
+                    rating: 4.5,
+                    reviews: 24,
+                    views: 156,
+                    estoque: 15
+                },
+                {
+                    id: 2,
+                    nome: "Salto Alto Feminino Elegante",
+                    preco: 159.90,
+                    precoOriginal: 199.90,
+                    categoria: "feminino",
+                    tags: ["destaque", "promocao"],
+                    imagens: [
+                        "https://via.placeholder.com/400x300/D2691E/FFFFFF?text=Salto+Frontal",
+                        "https://via.placeholder.com/400x300/D2691E/FFFFFF?text=Salto+Lateral",
+                        "https://via.placeholder.com/400x300/D2691E/FFFFFF?text=Salto+Detalhe"
+                    ],
+                    descricao: "Salto alto feminino elegante perfeito para ocasiões especiais e eventos sociais.",
+                    rating: 4.2,
+                    reviews: 18,
+                    views: 203,
+                    estoque: 8
+                },
+                {
+                    id: 3,
+                    nome: "Sandália Feminina Conforto",
+                    preco: 89.90,
+                    precoOriginal: 129.90,
+                    categoria: "feminino",
+                    tags: ["promocao"],
+                    imagens: [
+                        "https://via.placeholder.com/400x300/CD853F/FFFFFF?text=Sandália+1",
+                        "https://via.placeholder.com/400x300/CD853F/FFFFFF?text=Sandália+2"
+                    ],
+                    descricao: "Sandália feminina super confortável para o dia a dia.",
+                    rating: 4.3,
+                    reviews: 32,
+                    views: 187,
+                    estoque: 12
+                },
+                {
+                    id: 4,
+                    nome: "Tênis Infantil Colorido",
+                    preco: 79.90,
+                    categoria: "infantil",
+                    tags: ["novo"],
+                    imagens: [
+                        "https://via.placeholder.com/400x300/FF6B6B/FFFFFF?text=Infantil+1",
+                        "https://via.placeholder.com/400x300/FF6B6B/FFFFFF?text=Infantil+2"
+                    ],
+                    descricao: "Tênis infantil colorido e divertido para as crianças.",
+                    rating: 4.7,
+                    reviews: 15,
+                    views: 134,
+                    estoque: 20
+                }
+            ],
+            bannerImageSize: 160,
+            produtoImageSize: 300
+        };
+
+        // ESTADO DA APLICAÇÃO
+        let estado = {
+            carrinho: [],
+            favoritos: new Set(),
+            filtroAtivo: 'todos',
+            imagemAtualModal: 0,
+            produtoAtualModal: null,
+            paginaAtual: 'home'
+        };
+
+        // =============================================
+        // NOVAS FUNÇÕES - CARRINHO DE COMPRAS
+        // =============================================
+
+        function abrirCarrinho() {
+            atualizarCarrinho();
+            document.getElementById('carrinhoModal').style.display = 'flex';
+        }
+
+        function fecharCarrinho() {
+            document.getElementById('carrinhoModal').style.display = 'none';
+        }
+
+        function atualizarCarrinho() {
+            const carrinhoItens = document.getElementById('carrinhoItens');
+            const carrinhoVazio = document.getElementById('carrinhoVazio');
+            const carrinhoTotalSection = document.getElementById('carrinhoTotalSection');
+            const carrinhoActions = document.getElementById('carrinhoActions');
+            
+            if (estado.carrinho.length === 0) {
+                carrinhoItens.innerHTML = '';
+                carrinhoVazio.style.display = 'block';
+                carrinhoTotalSection.style.display = 'none';
+                carrinhoActions.style.display = 'none';
+                return;
+            }
+            
+            carrinhoVazio.style.display = 'none';
+            carrinhoTotalSection.style.display = 'block';
+            carrinhoActions.style.display = 'flex';
+            
+            let subtotal = 0;
+            
+            carrinhoItens.innerHTML = estado.carrinho.map(item => {
+                const totalItem = item.preco * item.quantidade;
+                subtotal += totalItem;
+                
+                return `
+                    <div class="carrinho-item">
+                        <img src="${item.imagem}" alt="${item.nome}" class="carrinho-item-imagem"
+                             onerror="this.src='https://via.placeholder.com/80x80/CCCCCC/666666?text=Produto'">
+                        <div class="carrinho-item-info">
+                            <div class="carrinho-item-nome">${item.nome}</div>
+                            <div class="carrinho-item-preco">R$ ${item.preco.toFixed(2)}</div>
+                        </div>
+                        <div class="carrinho-item-controles">
+                            <button class="quantidade-btn" onclick="alterarQuantidade(${item.id}, -1)">-</button>
+                            <span class="quantidade-value">${item.quantidade}</span>
+                            <button class="quantidade-btn" onclick="alterarQuantidade(${item.id}, 1)">+</button>
+                            <button class="remover-item" onclick="removerDoCarrinho(${item.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            document.getElementById('carrinhoSubtotal').textContent = `R$ ${subtotal.toFixed(2)}`;
+            document.getElementById('carrinhoTotal').textContent = `R$ ${subtotal.toFixed(2)}`;
+            atualizarContadores();
+        }
+
+        function adicionarAoCarrinho(idProduto) {
+            const configSalva = localStorage.getItem('loloModasConfig');
+            const config = configSalva ? JSON.parse(configSalva) : CONFIG_PADRAO;
+            const produto = config.produtos.find(p => p.id === idProduto);
+            
+            if (!produto) {
+                mostrarToast('Produto não encontrado', 'error');
+                return;
+            }
+            
+            const itemExistente = estado.carrinho.find(item => item.id === idProduto);
+            
+            if (itemExistente) {
+                itemExistente.quantidade += 1;
+            } else {
+                estado.carrinho.push({
+                    id: produto.id,
+                    nome: produto.nome,
+                    preco: produto.preco,
+                    imagem: produto.imagens ? produto.imagens[0] : produto.imagem,
+                    quantidade: 1
+                });
+            }
+            
+            salvarEstado();
+            mostrarToast(`"${produto.nome}" adicionado ao carrinho!`);
+            atualizarCarrinho();
+            
+            // Efeito visual no botão
+            const botao = event.target.closest('.add-to-cart');
+            if (botao) {
+                const textoOriginal = botao.innerHTML;
+                botao.innerHTML = '<i class="fas fa-check"></i> Adicionado!';
+                botao.style.background = 'var(--success)';
+                
+                setTimeout(() => {
+                    botao.innerHTML = textoOriginal;
+                    botao.style.background = '';
+                }, 2000);
+            }
+        }
+
+        function alterarQuantidade(idProduto, alteracao) {
+            const item = estado.carrinho.find(item => item.id === idProduto);
+            
+            if (item) {
+                item.quantidade += alteracao;
+                
+                if (item.quantidade <= 0) {
+                    removerDoCarrinho(idProduto);
+                } else {
+                    salvarEstado();
+                    atualizarCarrinho();
+                }
+            }
+        }
+
+        function removerDoCarrinho(idProduto) {
+            estado.carrinho = estado.carrinho.filter(item => item.id !== idProduto);
+            salvarEstado();
+            atualizarCarrinho();
+            mostrarToast('Produto removido do carrinho', 'warning');
+        }
+
+        function finalizarPedido() {
+            if (estado.carrinho.length === 0) {
+                mostrarToast('Seu carrinho está vazio', 'error');
+                return;
+            }
+            
+            // Atualizar resumo do pedido
+            let resumoHTML = '';
+            let total = 0;
+            
+            estado.carrinho.forEach(item => {
+                const totalItem = item.preco * item.quantidade;
+                total += totalItem;
+                resumoHTML += `
+                    <div class="resumo-item">
+                        <span>${item.quantidade}x ${item.nome}</span>
+                        <span>R$ ${totalItem.toFixed(2)}</span>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('resumoItens').innerHTML = resumoHTML;
+            document.getElementById('resumoTotal').textContent = `R$ ${total.toFixed(2)}`;
+            
+            // Limpar formulário
+            document.getElementById('clienteNome').value = '';
+            document.getElementById('clienteWhatsApp').value = '';
+            document.getElementById('clienteEndereco').value = '';
+            document.getElementById('clienteObservacoes').value = '';
+            
+            // Abrir modal de finalização
+            fecharCarrinho();
+            document.getElementById('finalizarModal').style.display = 'flex';
+        }
+
+        function fecharFinalizar() {
+            document.getElementById('finalizarModal').style.display = 'none';
+        }
+
+        function enviarPedidoWhatsApp() {
+            const nome = document.getElementById('clienteNome').value.trim();
+            const whatsapp = document.getElementById('clienteWhatsApp').value.trim();
+            const endereco = document.getElementById('clienteEndereco').value.trim();
+            const observacoes = document.getElementById('clienteObservacoes').value.trim();
+            
+            if (!nome || !whatsapp || !endereco) {
+                mostrarToast('Preencha todos os campos obrigatórios', 'error');
+                return;
+            }
+            
+            const config = JSON.parse(localStorage.getItem('loloModasConfig')) || {};
+            const telefoneLoja = config.textos?.telefone || '(11) 9999-9999';
+            const nomeLoja = config.textos?.nomeLoja || 'Lolo Modas';
+            
+            // Formatar mensagem do pedido
+            let mensagem = `🛒 *NOVO PEDIDO - ${nomeLoja}* 🛒\n\n`;
+            mensagem += `*Cliente:* ${nome}\n`;
+            mensagem += `*WhatsApp:* ${whatsapp}\n`;
+            mensagem += `*Endereço:* ${endereco}\n`;
+            
+            if (observacoes) {
+                mensagem += `*Observações:* ${observacoes}\n`;
+            }
+            
+            mensagem += `\n*ITENS DO PEDIDO:*\n`;
+            
+            let totalPedido = 0;
+            estado.carrinho.forEach(item => {
+                const totalItem = item.preco * item.quantidade;
+                totalPedido += totalItem;
+                mensagem += `➤ ${item.quantidade}x ${item.nome} - R$ ${totalItem.toFixed(2)}\n`;
+            });
+            
+            mensagem += `\n*TOTAL: R$ ${totalPedido.toFixed(2)}*\n\n`;
+            mensagem += `_Pedido gerado automaticamente via site_`;
+            
+            const telefoneFormatado = telefoneLoja.replace(/\D/g, '');
+            const url = `https://wa.me/55${telefoneFormatado}?text=${encodeURIComponent(mensagem)}`;
+            
+            // Limpar carrinho após envio
+            estado.carrinho = [];
+            salvarEstado();
+            atualizarContadores();
+            
+            window.open(url, '_blank');
+            fecharFinalizar();
+            mostrarToast('Pedido enviado com sucesso!', 'success');
+        }
+
+        // =============================================
+        // NOVAS FUNÇÕES - PÁGINAS INSTITUCIONAIS
+        // =============================================
+
+        function mostrarPagina(pagina) {
+            // Esconder todas as páginas
+            document.getElementById('conteudoPrincipal').style.display = 'none';
+            document.getElementById('paginaSobre').style.display = 'none';
+            document.getElementById('paginaContato').style.display = 'none';
+            
+            // Mostrar página selecionada
+            switch(pagina) {
+                case 'home':
+                    document.getElementById('conteudoPrincipal').style.display = 'block';
+                    estado.paginaAtual = 'home';
+                    break;
+                case 'sobre':
+                    document.getElementById('paginaSobre').style.display = 'block';
+                    estado.paginaAtual = 'sobre';
+                    break;
+                case 'contato':
+                    document.getElementById('paginaContato').style.display = 'block';
+                    estado.paginaAtual = 'contato';
+                    // Atualizar informações de contato
+                    const config = JSON.parse(localStorage.getItem('loloModasConfig')) || {};
+                    document.getElementById('contatoWhatsApp').textContent = config.textos?.telefone || '(11) 9999-9999';
+                    document.getElementById('contatoEmail').textContent = config.textos?.email || 'contato@lolomodas.com';
+                    break;
+            }
+            
+            // Scroll para o topo
+            window.scrollTo(0, 0);
+        }
+
+        function enviarMensagemContato() {
+            const nome = document.getElementById('contatoNome').value.trim();
+            const telefone = document.getElementById('contatoTelefone').value.trim();
+            const mensagem = document.getElementById('contatoMensagem').value.trim();
+            
+            if (!nome || !telefone || !mensagem) {
+                mostrarToast('Preencha todos os campos', 'error');
+                return;
+            }
+            
+            const config = JSON.parse(localStorage.getItem('loloModasConfig')) || {};
+            const telefoneLoja = config.textos?.telefone || '(11) 9999-9999';
+            const nomeLoja = config.textos?.nomeLoja || 'Lolo Modas';
+            
+            const mensagemWhatsApp = `*CONTATO VIA SITE - ${nomeLoja}*\n\n` +
+                                   `*Nome:* ${nome}\n` +
+                                   `*Telefone:* ${telefone}\n` +
+                                   `*Mensagem:* ${mensagem}\n\n` +
+                                   `_Mensagem enviada através do formulário de contato do site_`;
+            
+            const telefoneFormatado = telefoneLoja.replace(/\D/g, '');
+            const url = `https://wa.me/55${telefoneFormatado}?text=${encodeURIComponent(mensagemWhatsApp)}`;
+            
+            window.open(url, '_blank');
+            
+            // Limpar formulário
+            document.getElementById('formContato').reset();
+            mostrarToast('Mensagem enviada com sucesso!');
+        }
+
+        // =============================================
+        // FUNÇÕES EXISTENTES (mantidas do código original)
+        // =============================================
+
+        // CARREGAR CONFIGURAÇÕES PERSONALIZADAS
+        function carregarPersonalizacao() {
+            const configSalva = localStorage.getItem('loloModasConfig');
+            const config = configSalva ? JSON.parse(configSalva) : CONFIG_PADRAO;
+            
+            // Aplicar cores
+            if (config.cores) {
+                document.documentElement.style.setProperty('--primary', config.cores.primaria);
+                document.documentElement.style.setProperty('--secondary', config.cores.secundaria);
+                document.documentElement.style.setProperty('--accent', config.cores.destaque);
+                document.documentElement.style.setProperty('--dark', config.cores.texto);
+                document.body.style.backgroundColor = config.cores.fundo;
+            }
+            
+            // Aplicar tipografia
+            if (config.tipografia) {
+                document.documentElement.style.setProperty('--fonte-principal', config.tipografia.fontePrincipal);
+                document.documentElement.style.setProperty('--fonte-titulos', config.tipografia.fonteTitulos);
+                document.body.style.fontSize = config.tipografia.tamanhoFonte + 'px';
+            }
+            
+            // Aplicar banner
+            if (config.banner) {
+                const bannerTitulo = document.getElementById('bannerTitulo');
+                const bannerSubtitulo = document.getElementById('bannerSubtitulo');
+                const bannerBotao = document.getElementById('bannerBotao');
+                const bannerSection = document.getElementById('bannerSection');
+                
+                if (bannerTitulo) bannerTitulo.textContent = config.banner.titulo;
+                if (bannerSubtitulo) bannerSubtitulo.textContent = config.banner.subtitulo;
+                if (bannerBotao) bannerBotao.textContent = config.banner.botao;
+                
+                // Aplicar cores do banner
+                if (config.banner.corTexto) {
+                    document.documentElement.style.setProperty('--banner-text-color', config.banner.corTexto);
+                }
+                if (config.banner.corBotao) {
+                    document.documentElement.style.setProperty('--banner-button-color', config.banner.corBotao);
+                }
+            }
+            
+            // Aplicar textos
+            if (config.textos) {
+                const elementos = {
+                    'lojaNome': config.textos.nomeLoja,
+                    'footerNome': config.textos.nomeLoja,
+                    'footerCopy': config.textos.nomeLoja,
+                    'footerDescricao': config.textos.descricao,
+                    'footerTelefone': config.textos.telefone,
+                    'footerEmail': config.textos.email,
+                    'contatoWhatsApp': config.textos.telefone,
+                    'contatoEmail': config.textos.email
+                };
+                
+                for (const [id, valor] of Object.entries(elementos)) {
+                    const elemento = document.getElementById(id);
+                    if (elemento) elemento.textContent = valor;
+                }
+            }
+        }
+
+        // CARREGAR PRODUTOS PERSONALIZADOS
+        function carregarProdutosPersonalizados() {
+            const configSalva = localStorage.getItem('loloModasConfig');
+            const config = configSalva ? JSON.parse(configSalva) : CONFIG_PADRAO;
+            
+            const container = document.getElementById('produtosContainer');
+            
+            if (!config.produtos || config.produtos.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-shoe-prints"></i>
+                        <h3>Nenhum produto cadastrado</h3>
+                        <p>Visite o painel administrativo para adicionar produtos.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Aplicar tamanho personalizado das imagens dos produtos
+            const produtoImageSize = config.produtoImageSize || 300;
+            const alturaImagem = Math.floor(produtoImageSize * 0.67);
+
+            container.innerHTML = config.produtos.map(produto => {
+                const isFavorito = estado.favoritos.has(produto.id);
+                const badge = produto.tags && produto.tags.includes('destaque') ? 
+                    '<span class="product-badge destaque">Destaque</span>' :
+                    produto.tags && produto.tags.includes('novo') ? 
+                    '<span class="product-badge novo">Novo</span>' :
+                    produto.tags && produto.tags.includes('promocao') ? 
+                    '<span class="product-badge" style="background: var(--danger)">Promoção</span>' : '';
+
+                const ratingStars = Array.from({length: 5}, (_, i) => 
+                    `<i class="fas fa-star${i < Math.floor(produto.rating) ? '' : '-half-alt'}"></i>`
+                ).join('');
+
+                const precoOriginal = produto.precoOriginal ? 
+                    `<small style="text-decoration: line-through; color: var(--gray); margin-left: 5px;">R$ ${produto.precoOriginal.toFixed(2)}</small>` : '';
+
+                // Usar a primeira imagem como thumbnail
+                const imagemPrincipal = produto.imagens ? produto.imagens[0] : produto.imagem;
+
+                return `
+                    <div class="product-card" data-categoria="${produto.categoria}" data-tags="${produto.tags ? produto.tags.join(',') : ''}">
+                        ${badge}
+                        <div class="product-actions">
+                            <div class="action-icon favorito ${isFavorito ? 'active' : ''}" onclick="toggleFavorito(${produto.id})" title="${isFavorito ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <div class="action-icon" onclick="verDetalhes(${produto.id})" title="Ver detalhes">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                        </div>
+                        <div class="product-image" style="height: ${alturaImagem}px;">
+                            <img src="${imagemPrincipal}" alt="${produto.nome}" 
+                                 onerror="this.src='https://via.placeholder.com/${produtoImageSize}x${alturaImagem}/CCCCCC/666666?text=Imagem+Indisponível'"
+                                 onclick="verDetalhes(${produto.id})">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">${produto.nome}</h3>
+                            <div class="product-rating">
+                                <div class="stars">${ratingStars}</div>
+                                <span class="rating-count">(${produto.reviews})</span>
+                            </div>
+                            <div class="product-views">
+                                <i class="fas fa-eye"></i> ${produto.views} visualizações
+                            </div>
+                            <div class="product-price">
+                                R$ ${produto.preco.toFixed(2)} ${precoOriginal}
+                            </div>
+                            <div class="product-actions-bottom">
+                                <button class="add-to-cart" onclick="adicionarAoCarrinho(${produto.id})">
+                                    <i class="fas fa-shopping-cart"></i> Carrinho
+                                </button>
+                                <button class="whatsapp-btn" onclick="contatarWhatsapp(${produto.id})">
+                                    <i class="fab fa-whatsapp"></i> WhatsApp
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            atualizarContadores();
+        }
+
+        // FUNÇÕES DE FAVORITOS
+        function toggleFavorito(idProduto) {
+            if (estado.favoritos.has(idProduto)) {
+                estado.favoritos.delete(idProduto);
+                mostrarToast('Produto removido dos favoritos', 'warning');
+            } else {
+                estado.favoritos.add(idProduto);
+                mostrarToast('Produto adicionado aos favoritos');
+            }
+            
+            salvarEstado();
+            carregarProdutosPersonalizados();
+        }
+
+        function toggleFavoritos() {
+            const produtos = document.querySelectorAll('.product-card');
+            const mostrarApenasFavoritos = !estado.filtroAtual.startsWith('favoritos');
+            
+            if (mostrarApenasFavoritos) {
+                produtos.forEach(produto => {
+                    const id = obterIdDoProduto(produto);
+                    produto.style.display = estado.favoritos.has(id) ? 'block' : 'none';
+                });
+                estado.filtroAtual = 'favoritos';
+                document.getElementById('tituloProdutos').textContent = 'Meus Favoritos';
+            } else {
+                filtrarCategoria('todos');
+            }
+        }
+
+        // MODAL DE DETALHES COM GALERIA
+        function verDetalhes(idProduto) {
+            const configSalva = localStorage.getItem('loloModasConfig');
+            const config = configSalva ? JSON.parse(configSalva) : CONFIG_PADRAO;
+            const produto = config.produtos.find(p => p.id === idProduto);
+            
+            if (!produto) return;
+            
+            estado.imagemAtualModal = 0;
+            estado.produtoAtualModal = produto;
+            
+            // Obter array de imagens
+            const imagens = produto.imagens || [produto.imagem];
+            
+            const ratingStars = Array.from({length: 5}, (_, i) => 
+                `<i class="fas fa-star${i < Math.floor(produto.rating) ? '' : '-half-alt'}"></i>`
+            ).join('');
+            
+            const precoOriginal = produto.precoOriginal ? 
+                `<div style="text-decoration: line-through; color: var(--gray); font-size: 1.1rem;">R$ ${produto.precoOriginal.toFixed(2)}</div>` : '';
+
+            // Gerar thumbnails
+            const thumbnails = imagens.map((img, index) => `
+                <div class="thumbnail ${index === 0 ? 'active' : ''}" onclick="mudarImagemModal(${index})">
+                    <img src="${img}" alt="${produto.nome} - Vista ${index + 1}" 
+                         onerror="this.src='https://via.placeholder.com/80x80/CCCCCC/666666?text=Erro'">
+                </div>
+            `).join('');
+
+            const modalContent = `
+                <div class="product-gallery">
+                    <div class="gallery-thumbnails">
+                        ${thumbnails}
+                    </div>
+                    <div class="gallery-main">
+                        <div class="main-image">
+                            <img src="${imagens[0]}" alt="${produto.nome}" id="modalMainImage"
+                                 onerror="this.src='https://via.placeholder.com/400x300/CCCCCC/666666?text=Imagem+Indisponível'">
+                        </div>
+                        ${imagens.length > 1 ? `
+                        <div class="gallery-nav">
+                            <button onclick="navegarImagem(-1)"><i class="fas fa-chevron-left"></i></button>
+                            <button onclick="navegarImagem(1)"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                        ` : ''}
+                    </div>
+                </div>
+                <div style="padding: 0 30px 30px;">
+                    <h2 style="margin-bottom: 15px; color: var(--dark);">${produto.nome}</h2>
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+                        <div class="stars">${ratingStars}</div>
+                        <span>(${produto.reviews} avaliações)</span>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <div style="font-size: 1.8rem; font-weight: bold; color: var(--primary);">
+                            R$ ${produto.preco.toFixed(2)}
+                        </div>
+                        ${precoOriginal}
+                    </div>
+                    <p style="margin-bottom: 20px; line-height: 1.6;">${produto.descricao}</p>
+                    <div style="margin-bottom: 20px;">
+                        <strong>Categoria:</strong> ${produto.categoria}<br>
+                        <strong>Estoque:</strong> ${produto.estoque} unidades<br>
+                        <strong>Visualizações:</strong> ${produto.views}<br>
+                        <strong>Fotos:</strong> ${imagens.length} disponíveis
+                    </div>
+                    <div style="display: flex; gap: 15px; margin-top: 30px;">
+                        <button class="add-to-cart" style="flex: 1;" onclick="adicionarAoCarrinho(${produto.id}); fecharModal()">
+                            <i class="fas fa-shopping-cart"></i> Adicionar ao Carrinho
+                        </button>
+                        <button class="whatsapp-btn" style="flex: 1;" onclick="contatarWhatsapp(${produto.id})">
+                            <i class="fab fa-whatsapp"></i> Comprar pelo WhatsApp
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('modalContent').innerHTML = modalContent;
+            document.getElementById('productModal').style.display = 'flex';
+            
+            // Registrar visualização
+            if (config.produtos) {
+                const produtoConfig = config.produtos.find(p => p.id === idProduto);
+                if (produtoConfig) {
+                    produtoConfig.views = (produtoConfig.views || 0) + 1;
+                    localStorage.setItem('loloModasConfig', JSON.stringify(config));
+                }
+            }
+        }
+
+        // FUNÇÕES DA GALERIA
+        function mudarImagemModal(index) {
+            if (!estado.produtoAtualModal) return;
+            
+            const imagens = estado.produtoAtualModal.imagens || [estado.produtoAtualModal.imagem];
+            
+            if (index >= 0 && index < imagens.length) {
+                estado.imagemAtualModal = index;
+                
+                const mainImage = document.getElementById('modalMainImage');
+                if (mainImage) {
+                    mainImage.src = imagens[index];
+                    mainImage.alt = `${estado.produtoAtualModal.nome} - Vista ${index + 1}`;
+                }
+                
+                document.querySelectorAll('.thumbnail').forEach((thumb, i) => {
+                    thumb.classList.toggle('active', i === index);
+                });
+            }
+        }
+
+        function navegarImagem(direcao) {
+            if (!estado.produtoAtualModal) return;
+            
+            const imagens = estado.produtoAtualModal.imagens || [estado.produtoAtualModal.imagem];
+            
+            let novoIndex = estado.imagemAtualModal + direcao;
+            
+            if (novoIndex < 0) {
+                novoIndex = imagens.length - 1;
+            } else if (novoIndex >= imagens.length) {
+                novoIndex = 0;
+            }
+            
+            mudarImagemModal(novoIndex);
+        }
+
+        function fecharModal() {
+            document.getElementById('productModal').style.display = 'none';
+            estado.produtoAtualModal = null;
+            estado.imagemAtualModal = 0;
+        }
+
+        // FUNÇÕES DE FILTRO E BUSCA
+        function filtrarCategoria(categoria) {
+            estado.filtroAtual = categoria;
+            const produtos = document.querySelectorAll('.product-card');
+            const titulo = document.getElementById('tituloProdutos');
+            const botoesFiltro = document.querySelectorAll('.filter-btn');
+            
+            botoesFiltro.forEach(btn => btn.classList.remove('active'));
+            event?.target.classList.add('active');
+            
+            produtos.forEach(produto => {
+                const catProduto = produto.dataset.categoria;
+                const tags = produto.dataset.tags ? produto.dataset.tags.split(',') : [];
+                
+                let mostrar = false;
+                
+                switch(categoria) {
+                    case 'todos':
+                        mostrar = true;
+                        break;
+                    case 'destaques':
+                        mostrar = tags.includes('destaque');
+                        break;
+                    case 'novos':
+                        mostrar = tags.includes('novo');
+                        break;
+                    case 'promocao':
+                        mostrar = tags.includes('promocao');
+                        break;
+                    default:
+                        mostrar = catProduto === categoria || categoria === 'destaques';
+                }
+                
+                produto.style.display = mostrar ? 'block' : 'none';
+            });
+
+            const titulos = {
+                'todos': 'Nossos Produtos',
+                'masculino': 'Calçados Masculinos',
+                'feminino': 'Calçados Femininos', 
+                'infantil': 'Calçados Infantis',
+                'destaques': 'Produtos em Destaque',
+                'novos': 'Novos Produtos',
+                'promocao': 'Promoções'
+            };
+            
+            titulo.textContent = titulos[categoria] || 'Nossos Produtos';
+        }
+
+        function buscarProdutos() {
+            const termo = document.getElementById('campoBusca').value.toLowerCase().trim();
+            const produtos = document.querySelectorAll('.product-card');
+            let encontrados = 0;
+
+            produtos.forEach(produto => {
+                const nome = produto.querySelector('.product-title').textContent.toLowerCase();
+                if (termo === '' || nome.includes(termo)) {
+                    produto.style.display = 'block';
+                    encontrados++;
+                } else {
+                    produto.style.display = 'none';
+                }
+            });
+
+            if (termo && encontrados === 0) {
+                mostrarToast(`Nenhum produto encontrado para "${termo}"`, 'error');
+            } else if (termo) {
+                mostrarToast(`${encontrados} produto(s) encontrado(s) para "${termo}"`);
+            }
+        }
+
+        // CONTATAR VIA WHATSAPP
+        function contatarWhatsapp(idProduto) {
+            const configSalva = localStorage.getItem('loloModasConfig');
+            const config = configSalva ? JSON.parse(configSalva) : CONFIG_PADRAO;
+            const produto = config.produtos.find(p => p.id === idProduto);
+            
+            if (!produto) return;
+            
+            const telefone = config.textos?.telefone || '(11) 9999-9999';
+            const nomeLoja = config.textos?.nomeLoja || 'Lolo Modas';
+            
+            const mensagem = `Olá! Gostaria de saber mais sobre o produto: ${produto.nome} - R$ ${produto.preco.toFixed(2)} da loja ${nomeLoja}`;
+            
+            const telefoneFormatado = telefone.replace(/\D/g, '');
+            
+            const url = `https://wa.me/55${telefoneFormatado}?text=${encodeURIComponent(mensagem)}`;
+            
+            window.open(url, '_blank');
+        }
+
+        // TOAST NOTIFICATIONS
+        function mostrarToast(mensagem, tipo = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            
+            toast.className = `toast ${tipo}`;
+            toastMessage.textContent = mensagem;
+            
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // UTILITÁRIOS
+        function obterIdDoProduto(elementoProduto) {
+            const configSalva = localStorage.getItem('loloModasConfig');
+            const config = configSalva ? JSON.parse(configSalva) : CONFIG_PADRAO;
+            
+            const nome = elementoProduto.querySelector('.product-title').textContent;
+            const produto = config.produtos.find(p => p.nome === nome);
+            
+            return produto ? produto.id : null;
+        }
+
+        function atualizarContadores() {
+            const totalItens = estado.carrinho.reduce((sum, item) => sum + item.quantidade, 0);
+            document.getElementById('carrinhoCount').textContent = totalItens;
+            document.getElementById('favoritosCount').textContent = estado.favoritos.size;
+        }
+
+        function salvarEstado() {
+            localStorage.setItem('loloModasEstado', JSON.stringify({
+                carrinho: estado.carrinho,
+                favoritos: Array.from(estado.favoritos)
+            }));
+            atualizarContadores();
+        }
+
+        function carregarEstado() {
+            const estadoSalvo = localStorage.getItem('loloModasEstado');
+            if (estadoSalvo) {
+                const data = JSON.parse(estadoSalvo);
+                estado.carrinho = data.carrinho || [];
+                estado.favoritos = new Set(data.favoritos || []);
+            }
+            atualizarContadores();
+        }
+
+        // EVENT LISTENERS
+        document.getElementById('campoBusca').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                buscarProdutos();
+            }
+        });
+
+        document.getElementById('productModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                fecharModal();
+            }
+        });
+
+        document.getElementById('carrinhoModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                fecharCarrinho();
+            }
+        });
+
+        document.getElementById('finalizarModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                fecharFinalizar();
+            }
+        });
+
+        // Navegação por teclado
+        document.addEventListener('keydown', function(e) {
+            if (document.getElementById('productModal').style.display === 'flex') {
+                if (e.key === 'ArrowLeft') {
+                    navegarImagem(-1);
+                } else if (e.key === 'ArrowRight') {
+                    navegarImagem(1);
+                } else if (e.key === 'Escape') {
+                    fecharModal();
+                }
+            }
+            
+            if (document.getElementById('carrinhoModal').style.display === 'flex' && e.key === 'Escape') {
+                fecharCarrinho();
+            }
+            
+            if (document.getElementById('finalizarModal').style.display === 'flex' && e.key === 'Escape') {
+                fecharFinalizar();
+            }
+        });
+
+        // INICIALIZAR LOJA
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🛍️ Iniciando Lolo Modas...');
+            
+            criarRolagemTenis();
+            carregarEstado();
+            carregarPersonalizacao();
+            carregarProdutosPersonalizados();
+            
+            // Atualizar a cada 2 segundos para pegar mudanças do painel
+            setInterval(() => {
+                carregarPersonalizacao();
+                carregarProdutosPersonalizados();
+                criarRolagemTenis();
+            }, 2000);
+        });
+    </script>
 </body>
 </html>
