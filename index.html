@@ -3,78 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lolo Modas - Loja de Calçados</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #8B4513, #D2691E);
-            color: white;
-            text-align: center;
-            padding: 50px 20px;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
-        p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-        }
-        .links {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .btn {
-            display: inline-block;
-            padding: 15px 30px;
-            background: white;
-            color: #8B4513;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: bold;
-            transition: transform 0.3s;
-        }
-        .btn:hover {
-            transform: translateY(-3px);
-        }
-        .warning {
-            background: rgba(255,255,255,0.1);
-            padding: 20px;
-            border-radius: 10px;
-            margin: 30px 0;
-        }
-    </style>
+    <title>Lolo Modas - Calçados Masculinos e Femininos</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
-    <div class="container">
-        <h1>🛍️ LOLO MODAS</h1>
-        <p>Loja de Calçados Masculinos e Femininos</p>
-        
-        <div class="warning">
-            <h2>✅ PÁGINA PRINCIPAL DA LOJA</h2>
-            <p>Se você está vendo esta página, o index.html está funcionando!</p>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-top">
+                <div class="logo">
+                    <i class="fas fa-shoe-prints"></i>
+                    <span id="lojaNome">Lolo Modas</span>
+                </div>
+                <div class="search-bar">
+                    <input type="text" placeholder="Buscar calçados..." id="campoBusca">
+                    <button onclick="buscarProdutos()"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="user-actions">
+                    <button class="action-btn" onclick="toggleFavoritos()" title="Favoritos">
+                        <i class="fas fa-heart"></i>
+                        <span class="count-badge" id="favoritosCount">0</span>
+                    </button>
+                    <button class="action-btn" onclick="abrirCarrinho()" title="Carrinho">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="count-badge" id="carrinhoCount">0</span>
+                    </button>
+                </div>
+            </div>
         </div>
-        
-        <div class="links">
-            <a href="painel-admin.html" class="btn">🔧 Painel Administrativo</a>
-            <a href="https://github.com/loloModas/lolomodas" class="btn">📁 Código no GitHub</a>
+        <nav>
+            <div class="container">
+                <ul class="nav-links">
+                    <li><a href="#" onclick="mostrarPagina('home')"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="#" onclick="mostrarPagina('sobre')"><i class="fas fa-info-circle"></i> Sobre</a></li>
+                    <li><a href="#" onclick="mostrarPagina('contato')"><i class="fas fa-envelope"></i> Contato</a></li>
+                    <li><a href="#" onclick="filtrarCategoria('masculino')"><i class="fas fa-male"></i> Masculino</a></li>
+                    <li><a href="#" onclick="filtrarCategoria('feminino')"><i class="fas fa-female"></i> Feminino</a></li>
+                    <li><a href="#" onclick="filtrarCategoria('infantil')"><i class="fas fa-child"></i> Infantil</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main id="conteudoPrincipal">
+        <!-- Banner -->
+        <section class="banner" id="bannerSection">
+            <div class="banner-content">
+                <h1 id="bannerTitulo">Calçados de Qualidade para Todos os Estilos</h1>
+                <p id="bannerSubtitulo">Encontre os melhores calçados masculinos e femininos com conforto, estilo e preços incríveis!</p>
+                <a href="#" class="btn" onclick="filtrarCategoria('destaques')" id="bannerBotao">Ver Coleção</a>
+            </div>
+            <div class="shoes-scroll-container">
+                <div class="shoes-scroll" id="shoesScroll"></div>
+            </div>
+        </section>
+
+        <!-- Filtros -->
+        <div class="container">
+            <div class="filters">
+                <button class="filter-btn active" onclick="filtrarCategoria('todos')">Todos</button>
+                <button class="filter-btn" onclick="filtrarCategoria('destaques')">Destaques</button>
+                <button class="filter-btn" onclick="filtrarCategoria('novos')">Novos</button>
+                <button class="filter-btn" onclick="filtrarCategoria('promocao')">Promoções</button>
+            </div>
         </div>
-        
-        <div style="margin-top: 40px; font-size: 0.9rem; opacity: 0.8;">
-            <p>🚀 Loja virtual em desenvolvimento</p>
+
+        <!-- Produtos -->
+        <div class="container">
+            <h2 class="section-title" id="tituloProdutos">Nossos Produtos</h2>
+            <div class="products-grid" id="produtosContainer">
+                <!-- Os produtos serão carregados aqui pelo JavaScript -->
+            </div>
         </div>
-    </div>
+    </main>
+
+    <!-- Footer -->
+    <footer style="background: #333; color: white; padding: 40px 0; margin-top: 50px;">
+        <div class="container">
+            <div style="text-align: center;">
+                <h3>Lolo Modas</h3>
+                <p>Especializada em calçados masculinos e femininos de qualidade.</p>
+                <p>Telefone: (11) 9999-9999 | Email: contato@lolomodas.com</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
