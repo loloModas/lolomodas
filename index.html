@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lolo Modas - Calçados Masculinos e Femininos</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-top">
+                <div class="logo">
+                    <i class="fas fa-shoe-prints"></i>
+                    <span id="lojaNome">Lolo Modas</span>
+                </div>
+                <div class="search-bar">
+                    <input type="text" placeholder="Buscar calçados..." id="campoBusca">
+                    <button onclick="buscarProdutos()"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="user-actions">
+                    <button class="action-btn" onclick="toggleFavoritos()" title="Favoritos">
+                        <i class="fas fa-heart"></i>
+                        <span class="count-badge" id="favoritosCount">0</span>
+                    </button>
+                    <button class="action-btn" onclick="abrirCarrinho()" title="Carrinho">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="count-badge" id="carrinhoCount">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <nav>
+            <div class="container">
+                <ul class="nav-links">
+                    <li><a href="#" onclick="mostrarPagina('home')"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="#" onclick="mostrarPagina('sobre')"><i class="fas fa-info-circle"></i> Sobre</a></li>
+                    <li><a href="#" onclick="mostrarPagina('contato')"><i class="fas fa-envelope"></i> Contato</a></li>
+                    <li><a href="#" onclick="filtrarCategoria('masculino')"><i class="fas fa-male"></i> Masculino</a></li>
+                    <li><a href="#" onclick="filtrarCategoria('feminino')"><i class="fas fa-female"></i> Feminino</a></li>
+                    <li><a href="#" onclick="filtrarCategoria('infantil')"><i class="fas fa-child"></i> Infantil</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main id="conteudoPrincipal">
+        <!-- Banner -->
+        <section class="banner" id="bannerSection">
+            <div class="banner-content">
+                <h1 id="bannerTitulo">Calçados de Qualidade para Todos os Estilos</h1>
+                <p id="bannerSubtitulo">Encontre os melhores calçados masculinos e femininos com conforto, estilo e preços incríveis!</p>
+                <a href="#" class="btn" onclick="filtrarCategoria('destaques')" id="bannerBotao">Ver Coleção</a>
+            </div>
+            <div class="shoes-scroll-container">
+                <div class="shoes-scroll" id="shoesScroll"></div>
+            </div>
+        </section>
+
+        <!-- Filtros -->
+        <div class="container">
+            <div class="filters">
+                <button class="filter-btn active" onclick="filtrarCategoria('todos')">Todos</button>
+                <button class="filter-btn" onclick="filtrarCategoria('destaques')">Destaques</button>
+                <button class="filter-btn" onclick="filtrarCategoria('novos')">Novos</button>
+                <button class="filter-btn" onclick="filtrarCategoria('promocao')">Promoções</button>
+            </div>
+        </div>
+
+        <!-- Produtos -->
+        <div class="container">
+            <h2 class="section-title" id="tituloProdutos">Nossos Produtos</h2>
+            <div class="products-grid" id="produtosContainer"></div>
+        </div>
+    </main>
+
+    <!-- Páginas Institucionais -->
+    <section id="paginaSobre" class="page-section" style="display: none;">
+        <!-- Conteúdo da página Sobre -->
+    </section>
+
+    <section id="paginaContato" class="page-section" style="display: none;">
+        <!-- Conteúdo da página Contato -->
+    </section>
+
+    <!-- Modais -->
+    <div class="modal" id="productModal">
+        <!-- Modal de produto -->
+    </div>
+
+    <div class="modal" id="carrinhoModal">
+        <!-- Modal do carrinho -->
+    </div>
+
+    <div class="modal" id="finalizarModal">
+        <!-- Modal de finalização -->
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Produto adicionado ao carrinho!</span>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <!-- Rodapé -->
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script src="assets/js/script.js"></script>
+</body>
+</html>
