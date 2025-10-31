@@ -1,71 +1,1047 @@
-// ===== SISTEMA DE SINCRONIZAÇÃO =====
-function sincronizarComPainel() {
-    console.log('🔄 Sincronizando com painel...');
-    
-    // Tentar carregar dos dois locais possíveis
-    let config = JSON.parse(localStorage.getItem('loloModasConfig'));
-    const configPainel = JSON.parse(localStorage.getItem('lojaConfig'));
-    const produtosPainel = JSON.parse(localStorage.getItem('lojaProdutos'));
-    const bannerPainel = JSON.parse(localStorage.getItem('bannerImagens'));
-    
-    // Se não tem configuração própria, criar uma
-    if (!config) {
-        config = JSON.parse(JSON.stringify(CONFIG_PADRAO));
-    }
-    
-    // Sincronizar com dados do painel se existirem
-    if (configPainel) {
-        console.log('🎨 Sincronizando configurações do painel...');
-        
-        // Mesclar configurações
-        if (configPainel.cores) config.cores = configPainel.cores;
-        if (configPainel.textos) config.textos = configPainel.textos;
-        if (configPainel.banner) config.banner = configPainel.banner;
-        if (configPainel.tipografia) config.tipografia = configPainel.tipografia;
-    }
-    
-    // Sincronizar produtos do painel
-    if (produtosPainel && produtosPainel.length > 0) {
-        console.log('📦 Sincronizando produtos do painel...');
-        config.produtos = produtosPainel;
-    }
-    
-    // Sincronizar imagens do banner
-    if (bannerPainel && bannerPainel.length > 0) {
-        console.log('🖼️ Sincronizando banner do painel...');
-        config.bannerImages = bannerPainel.map(img => img.src);
-    }
-    
-    // Salvar configuração unificada
-    localStorage.setItem('loloModasConfig', JSON.stringify(config));
-    
-    // Aplicar mudanças
-    carregarPersonalizacao();
-    carregarProdutosPersonalizados();
-    criarRolagemTenis();
-    
-    console.log('✅ Sincronização completa!');
-}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lolo Modas - Calçados Masculinos e Femininos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== ESTILOS GLOBAIS ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-// ===== ATUALIZAR FUNÇÃO DE INICIALIZAÇÃO =====
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('🛍️ Iniciando Lolo Modas...');
-    
-    // Sincronizar primeiro
-    sincronizarComPainel();
-    carregarEstado();
-    carregarPersonalizacao();
-    carregarProdutosPersonalizados();
-    
-    // Sincronizar a cada 3 segundos
-    setInterval(sincronizarComPainel, 3000);
-    
-    // Event listeners para modais
-    document.getElementById('productModal').addEventListener('click', function(e) {
-        if (e.target === this) fecharModal();
-    });
-    
-    document.getElementById('carrinhoModal').addEventListener('click', function(e) {
-        if (e.target === this) document.getElementById('carrinhoModal').style.display = 'none';
-    });
-});
+        :root {
+            --primary: #8B4513;
+            --secondary: #D2691E;
+            --accent: #CD853F;
+            --dark: #3E2723;
+            --light: #FFF8DC;
+            --gray: #8D6E63;
+            --border: #D7CCC8;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --fonte-principal: 'Inter', sans-serif;
+            --fonte-titulos: 'Playfair Display', serif;
+        }
+
+        body {
+            background-color: #fefaf6;
+            color: var(--dark);
+            line-height: 1.6;
+            font-family: var(--fonte-principal);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background-color: var(--success);
+        }
+
+        .btn-warning {
+            background-color: var(--warning);
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            background-color: var(--light);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            font-family: var(--fonte-titulos);
+        }
+
+        .logo i {
+            margin-right: 10px;
+            color: var(--secondary);
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .action-btn {
+            position: relative;
+            background: none;
+            border: none;
+            color: var(--dark);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .action-btn:hover {
+            background-color: rgba(0,0,0,0.05);
+        }
+
+        .count-badge {
+            background-color: var(--accent);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: -5px;
+            right: -5px;
+        }
+
+        /* ===== BANNER ===== */
+        .banner {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .banner h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-family: var(--fonte-titulos);
+        }
+
+        .banner p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        /* ===== PRODUTOS ===== */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-image {
+            background-color: #f8f9fa;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .product-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .product-price {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .add-to-cart {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            flex: 1;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .add-to-cart:hover {
+            background-color: var(--secondary);
+        }
+
+        .whatsapp-btn {
+            background-color: #25D366;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            flex: 1;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .whatsapp-btn:hover {
+            background-color: #128C7E;
+        }
+
+        /* ===== PAINEL ADMIN ===== */
+        .admin-header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+
+        .admin-layout {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 30px;
+            min-height: 80vh;
+        }
+
+        .sidebar {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            color: var(--dark);
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .admin-content {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* ===== MODAIS ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            padding: 30px;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--success);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 1001;
+            transform: translateX(400px);
+            transition: transform 0.3s;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #495057;
+            color: #adb5bd;
+        }
+
+        /* ===== RESPONSIVO ===== */
+        @media (max-width: 768px) {
+            .header-top {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .admin-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+
+            .product-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Modo Loja -->
+    <div id="modoLoja">
+        <header>
+            <div class="container">
+                <div class="header-top">
+                    <div class="logo">
+                        <i class="fas fa-shoe-prints"></i>
+                        <span id="lojaNome">Lolo Modas</span>
+                    </div>
+                    <div class="user-actions">
+                        <button class="action-btn" onclick="abrirCarrinho()" title="Carrinho">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="count-badge" id="carrinhoCount">0</span>
+                        </button>
+                        <button class="btn btn-outline" onclick="mostrarPainelAdmin()" style="background: transparent; border: 1px solid var(--primary); color: var(--primary);">
+                            <i class="fas fa-cog"></i> Painel Admin
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section class="banner">
+            <div class="container">
+                <h1 id="bannerTitulo">Calçados de Qualidade</h1>
+                <p id="bannerSubtitulo">Encontre os melhores calçados com conforto e estilo</p>
+                <a href="#" class="btn" id="bannerBotao">Ver Coleção</a>
+            </div>
+        </section>
+
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 30px; font-family: var(--fonte-titulos);">Nossos Produtos</h2>
+            <div class="products-grid" id="produtosContainer">
+                <!-- Produtos carregados via JavaScript -->
+            </div>
+        </div>
+
+        <footer>
+            <div class="container">
+                <div class="footer-content">
+                    <div>
+                        <h3 id="footerNome">Lolo Modas</h3>
+                        <p id="footerDescricao">Especializada em calçados de qualidade.</p>
+                    </div>
+                    <div>
+                        <h3>Contato</h3>
+                        <p><i class="fas fa-phone"></i> <span id="footerTelefone">(11) 9999-9999</span></p>
+                        <p><i class="fas fa-envelope"></i> <span id="footerEmail">contato@lolomodas.com</span></p>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2024 <span id="footerCopy">Lolo Modas</span> - Todos os direitos reservados.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Modo Painel Admin -->
+    <div id="modoPainel" style="display: none;">
+        <div class="admin-header">
+            <div class="container">
+                <div class="header-top">
+                    <div class="logo" style="color: white;">
+                        <i class="fas fa-cog"></i>
+                        <span>Painel Admin - Lolo Modas</span>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-outline" onclick="mostrarLoja()" style="background: transparent; border: 1px solid white; color: white;">
+                            <i class="fas fa-store"></i> Ver Loja
+                        </button>
+                        <button class="btn btn-success" onclick="sincronizarDados()">
+                            <i class="fas fa-sync-alt"></i> Sincronizar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="admin-layout">
+                <div class="sidebar">
+                    <ul class="sidebar-menu">
+                        <li><a href="#" class="active" onclick="mostrarSecao('dashboard')"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                        <li><a href="#" onclick="mostrarSecao('produtos')"><i class="fas fa-shoe-prints"></i> Produtos</a></li>
+                        <li><a href="#" onclick="mostrarSecao('personalizacao')"><i class="fas fa-palette"></i> Personalização</a></li>
+                    </ul>
+                </div>
+
+                <div class="admin-content">
+                    <!-- Dashboard -->
+                    <div id="dashboard" class="secao-admin">
+                        <h2><i class="fas fa-tachometer-alt"></i> Dashboard</h2>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 30px 0;">
+                            <div style="background: white; padding: 20px; border-radius: 10px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-left: 4px solid var(--primary);">
+                                <div style="font-size: 2rem; font-weight: bold; color: var(--primary);" id="totalProdutos">0</div>
+                                <div style="color: var(--gray);">Produtos Cadastrados</div>
+                            </div>
+                        </div>
+
+                        <div style="background: white; padding: 20px; border-radius: 10px; margin-top: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                            <h3><i class="fas fa-rocket"></i> Ações Rápidas</h3>
+                            <div style="display: flex; gap: 15px; margin-top: 15px; flex-wrap: wrap;">
+                                <button class="btn" onclick="mostrarSecao('produtos')">
+                                    <i class="fas fa-plus"></i> Adicionar Produto
+                                </button>
+                                <button class="btn" onclick="mostrarSecao('personalizacao')">
+                                    <i class="fas fa-palette"></i> Personalizar Loja
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gerenciar Produtos -->
+                    <div id="produtos" class="secao-admin" style="display: none;">
+                        <h2><i class="fas fa-shoe-prints"></i> Gerenciar Produtos</h2>
+                        
+                        <div style="background: white; padding: 25px; border-radius: 10px; margin: 20px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                            <h3><i class="fas fa-plus"></i> Adicionar Novo Produto</h3>
+                            <div class="form-group">
+                                <label>Nome do Produto</label>
+                                <input type="text" id="produtoNome" placeholder="Ex: Tênis Esportivo Masculino">
+                            </div>
+                            <div class="form-group">
+                                <label>Descrição</label>
+                                <textarea id="produtoDescricao" placeholder="Descrição do produto"></textarea>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div class="form-group">
+                                    <label>Preço (R$)</label>
+                                    <input type="number" id="produtoPreco" step="0.01" placeholder="99.90">
+                                </div>
+                                <div class="form-group">
+                                    <label>Categoria</label>
+                                    <select id="produtoCategoria">
+                                        <option value="masculino">Masculino</option>
+                                        <option value="feminino">Feminino</option>
+                                        <option value="infantil">Infantil</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="btn btn-success" onclick="adicionarProduto()" style="width: 100%;">
+                                <i class="fas fa-plus"></i> Adicionar Produto
+                            </button>
+                        </div>
+
+                        <div style="background: white; padding: 25px; border-radius: 10px; margin-top: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                            <h3><i class="fas fa-list"></i> Produtos Cadastrados</h3>
+                            <div id="listaProdutosAdmin">
+                                <!-- Produtos serão listados aqui -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Personalização -->
+                    <div id="personalizacao" class="secao-admin" style="display: none;">
+                        <h2><i class="fas fa-palette"></i> Personalização da Loja</h2>
+                        
+                        <div style="background: white; padding: 25px; border-radius: 10px; margin: 20px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                            <h3><i class="fas fa-store"></i> Informações da Loja</h3>
+                            <div class="form-group">
+                                <label>Nome da Loja</label>
+                                <input type="text" id="nomeLoja" value="Lolo Modas">
+                            </div>
+                            <div class="form-group">
+                                <label>Descrição</label>
+                                <textarea id="descricaoLoja">Especializada em calçados de qualidade.</textarea>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div class="form-group">
+                                    <label>Telefone</label>
+                                    <input type="text" id="telefoneLoja" value="(11) 9999-9999">
+                                </div>
+                                <div class="form-group">
+                                    <label>E-mail</label>
+                                    <input type="email" id="emailLoja" value="contato@lolomodas.com">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="background: white; padding: 25px; border-radius: 10px; margin-top: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                            <h3><i class="fas fa-paint-brush"></i> Cores da Loja</h3>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div class="form-group">
+                                    <label>Cor Primária</label>
+                                    <input type="color" id="corPrimaria" value="#8B4513" style="width: 100%; height: 50px;">
+                                </div>
+                                <div class="form-group">
+                                    <label>Cor Secundária</label>
+                                    <input type="color" id="corSecundaria" value="#D2691E" style="width: 100%; height: 50px;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-success" onclick="salvarPersonalizacao()" style="width: 100%; margin-top: 20px;">
+                            <i class="fas fa-save"></i> Salvar Personalização
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Carrinho -->
+    <div class="modal" id="carrinhoModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="fecharCarrinho()">&times;</button>
+            <h2 style="margin-bottom: 20px; color: var(--primary);">
+                <i class="fas fa-shopping-cart"></i> Meu Carrinho
+            </h2>
+            <div id="carrinhoItens">
+                <p style="text-align: center; color: var(--gray); padding: 40px;">
+                    Seu carrinho está vazio.
+                </p>
+            </div>
+            <button class="btn" onclick="fecharCarrinho()" style="width: 100%; margin-top: 20px;">
+                Continuar Comprando
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Operação realizada com sucesso!</span>
+    </div>
+
+    <script>
+        // ===== SISTEMA DE DADOS =====
+        const CONFIG_PADRAO = {
+            textos: {
+                nomeLoja: "Lolo Modas",
+                descricao: "Especializada em calçados de qualidade.",
+                telefone: "(11) 9999-9999",
+                email: "contato@lolomodas.com"
+            },
+            banner: {
+                titulo: "Calçados de Qualidade",
+                subtitulo: "Encontre os melhores calçados com conforto e estilo",
+                botao: "Ver Coleção"
+            },
+            cores: {
+                primaria: "#8B4513",
+                secundaria: "#D2691E"
+            },
+            produtos: []
+        };
+
+        let carrinho = [];
+
+        // ===== FUNÇÕES PRINCIPAIS =====
+
+        // Carregar dados
+        function carregarDados() {
+            const dadosSalvos = localStorage.getItem('loloModasDados');
+            return dadosSalvos ? JSON.parse(dadosSalvos) : JSON.parse(JSON.stringify(CONFIG_PADRAO));
+        }
+
+        // Salvar dados
+        function salvarDados(dados) {
+            localStorage.setItem('loloModasDados', JSON.stringify(dados));
+        }
+
+        // Aplicar personalização
+        function aplicarPersonalizacao() {
+            const dados = carregarDados();
+            
+            // Aplicar textos
+            document.getElementById('lojaNome').textContent = dados.textos.nomeLoja;
+            document.getElementById('footerNome').textContent = dados.textos.nomeLoja;
+            document.getElementById('footerCopy').textContent = dados.textos.nomeLoja;
+            document.getElementById('footerDescricao').textContent = dados.textos.descricao;
+            document.getElementById('footerTelefone').textContent = dados.textos.telefone;
+            document.getElementById('footerEmail').textContent = dados.textos.email;
+            
+            // Aplicar banner
+            document.getElementById('bannerTitulo').textContent = dados.banner.titulo;
+            document.getElementById('bannerSubtitulo').textContent = dados.banner.subtitulo;
+            document.getElementById('bannerBotao').textContent = dados.banner.botao;
+            
+            // Aplicar cores
+            document.documentElement.style.setProperty('--primary', dados.cores.primaria);
+            document.documentElement.style.setProperty('--secondary', dados.cores.secundaria);
+        }
+
+        // Carregar produtos na loja
+        function carregarProdutosLoja() {
+            const dados = carregarDados();
+            const container = document.getElementById('produtosContainer');
+            
+            if (dados.produtos.length === 0) {
+                container.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; color: var(--gray);">
+                        <i class="fas fa-shoe-prints" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                        <h3>Nenhum produto cadastrado</h3>
+                        <p>Visite o painel administrativo para adicionar produtos.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = dados.produtos.map(produto => `
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://via.placeholder.com/300x200/CCCCCC/666666?text=Produto" alt="${produto.nome}">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">${produto.nome}</h3>
+                        <p style="color: var(--gray); margin-bottom: 10px; font-size: 0.9rem;">${produto.descricao}</p>
+                        <div class="product-price">R$ ${produto.preco.toFixed(2)}</div>
+                        <div class="product-actions">
+                            <button class="add-to-cart" onclick="adicionarAoCarrinho(${produto.id})">
+                                <i class="fas fa-shopping-cart"></i> Carrinho
+                            </button>
+                            <button class="whatsapp-btn" onclick="contatarWhatsapp(${produto.id})">
+                                <i class="fab fa-whatsapp"></i> WhatsApp
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ===== SISTEMA DO PAINEL ADMIN =====
+
+        // Mostrar/ocultar modos
+        function mostrarLoja() {
+            document.getElementById('modoPainel').style.display = 'none';
+            document.getElementById('modoLoja').style.display = 'block';
+            aplicarPersonalizacao();
+            carregarProdutosLoja();
+        }
+
+        function mostrarPainelAdmin() {
+            document.getElementById('modoLoja').style.display = 'none';
+            document.getElementById('modoPainel').style.display = 'block';
+            carregarDadosPainel();
+            mostrarSecao('dashboard');
+        }
+
+        // Navegação do painel
+        function mostrarSecao(secao) {
+            document.querySelectorAll('.secao-admin').forEach(sec => {
+                sec.style.display = 'none';
+            });
+            document.querySelectorAll('.sidebar-menu a').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            document.getElementById(secao).style.display = 'block';
+            event.target.classList.add('active');
+        }
+
+        // Carregar dados no painel
+        function carregarDadosPainel() {
+            const dados = carregarDados();
+            
+            // Atualizar estatísticas
+            document.getElementById('totalProdutos').textContent = dados.produtos.length;
+            
+            // Carregar formulários
+            document.getElementById('nomeLoja').value = dados.textos.nomeLoja;
+            document.getElementById('descricaoLoja').value = dados.textos.descricao;
+            document.getElementById('telefoneLoja').value = dados.textos.telefone;
+            document.getElementById('emailLoja').value = dados.textos.email;
+            document.getElementById('corPrimaria').value = dados.cores.primaria;
+            document.getElementById('corSecundaria').value = dados.cores.secundaria;
+            
+            // Carregar lista de produtos
+            carregarListaProdutosAdmin();
+        }
+
+        // Adicionar produto
+        function adicionarProduto() {
+            const nome = document.getElementById('produtoNome').value;
+            const descricao = document.getElementById('produtoDescricao').value;
+            const preco = parseFloat(document.getElementById('produtoPreco').value);
+            const categoria = document.getElementById('produtoCategoria').value;
+            
+            if (!nome || !preco) {
+                mostrarToast('Preencha nome e preço do produto!', 'error');
+                return;
+            }
+            
+            const dados = carregarDados();
+            const novoProduto = {
+                id: Date.now(),
+                nome,
+                descricao,
+                preco,
+                categoria,
+                dataCriacao: new Date().toISOString()
+            };
+            
+            dados.produtos.push(novoProduto);
+            salvarDados(dados);
+            
+            // Limpar formulário
+            document.getElementById('produtoNome').value = '';
+            document.getElementById('produtoDescricao').value = '';
+            document.getElementById('produtoPreco').value = '';
+            
+            // Atualizar interface
+            carregarListaProdutosAdmin();
+            document.getElementById('totalProdutos').textContent = dados.produtos.length;
+            
+            mostrarToast('Produto adicionado com sucesso!');
+        }
+
+        // Carregar lista de produtos no admin
+        function carregarListaProdutosAdmin() {
+            const dados = carregarDados();
+            const container = document.getElementById('listaProdutosAdmin');
+            
+            if (dados.produtos.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: var(--gray); padding: 40px;">Nenhum produto cadastrado.</p>';
+                return;
+            }
+            
+            container.innerHTML = dados.produtos.map(produto => `
+                <div style="display: flex; justify-content: between; align-items: center; padding: 15px; border-bottom: 1px solid var(--border);">
+                    <div style="flex: 1;">
+                        <strong>${produto.nome}</strong>
+                        <p style="color: var(--gray); margin: 5px 0; font-size: 0.9rem;">${produto.descricao}</p>
+                        <div style="display: flex; gap: 15px; font-size: 0.9rem;">
+                            <span><strong>Preço:</strong> R$ ${produto.preco.toFixed(2)}</span>
+                            <span><strong>Categoria:</strong> ${produto.categoria}</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-danger btn-sm" onclick="removerProduto(${produto.id})" style="padding: 8px 12px;">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Remover produto
+        function removerProduto(id) {
+            if (!confirm('Tem certeza que deseja remover este produto?')) return;
+            
+            const dados = carregarDados();
+            dados.produtos = dados.produtos.filter(p => p.id !== id);
+            salvarDados(dados);
+            
+            carregarListaProdutosAdmin();
+            document.getElementById('totalProdutos').textContent = dados.produtos.length;
+            mostrarToast('Produto removido com sucesso!');
+        }
+
+        // Salvar personalização
+        function salvarPersonalizacao() {
+            const dados = carregarDados();
+            
+            dados.textos = {
+                nomeLoja: document.getElementById('nomeLoja').value,
+                descricao: document.getElementById('descricaoLoja').value,
+                telefone: document.getElementById('telefoneLoja').value,
+                email: document.getElementById('emailLoja').value
+            };
+            
+            dados.cores = {
+                primaria: document.getElementById('corPrimaria').value,
+                secundaria: document.getElementById('corSecundaria').value
+            };
+            
+            salvarDados(dados);
+            mostrarToast('Personalização salva com sucesso!');
+        }
+
+        // Sincronizar dados
+        function sincronizarDados() {
+            aplicarPersonalizacao();
+            mostrarToast('Dados sincronizados com a loja!');
+        }
+
+        // ===== SISTEMA DA LOJA =====
+
+        // Carrinho
+        function adicionarAoCarrinho(idProduto) {
+            const dados = carregarDados();
+            const produto = dados.produtos.find(p => p.id === idProduto);
+            
+            if (!produto) return;
+            
+            const itemExistente = carrinho.find(item => item.id === idProduto);
+            
+            if (itemExistente) {
+                itemExistente.quantidade += 1;
+            } else {
+                carrinho.push({
+                    id: produto.id,
+                    nome: produto.nome,
+                    preco: produto.preco,
+                    quantidade: 1
+                });
+            }
+            
+            atualizarContadorCarrinho();
+            mostrarToast(`"${produto.nome}" adicionado ao carrinho!`);
+        }
+
+        function abrirCarrinho() {
+            const container = document.getElementById('carrinhoItens');
+            
+            if (carrinho.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: var(--gray); padding: 40px;">Seu carrinho está vazio.</p>';
+            } else {
+                container.innerHTML = carrinho.map(item => `
+                    <div style="display: flex; justify-content: between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border);">
+                        <div style="flex: 1;">
+                            <strong>${item.nome}</strong>
+                            <div style="color: var(--primary); font-weight: bold;">R$ ${item.preco.toFixed(2)}</div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span>${item.quantidade}x</span>
+                            <button class="btn btn-danger btn-sm" onclick="removerDoCarrinho(${item.id})" style="padding: 5px 8px;">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            document.getElementById('carrinhoModal').style.display = 'flex';
+        }
+
+        function fecharCarrinho() {
+            document.getElementById('carrinhoModal').style.display = 'none';
+        }
+
+        function removerDoCarrinho(idProduto) {
+            carrinho = carrinho.filter(item => item.id !== idProduto);
+            abrirCarrinho();
+            atualizarContadorCarrinho();
+        }
+
+        function atualizarContadorCarrinho() {
+            const totalItens = carrinho.reduce((sum, item) => sum + item.quantidade, 0);
+            document.getElementById('carrinhoCount').textContent = totalItens;
+        }
+
+        // WhatsApp
+        function contatarWhatsapp(idProduto) {
+            const dados = carregarDados();
+            const produto = dados.produtos.find(p => p.id === idProduto);
+            
+            if (!produto) return;
+            
+            const mensagem = `Olá! Gostaria de saber mais sobre: ${produto.nome} - R$ ${produto.preco.toFixed(2)}`;
+            const telefone = dados.textos.telefone.replace(/\D/g, '');
+            const url = `https://wa.me/55${telefone}?text=${encodeURIComponent(mensagem)}`;
+            
+            window.open(url, '_blank');
+        }
+
+        // Toast
+        function mostrarToast(mensagem, tipo = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            
+            toastMessage.textContent = mensagem;
+            toast.className = 'toast ' + tipo;
+            
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // ===== INICIALIZAÇÃO =====
+        document.addEventListener('DOMContentLoaded', function() {
+            aplicarPersonalizacao();
+            carregarProdutosLoja();
+            atualizarContadorCarrinho();
+            
+            // Verificar se deve mostrar o painel
+            if (window.location.hash === '#admin') {
+                mostrarPainelAdmin();
+            }
+        });
+
+        // Adicionar alguns produtos de exemplo se estiver vazio
+        function adicionarProdutosExemplo() {
+            const dados = carregarDados();
+            if (dados.produtos.length === 0) {
+                dados.produtos = [
+                    {
+                        id: 1,
+                        nome: "Tênis Masculino Esportivo",
+                        descricao: "Tênis confortável para atividades físicas",
+                        preco: 199.90,
+                        categoria: "masculino"
+                    },
+                    {
+                        id: 2,
+                        nome: "Salto Alto Feminino",
+                        descricao: "Salto elegante para ocasiões especiais",
+                        preco: 159.90,
+                        categoria: "feminino"
+                    },
+                    {
+                        id: 3,
+                        nome: "Tênis Infantil Colorido",
+                        descricao: "Tênis divertido para crianças",
+                        preco: 89.90,
+                        categoria: "infantil"
+                    }
+                ];
+                salvarDados(dados);
+                carregarProdutosLoja();
+            }
+        }
+
+        // Executar após carregamento
+        setTimeout(adicionarProdutosExemplo, 1000);
+    </script>
+</body>
+</html>
