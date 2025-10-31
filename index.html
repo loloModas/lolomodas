@@ -3,115 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lolo Modas - Calçados Masculinos e Femininos</title>
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <title>Painel Admin - Lolo Modas</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
     <!-- Header -->
     <header>
         <div class="container">
-            <div class="header-top">
+            <div class="header-content">
                 <div class="logo">
-                    <i class="fas fa-shoe-prints"></i>
-                    <span id="lojaNome">Lolo Modas</span>
+                    <i class="fas fa-cog"></i>
+                    <span>Painel Admin - Lolo Modas</span>
                 </div>
-                <div class="search-bar">
-                    <input type="text" placeholder="Buscar calçados..." id="campoBusca">
-                    <button onclick="buscarProdutos()"><i class="fas fa-search"></i></button>
-                </div>
-                <div class="user-actions">
-                    <button class="action-btn" onclick="toggleFavoritos()" title="Favoritos">
-                        <i class="fas fa-heart"></i>
-                        <span class="count-badge" id="favoritosCount">0</span>
-                    </button>
-                    <button class="action-btn" onclick="abrirCarrinho()" title="Carrinho">
-                        <i class="fas fa-shopping-cart"></i>
-                        <span class="count-badge" id="carrinhoCount">0</span>
-                    </button>
-                </div>
+                <a href="index.html" class="back-to-store">
+                    <i class="fas fa-store"></i> Voltar para Loja
+                </a>
             </div>
         </div>
-        <nav>
-            <div class="container">
-                <ul class="nav-links">
-                    <li><a href="#" onclick="mostrarPagina('home')"><i class="fas fa-home"></i> Home</a></li>
-                    <li><a href="#" onclick="mostrarPagina('sobre')"><i class="fas fa-info-circle"></i> Sobre</a></li>
-                    <li><a href="#" onclick="mostrarPagina('contato')"><i class="fas fa-envelope"></i> Contato</a></li>
-                    <li><a href="#" onclick="filtrarCategoria('masculino')"><i class="fas fa-male"></i> Masculino</a></li>
-                    <li><a href="#" onclick="filtrarCategoria('feminino')"><i class="fas fa-female"></i> Feminino</a></li>
-                    <li><a href="#" onclick="filtrarCategoria('infantil')"><i class="fas fa-child"></i> Infantil</a></li>
-                </ul>
-            </div>
-        </nav>
     </header>
 
-    <!-- Conteúdo Principal -->
-    <main id="conteudoPrincipal">
-        <!-- Banner -->
-        <section class="banner" id="bannerSection">
-            <div class="banner-content">
-                <h1 id="bannerTitulo">Calçados de Qualidade para Todos os Estilos</h1>
-                <p id="bannerSubtitulo">Encontre os melhores calçados masculinos e femininos com conforto, estilo e preços incríveis!</p>
-                <a href="#" class="btn" onclick="filtrarCategoria('destaques')" id="bannerBotao">Ver Coleção</a>
+    <div class="container">
+        <div class="admin-container">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <ul class="sidebar-menu">
+                    <li><a href="#" class="active" onclick="showTab('personalizacao')">
+                        <i class="fas fa-palette"></i> Personalização
+                    </a></li>
+                    <li><a href="#" onclick="showTab('produtos')">
+                        <i class="fas fa-shoe-prints"></i> Gerenciar Produtos
+                    </a></li>
+                    <li><a href="#" onclick="showTab('pedidos')">
+                        <i class="fas fa-shopping-bag"></i> Gerenciar Pedidos
+                    </a></li>
+                    <li><a href="#" onclick="showTab('banner')">
+                        <i class="fas fa-image"></i> Banner Principal
+                    </a></li>
+                    <li><a href="#" onclick="showTab('banner-imagens')">
+                        <i class="fas fa-sliders-h"></i> Imagens do Banner
+                    </a></li>
+                    <li><a href="#" onclick="showTab('tipografia')">
+                        <i class="fas fa-font"></i> Tipografia
+                    </a></li>
+                    <li><a href="#" onclick="showTab('configuracoes')">
+                        <i class="fas fa-cogs"></i> Configurações
+                    </a></li>
+                </ul>
             </div>
-            <div class="shoes-scroll-container">
-                <div class="shoes-scroll" id="shoesScroll"></div>
-            </div>
-        </section>
 
-        <!-- Filtros -->
-        <div class="container">
-            <div class="filters">
-                <button class="filter-btn active" onclick="filtrarCategoria('todos')">Todos</button>
-                <button class="filter-btn" onclick="filtrarCategoria('destaques')">Destaques</button>
-                <button class="filter-btn" onclick="filtrarCategoria('novos')">Novos</button>
-                <button class="filter-btn" onclick="filtrarCategoria('promocao')">Promoções</button>
+            <!-- Content Area -->
+            <div class="content">
+                <!-- Personalização -->
+                <div id="personalizacao" class="tab-content active">
+                    <h2><i class="fas fa-palette"></i> Personalização da Loja</h2>
+                    
+                    <div class="form-group">
+                        <label>Nome da Loja</label>
+                        <input type="text" id="configNomeLoja" placeholder="Ex: Lolo Modas">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Descrição da Loja</label>
+                        <textarea id="configDescricao" placeholder="Descrição que aparecerá no rodapé"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Telefone</label>
+                        <input type="text" id="configTelefone" placeholder="(11) 9999-9999">
+                    </div>
+
+                    <div class="form-group">
+                        <label>E-mail</label>
+                        <input type="email" id="configEmail" placeholder="contato@loja.com">
+                    </div>
+
+                    <!-- Controles de Cores -->
+                    <h3 style="margin-top: 30px; margin-bottom: 15px;">Cores da Loja</h3>
+                    
+                    <div class="form-group">
+                        <label>Cor Primária</label>
+                        <div class="color-controls">
+                            <input type="color" id="corPrimaria" value="#8B4513">
+                            <input type="text" id="corPrimariaTexto" value="#8B4513" placeholder="#8B4513">
+                            <div class="color-preview" id="previewPrimaria"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Cor Secundária</label>
+                        <div class="color-controls">
+                            <input type="color" id="corSecundaria" value="#D2691E">
+                            <input type="text" id="corSecundariaTexto" value="#D2691E" placeholder="#D2691E">
+                            <div class="color-preview" id="previewSecundaria"></div>
+                        </div>
+                    </div>
+
+                    <button class="btn" onclick="salvarPersonalizacao()">
+                        <i class="fas fa-save"></i> Salvar Personalização
+                    </button>
+                </div>
+
+                <!-- Gerenciar Produtos -->
+                <div id="produtos" class="tab-content">
+                    <h2><i class="fas fa-shoe-prints"></i> Gerenciar Produtos</h2>
+                    
+                    <form id="formProduto">
+                        <input type="hidden" id="produtoId" value="">
+                        
+                        <div class="form-group">
+                            <label>Nome do Produto</label>
+                            <input type="text" id="produtoNome" placeholder="Ex: Tênis Esportivo Masculino" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Preço</label>
+                            <input type="number" id="produtoPreco" step="0.01" placeholder="99.90" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Categoria</label>
+                            <select id="produtoCategoria" required>
+                                <option value="">Selecione...</option>
+                                <option value="masculino">Masculino</option>
+                                <option value="feminino">Feminino</option>
+                                <option value="infantil">Infantil</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Imagens do Produto (Múltiplas)</label>
+                            <div class="upload-area" onclick="document.getElementById('multipleFileInput').click()">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <h3>Clique para adicionar imagens</h3>
+                                <p>Você pode selecionar várias imagens para o mesmo produto</p>
+                                <input type="file" id="multipleFileInput" accept="image/*" style="display: none;" 
+                                       multiple onchange="previewMultipleImages(this)">
+                            </div>
+                            <div id="multipleImagesPreview" class="images-preview-container"></div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn" id="btnAdicionar" onclick="adicionarProduto()">
+                                <i class="fas fa-plus"></i> Adicionar Produto
+                            </button>
+                            <button type="button" class="btn btn-warning" id="btnSalvar" onclick="salvarEdicao()" style="display: none;">
+                                <i class="fas fa-save"></i> Salvar Alterações
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="products-grid" id="listaProdutos"></div>
+                </div>
+
+                <!-- Outras abas... -->
+                <div id="pedidos" class="tab-content">
+                    <h2><i class="fas fa-shopping-bag"></i> Gerenciar Pedidos</h2>
+                    <div id="listaPedidos"></div>
+                </div>
+
+                <div id="banner" class="tab-content">
+                    <h2><i class="fas fa-image"></i> Banner Principal</h2>
+                    <!-- Conteúdo do banner -->
+                </div>
+
+                <div id="banner-imagens" class="tab-content">
+                    <h2><i class="fas fa-sliders-h"></i> Imagens do Banner</h2>
+                    <!-- Conteúdo das imagens do banner -->
+                </div>
+
+                <div id="tipografia" class="tab-content">
+                    <h2><i class="fas fa-font"></i> Tipografia</h2>
+                    <!-- Conteúdo de tipografia -->
+                </div>
+
+                <div id="configuracoes" class="tab-content">
+                    <h2><i class="fas fa-cogs"></i> Configurações</h2>
+                    <!-- Conteúdo de configurações -->
+                </div>
             </div>
         </div>
-
-        <!-- Produtos -->
-        <div class="container">
-            <h2 class="section-title" id="tituloProdutos">Nossos Produtos</h2>
-            <div class="products-grid" id="produtosContainer"></div>
-        </div>
-    </main>
-
-    <!-- Páginas Institucionais -->
-    <section id="paginaSobre" class="page-section" style="display: none;">
-        <!-- Conteúdo da página Sobre -->
-    </section>
-
-    <section id="paginaContato" class="page-section" style="display: none;">
-        <!-- Conteúdo da página Contato -->
-    </section>
-
-    <!-- Modais -->
-    <div class="modal" id="productModal">
-        <!-- Modal de produto -->
-    </div>
-
-    <div class="modal" id="carrinhoModal">
-        <!-- Modal do carrinho -->
-    </div>
-
-    <div class="modal" id="finalizarModal">
-        <!-- Modal de finalização -->
     </div>
 
     <!-- Toast -->
     <div class="toast" id="toast">
         <i class="fas fa-check-circle"></i>
-        <span id="toastMessage">Produto adicionado ao carrinho!</span>
+        <span id="toastMessage">Operação realizada com sucesso!</span>
     </div>
-
-    <!-- Footer -->
-    <footer>
-        <!-- Rodapé -->
-    </footer>
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
-    <script src="assets/js/script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
