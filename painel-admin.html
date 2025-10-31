@@ -112,6 +112,11 @@
             background: rgba(255,255,255,0.1);
         }
 
+        .btn-sm {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+        }
+
         /* Main Layout */
         .admin-layout {
             display: flex;
@@ -170,7 +175,7 @@
 
         .content-header {
             display: flex;
-            justify-content: between;
+            justify-content: space-between;
             align-items: center;
             margin-bottom: 30px;
             padding-bottom: 15px;
@@ -198,7 +203,7 @@
 
         .card-header {
             display: flex;
-            justify-content: between;
+            justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
             padding-bottom: 15px;
@@ -477,11 +482,11 @@
             font-weight: 600;
         }
 
-        .tab-content {
+        .secao {
             display: none;
         }
 
-        .tab-content.active {
+        .secao.active {
             display: block;
             animation: fadeIn 0.3s ease-in;
         }
@@ -489,6 +494,52 @@
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Color Controls */
+        .color-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .color-controls input[type="color"] {
+            width: 60px;
+            height: 40px;
+            padding: 0;
+            border: 2px solid var(--border);
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .color-controls input[type="text"] {
+            flex: 1;
+        }
+
+        .color-preview {
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            border: 2px solid var(--border);
+        }
+
+        /* Size Controls */
+        .size-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .size-controls input[type="range"] {
+            flex: 1;
+        }
+
+        .size-controls span {
+            min-width: 60px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--primary);
         }
 
         /* Responsive */
@@ -532,6 +583,11 @@
                 gap: 15px;
                 align-items: flex-start;
             }
+
+            .color-controls {
+                flex-direction: column;
+                align-items: flex-start;
+            }
         }
     </style>
 </head>
@@ -545,10 +601,13 @@
                     <span>Painel Admin - Lolo Modas</span>
                 </div>
                 <div class="header-actions">
-                    <button class="btn btn-outline" onclick="window.open('index.html', '_blank')">
+                    <button class="btn btn-outline" onclick="abrirLoja()">
                         <i class="fas fa-eye"></i> Ver Loja
                     </button>
-                    <button class="btn btn-success" onclick="salvarTudo()">
+                    <button class="btn btn-success" onclick="sincronizarComLoja()">
+                        <i class="fas fa-sync-alt"></i> Sincronizar
+                    </button>
+                    <button class="btn" onclick="salvarTudo()">
                         <i class="fas fa-save"></i> Salvar Tudo
                     </button>
                 </div>
@@ -571,6 +630,9 @@
                 </a></li>
                 <li><a href="#" onclick="mostrarSecao('banner')">
                     <i class="fas fa-image"></i> Banner
+                </a></li>
+                <li><a href="#" onclick="mostrarSecao('pedidos')">
+                    <i class="fas fa-shopping-bag"></i> Pedidos
                 </a></li>
                 <li><a href="#" onclick="mostrarSecao('configuracoes')">
                     <i class="fas fa-cogs"></i> Configurações
@@ -601,6 +663,10 @@
                         <div class="stat-label">Imagens no Banner</div>
                     </div>
                     <div class="stat-card">
+                        <div class="stat-number" id="pedidosPendentes">0</div>
+                        <div class="stat-label">Pedidos Pendentes</div>
+                    </div>
+                    <div class="stat-card">
                         <div class="stat-number" id="configSalvas">0</div>
                         <div class="stat-label">Configurações Salvas</div>
                     </div>
@@ -620,8 +686,8 @@
                         <button class="btn" onclick="exportarConfiguracoes()">
                             <i class="fas fa-download"></i> Exportar Dados
                         </button>
-                        <button class="btn btn-warning" onclick="testarLoja()">
-                            <i class="fas fa-store"></i> Testar Loja
+                        <button class="btn btn-warning" onclick="testarComunicacao()">
+                            <i class="fas fa-wifi"></i> Testar Comunicação
                         </button>
                     </div>
                 </div>
@@ -632,6 +698,15 @@
                     </div>
                     <div id="statusLoja">
                         <p>Carregando status da loja...</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-bell"></i> Notificações</h2>
+                    </div>
+                    <div id="notificacoes">
+                        <p>Nenhuma notificação no momento.</p>
                     </div>
                 </div>
             </div>
@@ -670,29 +745,55 @@
                     <div class="card-header">
                         <h2><i class="fas fa-paint-brush"></i> Cores da Loja</h2>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Cor Primária</label>
+                    
+                    <div class="form-group">
+                        <label>Cor Primária</label>
+                        <div class="color-controls">
                             <input type="color" id="corPrimaria" value="#8B4513">
-                            <small>Cor principal usada em botões e elementos de destaque</small>
+                            <input type="text" id="corPrimariaTexto" value="#8B4513" placeholder="#8B4513">
+                            <div class="color-preview" id="previewPrimaria" style="background-color: #8B4513;"></div>
                         </div>
-                        <div class="form-group">
-                            <label>Cor Secundária</label>
-                            <input type="color" id="corSecundaria" value="#D2691E">
-                            <small>Cor secundária para hover states</small>
-                        </div>
+                        <small>Cor principal usada em botões e elementos de destaque</small>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Cor de Destaque</label>
+
+                    <div class="form-group">
+                        <label>Cor Secundária</label>
+                        <div class="color-controls">
+                            <input type="color" id="corSecundaria" value="#D2691E">
+                            <input type="text" id="corSecundariaTexto" value="#D2691E" placeholder="#D2691E">
+                            <div class="color-preview" id="previewSecundaria" style="background-color: #D2691E;"></div>
+                        </div>
+                        <small>Cor secundária para hover states</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Cor de Destaque</label>
+                        <div class="color-controls">
                             <input type="color" id="corDestaque" value="#CD853F">
-                            <small>Cor para elementos especiais</small>
+                            <input type="text" id="corDestaqueTexto" value="#CD853F" placeholder="#CD853F">
+                            <div class="color-preview" id="previewDestaque" style="background-color: #CD853F;"></div>
                         </div>
-                        <div class="form-group">
-                            <label>Cor do Texto</label>
+                        <small>Cor para elementos especiais</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Cor do Texto</label>
+                        <div class="color-controls">
                             <input type="color" id="corTexto" value="#3E2723">
-                            <small>Cor principal do texto</small>
+                            <input type="text" id="corTextoTxt" value="#3E2723" placeholder="#3E2723">
+                            <div class="color-preview" id="previewTexto" style="background-color: #3E2723;"></div>
                         </div>
+                        <small>Cor principal do texto</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Cor de Fundo</label>
+                        <div class="color-controls">
+                            <input type="color" id="corFundo" value="#fefaf6">
+                            <input type="text" id="corFundoTexto" value="#fefaf6" placeholder="#fefaf6">
+                            <div class="color-preview" id="previewFundo" style="background-color: #fefaf6; border: 1px solid #ccc;"></div>
+                        </div>
+                        <small>Cor de fundo da página</small>
                     </div>
                 </div>
 
@@ -711,8 +812,10 @@
                         </div>
                         <div class="form-group">
                             <label>Tamanho da Fonte Base</label>
-                            <input type="range" id="tamanhoFonte" min="12" max="20" value="16">
-                            <span id="tamanhoFonteValue">16px</span>
+                            <div class="size-controls">
+                                <input type="range" id="tamanhoFonte" min="12" max="20" value="16">
+                                <span id="tamanhoFonteValue">16px</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -721,6 +824,9 @@
                     <div class="form-group">
                         <button class="btn btn-success" onclick="salvarPersonalizacao()">
                             <i class="fas fa-save"></i> Salvar Personalização
+                        </button>
+                        <button class="btn" onclick="aplicarNaLoja()">
+                            <i class="fas fa-play"></i> Aplicar na Loja
                         </button>
                     </div>
                 </div>
@@ -847,6 +953,25 @@
                         <label>Texto do Botão</label>
                         <input type="text" id="bannerBotao" placeholder="Texto do botão de ação">
                     </div>
+
+                    <div class="form-group">
+                        <label>Cor do Texto do Banner</label>
+                        <div class="color-controls">
+                            <input type="color" id="bannerCorTexto" value="#ffffff">
+                            <input type="text" id="bannerCorTextoTxt" value="#ffffff" placeholder="#ffffff">
+                            <div class="color-preview" id="previewBannerTexto" style="background-color: #ffffff; border: 1px solid #ccc;"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Cor do Botão do Banner</label>
+                        <div class="color-controls">
+                            <input type="color" id="bannerCorBotao" value="#CD853F">
+                            <input type="text" id="bannerCorBotaoTxt" value="#CD853F" placeholder="#CD853F">
+                            <div class="color-preview" id="previewBannerBotao" style="background-color: #CD853F;"></div>
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <button class="btn" onclick="salvarConfigBanner()">
                             <i class="fas fa-save"></i> Salvar Configurações
@@ -888,6 +1013,30 @@
                 </div>
             </div>
 
+            <!-- Pedidos -->
+            <div id="pedidos" class="secao">
+                <div class="content-header">
+                    <h1><i class="fas fa-shopping-bag"></i> Gerenciar Pedidos</h1>
+                    <div class="content-header-actions">
+                        <button class="btn" onclick="carregarPedidos()">
+                            <i class="fas fa-sync-alt"></i> Atualizar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-list"></i> Pedidos Recebidos</h2>
+                    </div>
+                    <div id="listaPedidos">
+                        <p style="text-align: center; color: var(--gray); padding: 40px;">
+                            <i class="fas fa-shopping-bag" style="font-size: 3rem; margin-bottom: 15px; display: block;"></i>
+                            Nenhum pedido recebido ainda.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
             <!-- Configurações -->
             <div id="configuracoes" class="secao">
                 <div class="content-header">
@@ -925,7 +1074,7 @@
                     </div>
                     <div class="form-group">
                         <p><strong>Painel Admin - Lolo Modas</strong></p>
-                        <p>Versão 2.0 - Otimizado para GitHub Pages</p>
+                        <p>Versão 2.0 - Com Comunicação Completa</p>
                         <p>Sistema de gerenciamento completo para loja virtual</p>
                         <p>Desenvolvido com HTML, CSS e JavaScript</p>
                     </div>
@@ -944,6 +1093,7 @@
         // Sistema de dados
         let produtos = [];
         let bannerImagens = [];
+        let pedidos = [];
         let produtoEditando = null;
         let imagensProdutoTemp = [];
 
@@ -952,6 +1102,7 @@
             carregarDados();
             atualizarDashboard();
             configurarEventos();
+            inicializarControlesCores();
         });
 
         // Configurar eventos
@@ -987,7 +1138,42 @@
                 carregarImagensBanner();
             } else if (secao === 'dashboard') {
                 atualizarDashboard();
+            } else if (secao === 'pedidos') {
+                carregarPedidos();
             }
+        }
+
+        // Inicializar controles de cores
+        function inicializarControlesCores() {
+            const controlesCores = [
+                { id: 'corPrimaria', preview: 'previewPrimaria', texto: 'corPrimariaTexto' },
+                { id: 'corSecundaria', preview: 'previewSecundaria', texto: 'corSecundariaTexto' },
+                { id: 'corDestaque', preview: 'previewDestaque', texto: 'corDestaqueTexto' },
+                { id: 'corTexto', preview: 'previewTexto', texto: 'corTextoTxt' },
+                { id: 'corFundo', preview: 'previewFundo', texto: 'corFundoTexto' },
+                { id: 'bannerCorTexto', preview: 'previewBannerTexto', texto: 'bannerCorTextoTxt' },
+                { id: 'bannerCorBotao', preview: 'previewBannerBotao', texto: 'bannerCorBotaoTxt' }
+            ];
+
+            controlesCores.forEach(cor => {
+                const inputColor = document.getElementById(cor.id);
+                const inputText = document.getElementById(cor.texto);
+                const preview = document.getElementById(cor.preview);
+
+                if (inputColor && inputText && preview) {
+                    inputColor.addEventListener('input', function() {
+                        inputText.value = this.value;
+                        preview.style.backgroundColor = this.value;
+                    });
+
+                    inputText.addEventListener('input', function() {
+                        if (this.value.match(/^#[0-9A-F]{6}$/i)) {
+                            inputColor.value = this.value;
+                            preview.style.backgroundColor = this.value;
+                        }
+                    });
+                }
+            });
         }
 
         // Carregar dados do localStorage
@@ -1003,9 +1189,15 @@
             
             // Cores
             document.getElementById('corPrimaria').value = config.cores?.primaria || '#8B4513';
+            document.getElementById('corPrimariaTexto').value = config.cores?.primaria || '#8B4513';
             document.getElementById('corSecundaria').value = config.cores?.secundaria || '#D2691E';
+            document.getElementById('corSecundariaTexto').value = config.cores?.secundaria || '#D2691E';
             document.getElementById('corDestaque').value = config.cores?.destaque || '#CD853F';
+            document.getElementById('corDestaqueTexto').value = config.cores?.destaque || '#CD853F';
             document.getElementById('corTexto').value = config.cores?.texto || '#3E2723';
+            document.getElementById('corTextoTxt').value = config.cores?.texto || '#3E2723';
+            document.getElementById('corFundo').value = config.cores?.fundo || '#fefaf6';
+            document.getElementById('corFundoTexto').value = config.cores?.fundo || '#fefaf6';
             
             // Tipografia
             document.getElementById('fontePrincipal').value = config.tipografia?.principal || "'Inter', sans-serif";
@@ -1016,18 +1208,26 @@
             document.getElementById('bannerTitulo').value = config.banner?.titulo || '';
             document.getElementById('bannerSubtitulo').value = config.banner?.subtitulo || '';
             document.getElementById('bannerBotao').value = config.banner?.botao || '';
+            document.getElementById('bannerCorTexto').value = config.banner?.corTexto || '#ffffff';
+            document.getElementById('bannerCorTextoTxt').value = config.banner?.corTexto || '#ffffff';
+            document.getElementById('bannerCorBotao').value = config.banner?.corBotao || '#CD853F';
+            document.getElementById('bannerCorBotaoTxt').value = config.banner?.corBotao || '#CD853F';
             
             // Produtos
             produtos = JSON.parse(localStorage.getItem('lojaProdutos')) || [];
             
             // Imagens do banner
             bannerImagens = JSON.parse(localStorage.getItem('bannerImagens')) || [];
+            
+            // Pedidos
+            pedidos = JSON.parse(localStorage.getItem('lojaPedidos')) || [];
         }
 
         // Atualizar dashboard
         function atualizarDashboard() {
             document.getElementById('totalProdutos').textContent = produtos.length;
             document.getElementById('totalImagensBanner').textContent = bannerImagens.length;
+            document.getElementById('pedidosPendentes').textContent = pedidos.filter(p => p.status === 'pendente').length;
             
             const config = JSON.parse(localStorage.getItem('lojaConfig'));
             document.getElementById('configSalvas').textContent = config ? Object.keys(config).length : 0;
@@ -1055,7 +1255,42 @@
                 statusHTML += '<p style="color: var(--success);"><i class="fas fa-check-circle"></i> Configurações básicas OK</p>';
             }
             
+            // Verificar comunicação com a loja
+            const lojaData = JSON.parse(localStorage.getItem('lojaData'));
+            if (lojaData && lojaData.ultimaSincronizacao) {
+                const ultimaSync = new Date(lojaData.ultimaSincronizacao);
+                const agora = new Date();
+                const diffMinutos = Math.floor((agora - ultimaSync) / (1000 * 60));
+                
+                if (diffMinutos < 5) {
+                    statusHTML += '<p style="color: var(--success);"><i class="fas fa-check-circle"></i> Loja sincronizada (' + diffMinutos + ' min atrás)</p>';
+                } else {
+                    statusHTML += '<p style="color: var(--warning);"><i class="fas fa-exclamation-triangle"></i> Loja não sincronizada (' + diffMinutos + ' min atrás)</p>';
+                }
+            } else {
+                statusHTML += '<p style="color: var(--warning);"><i class="fas fa-exclamation-triangle"></i> Loja nunca sincronizada</p>';
+            }
+            
             statusElement.innerHTML = statusHTML;
+            
+            // Notificações
+            const notificacoesElement = document.getElementById('notificacoes');
+            let notificacoesHTML = '';
+            
+            const pedidosPendentes = pedidos.filter(p => p.status === 'pendente').length;
+            if (pedidosPendentes > 0) {
+                notificacoesHTML += `<p style="color: var(--warning);"><i class="fas fa-bell"></i> ${pedidosPendentes} pedido(s) pendente(s)</p>`;
+            }
+            
+            if (produtos.length === 0) {
+                notificacoesHTML += '<p style="color: var(--warning);"><i class="fas fa-exclamation-triangle"></i> Adicione produtos para começar</p>';
+            }
+            
+            if (notificacoesHTML === '') {
+                notificacoesHTML = '<p style="color: var(--success);"><i class="fas fa-check-circle"></i> Tudo em ordem!</p>';
+            }
+            
+            notificacoesElement.innerHTML = notificacoesHTML;
         }
 
         // Salvar personalização
@@ -1069,17 +1304,32 @@
                     primaria: document.getElementById('corPrimaria').value,
                     secundaria: document.getElementById('corSecundaria').value,
                     destaque: document.getElementById('corDestaque').value,
-                    texto: document.getElementById('corTexto').value
+                    texto: document.getElementById('corTexto').value,
+                    fundo: document.getElementById('corFundo').value
                 },
                 tipografia: {
                     principal: document.getElementById('fontePrincipal').value,
                     tamanho: parseInt(document.getElementById('tamanhoFonte').value)
+                },
+                banner: {
+                    titulo: document.getElementById('bannerTitulo').value,
+                    subtitulo: document.getElementById('bannerSubtitulo').value,
+                    botao: document.getElementById('bannerBotao').value,
+                    corTexto: document.getElementById('bannerCorTexto').value,
+                    corBotao: document.getElementById('bannerCorBotao').value
                 }
             };
             
             localStorage.setItem('lojaConfig', JSON.stringify(config));
             mostrarToast('Personalização salva com sucesso!');
             atualizarDashboard();
+        }
+
+        // Aplicar configurações na loja
+        function aplicarNaLoja() {
+            salvarPersonalizacao();
+            sincronizarComLoja();
+            mostrarToast('Configurações aplicadas na loja!');
         }
 
         // Sistema de produtos
@@ -1103,6 +1353,11 @@
                     removeBtn.innerHTML = '×';
                     removeBtn.onclick = function() {
                         imgContainer.remove();
+                        // Remover também do array temporário
+                        const index = imagensProdutoTemp.indexOf(e.target.result);
+                        if (index > -1) {
+                            imagensProdutoTemp.splice(index, 1);
+                        }
                     };
                     
                     imgContainer.appendChild(img);
@@ -1144,7 +1399,8 @@
                 categoria,
                 tags,
                 estoque,
-                imagens: [...imagensProdutoTemp]
+                imagens: [...imagensProdutoTemp],
+                dataCriacao: new Date().toISOString()
             };
             
             produtos.push(produto);
@@ -1154,6 +1410,9 @@
             carregarProdutos();
             mostrarToast('Produto adicionado com sucesso!');
             atualizarDashboard();
+            
+            // Sincronizar com a loja
+            sincronizarComLoja();
         }
 
         function carregarProdutos() {
@@ -1177,6 +1436,7 @@
                         <p><strong>Preço:</strong> ${precoFormatado}</p>
                         ${precoOriginalFormatado ? `<p><strong>Preço Original:</strong> <s>${precoOriginalFormatado}</s></p>` : ''}
                         <p><strong>Estoque:</strong> ${produto.estoque}</p>
+                        <p><strong>Imagens:</strong> ${produto.imagens ? produto.imagens.length : 0}</p>
                         <div class="product-actions">
                             <button class="btn btn-sm" onclick="editarProduto(${produto.id})">
                                 <i class="fas fa-edit"></i> Editar
@@ -1278,7 +1538,8 @@
                 categoria,
                 tags,
                 estoque,
-                imagens: [...imagensProdutoTemp]
+                imagens: [...imagensProdutoTemp],
+                dataAtualizacao: new Date().toISOString()
             };
             
             localStorage.setItem('lojaProdutos', JSON.stringify(produtos));
@@ -1286,6 +1547,9 @@
             limparFormularioProduto();
             carregarProdutos();
             mostrarToast('Produto atualizado com sucesso!');
+            
+            // Sincronizar com a loja
+            sincronizarComLoja();
         }
 
         function excluirProduto(id) {
@@ -1295,6 +1559,9 @@
                 carregarProdutos();
                 mostrarToast('Produto excluído com sucesso!');
                 atualizarDashboard();
+                
+                // Sincronizar com a loja
+                sincronizarComLoja();
             }
         }
 
@@ -1318,11 +1585,16 @@
             config.banner = {
                 titulo: document.getElementById('bannerTitulo').value,
                 subtitulo: document.getElementById('bannerSubtitulo').value,
-                botao: document.getElementById('bannerBotao').value
+                botao: document.getElementById('bannerBotao').value,
+                corTexto: document.getElementById('bannerCorTexto').value,
+                corBotao: document.getElementById('bannerCorBotao').value
             };
             
             localStorage.setItem('lojaConfig', JSON.stringify(config));
             mostrarToast('Configurações do banner salvas!');
+            
+            // Sincronizar com a loja
+            sincronizarComLoja();
         }
 
         function adicionarImagensBanner(input) {
@@ -1345,6 +1617,9 @@
             
             if (files.length > 0) {
                 mostrarToast(files.length + ' imagem(ns) adicionada(s) ao banner!');
+                
+                // Sincronizar com a loja
+                sincronizarComLoja();
             }
         }
 
@@ -1367,6 +1642,9 @@
             carregarImagensBanner();
             mostrarToast('Imagem adicionada ao banner!');
             atualizarDashboard();
+            
+            // Sincronizar com a loja
+            sincronizarComLoja();
         }
 
         function carregarImagensBanner() {
@@ -1395,6 +1673,9 @@
             carregarImagensBanner();
             mostrarToast('Imagem removida do banner!');
             atualizarDashboard();
+            
+            // Sincronizar com a loja
+            sincronizarComLoja();
         }
 
         function limparImagensBanner() {
@@ -1404,6 +1685,153 @@
                 carregarImagensBanner();
                 mostrarToast('Todas as imagens do banner foram removidas!');
                 atualizarDashboard();
+                
+                // Sincronizar com a loja
+                sincronizarComLoja();
+            }
+        }
+
+        // Sistema de pedidos
+        function carregarPedidos() {
+            const container = document.getElementById('listaPedidos');
+            
+            if (pedidos.length === 0) {
+                container.innerHTML = `
+                    <p style="text-align: center; color: var(--gray); padding: 40px;">
+                        <i class="fas fa-shopping-bag" style="font-size: 3rem; margin-bottom: 15px; display: block;"></i>
+                        Nenhum pedido recebido ainda.
+                        <br><br>
+                        <button class="btn btn-sm" onclick="simularPedido()">
+                            <i class="fas fa-plus"></i> Simular Pedido de Teste
+                        </button>
+                    </p>
+                `;
+                return;
+            }
+            
+            // Ordenar por data (mais recente primeiro)
+            const pedidosOrdenados = [...pedidos].sort((a, b) => new Date(b.data) - new Date(a.data));
+            
+            container.innerHTML = pedidosOrdenados.map(pedido => {
+                const dataFormatada = new Date(pedido.data).toLocaleDateString('pt-BR', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                const statusClass = `status-${pedido.status}`;
+                const statusText = {
+                    'pendente': 'Pendente',
+                    'confirmado': 'Confirmado',
+                    'enviado': 'Enviado',
+                    'entregue': 'Entregue',
+                    'cancelado': 'Cancelado'
+                }[pedido.status];
+                
+                return `
+                    <div class="product-card">
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
+                            <div>
+                                <h3>Pedido #${pedido.numero}</h3>
+                                <p><strong>Cliente:</strong> ${pedido.cliente.nome}</p>
+                                <p><strong>Data:</strong> ${dataFormatada}</p>
+                                <p><strong>Total:</strong> R$ ${pedido.total.toFixed(2)}</p>
+                            </div>
+                            <div style="padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; 
+                                ${pedido.status === 'pendente' ? 'background: #fff3cd; color: #856404;' : ''}
+                                ${pedido.status === 'confirmado' ? 'background: #d1ecf1; color: #0c5460;' : ''}
+                                ${pedido.status === 'entregue' ? 'background: #d4edda; color: #155724;' : ''}">
+                                ${statusText}
+                            </div>
+                        </div>
+                        
+                        <div style="margin: 15px 0;">
+                            ${pedido.itens.map(item => `
+                                <div style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #f8f9fa;">
+                                    <span>${item.quantidade}x ${item.nome}</span>
+                                    <span>R$ ${(item.preco * item.quantidade).toFixed(2)}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                        
+                        <div class="product-actions">
+                            ${pedido.status === 'pendente' ? `
+                                <button class="btn btn-sm btn-success" onclick="atualizarStatusPedido(${pedido.id}, 'confirmado')">
+                                    <i class="fas fa-check"></i> Confirmar
+                                </button>
+                            ` : ''}
+                            
+                            ${pedido.status === 'confirmado' ? `
+                                <button class="btn btn-sm btn-warning" onclick="atualizarStatusPedido(${pedido.id}, 'enviado')">
+                                    <i class="fas fa-shipping-fast"></i> Enviar
+                                </button>
+                            ` : ''}
+                            
+                            <button class="btn btn-sm btn-danger" onclick="excluirPedido(${pedido.id})">
+                                <i class="fas fa-trash"></i> Excluir
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function simularPedido() {
+            const novoPedido = {
+                id: Date.now(),
+                numero: `PED${Date.now().toString().slice(-6)}`,
+                data: new Date().toISOString(),
+                status: 'pendente',
+                cliente: {
+                    nome: 'Cliente Teste ' + Math.floor(Math.random() * 100),
+                    telefone: '(11) 9' + Math.floor(Math.random() * 9000) + '-' + Math.floor(Math.random() * 9000),
+                    email: 'cliente' + Math.floor(Math.random() * 100) + '@exemplo.com'
+                },
+                itens: [
+                    {
+                        id: 1,
+                        nome: 'Tênis Esportivo Masculino',
+                        preco: 199.90,
+                        quantidade: 1
+                    },
+                    {
+                        id: 2,
+                        nome: 'Meias Esportivas',
+                        preco: 29.90,
+                        quantidade: 2
+                    }
+                ],
+                total: 259.70,
+                observacoes: 'Pedido de teste gerado automaticamente'
+            };
+            
+            pedidos.push(novoPedido);
+            localStorage.setItem('lojaPedidos', JSON.stringify(pedidos));
+            carregarPedidos();
+            atualizarDashboard();
+            mostrarToast('Pedido de teste criado!');
+        }
+
+        function atualizarStatusPedido(id, novoStatus) {
+            const pedidoIndex = pedidos.findIndex(p => p.id === id);
+            if (pedidoIndex === -1) return;
+            
+            pedidos[pedidoIndex].status = novoStatus;
+            localStorage.setItem('lojaPedidos', JSON.stringify(pedidos));
+            carregarPedidos();
+            atualizarDashboard();
+            mostrarToast(`Pedido ${novoStatus} com sucesso!`);
+        }
+
+        function excluirPedido(id) {
+            if (confirm('Tem certeza que deseja excluir este pedido?')) {
+                pedidos = pedidos.filter(p => p.id !== id);
+                localStorage.setItem('lojaPedidos', JSON.stringify(pedidos));
+                carregarPedidos();
+                atualizarDashboard();
+                mostrarToast('Pedido excluído com sucesso!');
             }
         }
 
@@ -1412,7 +1840,8 @@
             const config = {
                 lojaConfig: JSON.parse(localStorage.getItem('lojaConfig')) || {},
                 lojaProdutos: JSON.parse(localStorage.getItem('lojaProdutos')) || [],
-                bannerImagens: JSON.parse(localStorage.getItem('bannerImagens')) || []
+                bannerImagens: JSON.parse(localStorage.getItem('bannerImagens')) || [],
+                lojaPedidos: JSON.parse(localStorage.getItem('lojaPedidos')) || []
             };
             
             const dataStr = JSON.stringify(config, null, 2);
@@ -1420,7 +1849,7 @@
             
             const linkElement = document.createElement('a');
             linkElement.setAttribute('href', dataUri);
-            linkElement.setAttribute('download', 'backup-loja.json');
+            linkElement.setAttribute('download', 'backup-loja-' + new Date().toISOString().split('T')[0] + '.json');
             linkElement.click();
             
             mostrarToast('Backup exportado com sucesso!');
@@ -1451,12 +1880,21 @@
                         bannerImagens = config.bannerImagens;
                     }
                     
+                    if (config.lojaPedidos) {
+                        localStorage.setItem('lojaPedidos', JSON.stringify(config.lojaPedidos));
+                        pedidos = config.lojaPedidos;
+                    }
+                    
                     carregarDados();
                     carregarProdutos();
                     carregarImagensBanner();
+                    carregarPedidos();
                     atualizarDashboard();
                     
                     mostrarToast('Configurações importadas com sucesso!');
+                    
+                    // Sincronizar com a loja
+                    sincronizarComLoja();
                 } catch (error) {
                     mostrarToast('Erro ao importar configurações. Verifique o arquivo.', 'error');
                 }
@@ -1471,21 +1909,59 @@
                 localStorage.clear();
                 produtos = [];
                 bannerImagens = [];
+                pedidos = [];
                 
                 carregarDados();
                 carregarProdutos();
                 carregarImagensBanner();
+                carregarPedidos();
                 atualizarDashboard();
                 
                 mostrarToast('Todas as configurações foram resetadas!');
+                
+                // Sincronizar com a loja
+                sincronizarComLoja();
             }
+        }
+
+        // Sistema de comunicação com a loja
+        function sincronizarComLoja() {
+            // Atualizar dados da loja
+            const lojaData = {
+                config: JSON.parse(localStorage.getItem('lojaConfig')) || {},
+                produtos: JSON.parse(localStorage.getItem('lojaProdutos')) || [],
+                bannerImagens: JSON.parse(localStorage.getItem('bannerImagens')) || [],
+                ultimaSincronizacao: new Date().toISOString()
+            };
+            
+            localStorage.setItem('lojaData', JSON.stringify(lojaData));
+            
+            // Disparar evento customizado para a loja (se estiver aberta)
+            window.dispatchEvent(new CustomEvent('lojaAtualizada'));
+            
+            mostrarToast('Dados sincronizados com a loja!');
+            atualizarDashboard();
+        }
+
+        function testarComunicacao() {
+            const lojaData = JSON.parse(localStorage.getItem('lojaData'));
+            if (lojaData && lojaData.ultimaSincronizacao) {
+                mostrarToast('Comunicação com a loja está funcionando!', 'success');
+            } else {
+                mostrarToast('Nenhuma comunicação detectada com a loja', 'warning');
+            }
+        }
+
+        function abrirLoja() {
+            window.open('index.html', '_blank');
         }
 
         // Funções utilitárias
         function salvarTudo() {
             salvarPersonalizacao();
             salvarConfigBanner();
-            mostrarToast('Todas as configurações salvas!');
+            sincronizarComLoja();
+            mostrarToast('Todas as configurações salvas e sincronizadas!');
         }
 
         function testarLoja() {
@@ -1496,6 +1972,7 @@
             carregarDados();
             carregarProdutos();
             carregarImagensBanner();
+            carregarPedidos();
             atualizarDashboard();
             mostrarToast('Dados atualizados!');
         }
@@ -1516,6 +1993,20 @@
                 toast.classList.remove('show');
             }, 3000);
         }
+
+        // Sincronização automática ao salvar
+        setInterval(() => {
+            const lojaData = JSON.parse(localStorage.getItem('lojaData'));
+            if (lojaData && lojaData.ultimaSincronizacao) {
+                const ultimaSync = new Date(lojaData.ultimaSincronizacao);
+                const agora = new Date();
+                const diffMinutos = Math.floor((agora - ultimaSync) / (1000 * 60));
+                
+                if (diffMinutos > 2) { // Sincronizar a cada 2 minutos
+                    sincronizarComLoja();
+                }
+            }
+        }, 60000); // Verificar a cada minuto
     </script>
 </body>
 </html>
