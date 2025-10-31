@@ -700,15 +700,6 @@
                         <p>Carregando status da loja...</p>
                     </div>
                 </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <h2><i class="fas fa-bell"></i> Notificações</h2>
-                    </div>
-                    <div id="notificacoes">
-                        <p>Nenhuma notificação no momento.</p>
-                    </div>
-                </div>
             </div>
 
             <!-- Personalização -->
@@ -753,7 +744,6 @@
                             <input type="text" id="corPrimariaTexto" value="#8B4513" placeholder="#8B4513">
                             <div class="color-preview" id="previewPrimaria" style="background-color: #8B4513;"></div>
                         </div>
-                        <small>Cor principal usada em botões e elementos de destaque</small>
                     </div>
 
                     <div class="form-group">
@@ -763,7 +753,6 @@
                             <input type="text" id="corSecundariaTexto" value="#D2691E" placeholder="#D2691E">
                             <div class="color-preview" id="previewSecundaria" style="background-color: #D2691E;"></div>
                         </div>
-                        <small>Cor secundária para hover states</small>
                     </div>
 
                     <div class="form-group">
@@ -773,7 +762,6 @@
                             <input type="text" id="corDestaqueTexto" value="#CD853F" placeholder="#CD853F">
                             <div class="color-preview" id="previewDestaque" style="background-color: #CD853F;"></div>
                         </div>
-                        <small>Cor para elementos especiais</small>
                     </div>
 
                     <div class="form-group">
@@ -783,7 +771,6 @@
                             <input type="text" id="corTextoTxt" value="#3E2723" placeholder="#3E2723">
                             <div class="color-preview" id="previewTexto" style="background-color: #3E2723;"></div>
                         </div>
-                        <small>Cor principal do texto</small>
                     </div>
 
                     <div class="form-group">
@@ -793,7 +780,6 @@
                             <input type="text" id="corFundoTexto" value="#fefaf6" placeholder="#fefaf6">
                             <div class="color-preview" id="previewFundo" style="background-color: #fefaf6; border: 1px solid #ccc;"></div>
                         </div>
-                        <small>Cor de fundo da página</small>
                     </div>
                 </div>
 
@@ -911,12 +897,6 @@
                             <button type="button" class="btn" id="btnAdicionarProduto" onclick="adicionarProduto()">
                                 <i class="fas fa-plus"></i> Adicionar Produto
                             </button>
-                            <button type="button" class="btn btn-warning" id="btnSalvarProduto" onclick="salvarProduto()" style="display: none;">
-                                <i class="fas fa-save"></i> Salvar Alterações
-                            </button>
-                            <button type="button" class="btn btn-outline" id="btnCancelarProduto" onclick="limparFormularioProduto()" style="display: none;">
-                                <i class="fas fa-times"></i> Cancelar
-                            </button>
                         </div>
                     </form>
                 </div>
@@ -952,24 +932,6 @@
                     <div class="form-group">
                         <label>Texto do Botão</label>
                         <input type="text" id="bannerBotao" placeholder="Texto do botão de ação">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Cor do Texto do Banner</label>
-                        <div class="color-controls">
-                            <input type="color" id="bannerCorTexto" value="#ffffff">
-                            <input type="text" id="bannerCorTextoTxt" value="#ffffff" placeholder="#ffffff">
-                            <div class="color-preview" id="previewBannerTexto" style="background-color: #ffffff; border: 1px solid #ccc;"></div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Cor do Botão do Banner</label>
-                        <div class="color-controls">
-                            <input type="color" id="bannerCorBotao" value="#CD853F">
-                            <input type="text" id="bannerCorBotaoTxt" value="#CD853F" placeholder="#CD853F">
-                            <div class="color-preview" id="previewBannerBotao" style="background-color: #CD853F;"></div>
-                        </div>
                     </div>
 
                     <div class="form-group">
@@ -1067,18 +1029,6 @@
                         </button>
                     </div>
                 </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <h2><i class="fas fa-info-circle"></i> Sobre o Sistema</h2>
-                    </div>
-                    <div class="form-group">
-                        <p><strong>Painel Admin - Lolo Modas</strong></p>
-                        <p>Versão 2.0 - Com Comunicação Completa</p>
-                        <p>Sistema de gerenciamento completo para loja virtual</p>
-                        <p>Desenvolvido com HTML, CSS e JavaScript</p>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -1094,7 +1044,6 @@
         let produtos = [];
         let bannerImagens = [];
         let pedidos = [];
-        let produtoEditando = null;
         let imagensProdutoTemp = [];
 
         // Inicialização
@@ -1107,7 +1056,6 @@
 
         // Configurar eventos
         function configurarEventos() {
-            // Controle de tamanho da fonte
             document.getElementById('tamanhoFonte').addEventListener('input', function() {
                 document.getElementById('tamanhoFonteValue').textContent = this.value + 'px';
             });
@@ -1115,23 +1063,18 @@
 
         // Sistema de navegação
         function mostrarSecao(secao) {
-            // Esconder todas as seções
             document.querySelectorAll('.secao').forEach(sec => {
                 sec.classList.remove('active');
             });
             
-            // Remover active de todos os links
             document.querySelectorAll('.sidebar-menu a').forEach(link => {
                 link.classList.remove('active');
             });
             
-            // Mostrar seção selecionada
             document.getElementById(secao).classList.add('active');
             
-            // Ativar link correspondente
             event.target.classList.add('active');
             
-            // Atualizar dados específicos da seção
             if (secao === 'produtos') {
                 carregarProdutos();
             } else if (secao === 'banner') {
@@ -1150,9 +1093,7 @@
                 { id: 'corSecundaria', preview: 'previewSecundaria', texto: 'corSecundariaTexto' },
                 { id: 'corDestaque', preview: 'previewDestaque', texto: 'corDestaqueTexto' },
                 { id: 'corTexto', preview: 'previewTexto', texto: 'corTextoTxt' },
-                { id: 'corFundo', preview: 'previewFundo', texto: 'corFundoTexto' },
-                { id: 'bannerCorTexto', preview: 'previewBannerTexto', texto: 'bannerCorTextoTxt' },
-                { id: 'bannerCorBotao', preview: 'previewBannerBotao', texto: 'bannerCorBotaoTxt' }
+                { id: 'corFundo', preview: 'previewFundo', texto: 'corFundoTexto' }
             ];
 
             controlesCores.forEach(cor => {
@@ -1208,10 +1149,6 @@
             document.getElementById('bannerTitulo').value = config.banner?.titulo || '';
             document.getElementById('bannerSubtitulo').value = config.banner?.subtitulo || '';
             document.getElementById('bannerBotao').value = config.banner?.botao || '';
-            document.getElementById('bannerCorTexto').value = config.banner?.corTexto || '#ffffff';
-            document.getElementById('bannerCorTextoTxt').value = config.banner?.corTexto || '#ffffff';
-            document.getElementById('bannerCorBotao').value = config.banner?.corBotao || '#CD853F';
-            document.getElementById('bannerCorBotaoTxt').value = config.banner?.corBotao || '#CD853F';
             
             // Produtos
             produtos = JSON.parse(localStorage.getItem('lojaProdutos')) || [];
@@ -1272,25 +1209,6 @@
             }
             
             statusElement.innerHTML = statusHTML;
-            
-            // Notificações
-            const notificacoesElement = document.getElementById('notificacoes');
-            let notificacoesHTML = '';
-            
-            const pedidosPendentes = pedidos.filter(p => p.status === 'pendente').length;
-            if (pedidosPendentes > 0) {
-                notificacoesHTML += `<p style="color: var(--warning);"><i class="fas fa-bell"></i> ${pedidosPendentes} pedido(s) pendente(s)</p>`;
-            }
-            
-            if (produtos.length === 0) {
-                notificacoesHTML += '<p style="color: var(--warning);"><i class="fas fa-exclamation-triangle"></i> Adicione produtos para começar</p>';
-            }
-            
-            if (notificacoesHTML === '') {
-                notificacoesHTML = '<p style="color: var(--success);"><i class="fas fa-check-circle"></i> Tudo em ordem!</p>';
-            }
-            
-            notificacoesElement.innerHTML = notificacoesHTML;
         }
 
         // Salvar personalização
@@ -1314,9 +1232,7 @@
                 banner: {
                     titulo: document.getElementById('bannerTitulo').value,
                     subtitulo: document.getElementById('bannerSubtitulo').value,
-                    botao: document.getElementById('bannerBotao').value,
-                    corTexto: document.getElementById('bannerCorTexto').value,
-                    corBotao: document.getElementById('bannerCorBotao').value
+                    botao: document.getElementById('bannerBotao').value
                 }
             };
             
@@ -1353,7 +1269,6 @@
                     removeBtn.innerHTML = '×';
                     removeBtn.onclick = function() {
                         imgContainer.remove();
-                        // Remover também do array temporário
                         const index = imagensProdutoTemp.indexOf(e.target.result);
                         if (index > -1) {
                             imagensProdutoTemp.splice(index, 1);
@@ -1364,7 +1279,6 @@
                     imgContainer.appendChild(removeBtn);
                     previewContainer.appendChild(imgContainer);
                     
-                    // Adicionar à lista temporária
                     imagensProdutoTemp.push(e.target.result);
                 };
                 reader.readAsDataURL(files[i]);
@@ -1379,7 +1293,6 @@
             const categoria = document.getElementById('produtoCategoria').value;
             const estoque = parseInt(document.getElementById('produtoEstoque').value) || 0;
             
-            // Coletar tags
             const tags = [];
             if (document.getElementById('tagDestaque').checked) tags.push('destaque');
             if (document.getElementById('tagNovo').checked) tags.push('novo');
@@ -1387,6 +1300,11 @@
             
             if (!nome || !preco || !categoria) {
                 mostrarToast('Preencha todos os campos obrigatórios!', 'error');
+                return;
+            }
+            
+            if (imagensProdutoTemp.length === 0) {
+                mostrarToast('Adicione pelo menos uma imagem para o produto!', 'error');
                 return;
             }
             
@@ -1411,7 +1329,6 @@
             mostrarToast('Produto adicionado com sucesso!');
             atualizarDashboard();
             
-            // Sincronizar com a loja
             sincronizarComLoja();
         }
 
@@ -1438,9 +1355,6 @@
                         <p><strong>Estoque:</strong> ${produto.estoque}</p>
                         <p><strong>Imagens:</strong> ${produto.imagens ? produto.imagens.length : 0}</p>
                         <div class="product-actions">
-                            <button class="btn btn-sm" onclick="editarProduto(${produto.id})">
-                                <i class="fas fa-edit"></i> Editar
-                            </button>
                             <button class="btn btn-sm btn-danger" onclick="excluirProduto(${produto.id})">
                                 <i class="fas fa-trash"></i> Excluir
                             </button>
@@ -1448,108 +1362,6 @@
                     </div>
                 `;
             }).join('');
-        }
-
-        function editarProduto(id) {
-            const produto = produtos.find(p => p.id === id);
-            if (!produto) return;
-            
-            produtoEditando = produto;
-            
-            document.getElementById('produtoId').value = produto.id;
-            document.getElementById('produtoNome').value = produto.nome;
-            document.getElementById('produtoDescricao').value = produto.descricao;
-            document.getElementById('produtoPreco').value = produto.preco;
-            document.getElementById('produtoPrecoOriginal').value = produto.precoOriginal || '';
-            document.getElementById('produtoCategoria').value = produto.categoria;
-            document.getElementById('produtoEstoque').value = produto.estoque;
-            
-            // Tags
-            document.getElementById('tagDestaque').checked = produto.tags.includes('destaque');
-            document.getElementById('tagNovo').checked = produto.tags.includes('novo');
-            document.getElementById('tagPromocao').checked = produto.tags.includes('promocao');
-            
-            // Imagens
-            imagensProdutoTemp = [...produto.imagens];
-            const previewContainer = document.getElementById('previewImagensProduto');
-            previewContainer.innerHTML = '';
-            
-            produto.imagens.forEach(imagem => {
-                const imgContainer = document.createElement('div');
-                imgContainer.style.position = 'relative';
-                imgContainer.style.display = 'inline-block';
-                
-                const img = document.createElement('img');
-                img.src = imagem;
-                img.className = 'image-preview-thumb';
-                
-                const removeBtn = document.createElement('button');
-                removeBtn.className = 'remove-image';
-                removeBtn.innerHTML = '×';
-                removeBtn.onclick = function() {
-                    imgContainer.remove();
-                    const index = imagensProdutoTemp.indexOf(imagem);
-                    if (index > -1) imagensProdutoTemp.splice(index, 1);
-                };
-                
-                imgContainer.appendChild(img);
-                imgContainer.appendChild(removeBtn);
-                previewContainer.appendChild(imgContainer);
-            });
-            
-            // Mostrar botões de edição
-            document.getElementById('btnAdicionarProduto').style.display = 'none';
-            document.getElementById('btnSalvarProduto').style.display = 'inline-flex';
-            document.getElementById('btnCancelarProduto').style.display = 'inline-flex';
-            
-            mostrarToast('Editando produto: ' + produto.nome, 'warning');
-        }
-
-        function salvarProduto() {
-            const id = parseInt(document.getElementById('produtoId').value);
-            const produtoIndex = produtos.findIndex(p => p.id === id);
-            
-            if (produtoIndex === -1) return;
-            
-            const nome = document.getElementById('produtoNome').value;
-            const descricao = document.getElementById('produtoDescricao').value;
-            const preco = parseFloat(document.getElementById('produtoPreco').value);
-            const precoOriginal = parseFloat(document.getElementById('produtoPrecoOriginal').value) || null;
-            const categoria = document.getElementById('produtoCategoria').value;
-            const estoque = parseInt(document.getElementById('produtoEstoque').value) || 0;
-            
-            // Coletar tags
-            const tags = [];
-            if (document.getElementById('tagDestaque').checked) tags.push('destaque');
-            if (document.getElementById('tagNovo').checked) tags.push('novo');
-            if (document.getElementById('tagPromocao').checked) tags.push('promocao');
-            
-            if (!nome || !preco || !categoria) {
-                mostrarToast('Preencha todos os campos obrigatórios!', 'error');
-                return;
-            }
-            
-            produtos[produtoIndex] = {
-                ...produtos[produtoIndex],
-                nome,
-                descricao,
-                preco,
-                precoOriginal,
-                categoria,
-                tags,
-                estoque,
-                imagens: [...imagensProdutoTemp],
-                dataAtualizacao: new Date().toISOString()
-            };
-            
-            localStorage.setItem('lojaProdutos', JSON.stringify(produtos));
-            
-            limparFormularioProduto();
-            carregarProdutos();
-            mostrarToast('Produto atualizado com sucesso!');
-            
-            // Sincronizar com a loja
-            sincronizarComLoja();
         }
 
         function excluirProduto(id) {
@@ -1560,22 +1372,14 @@
                 mostrarToast('Produto excluído com sucesso!');
                 atualizarDashboard();
                 
-                // Sincronizar com a loja
                 sincronizarComLoja();
             }
         }
 
         function limparFormularioProduto() {
             document.getElementById('formProduto').reset();
-            document.getElementById('produtoId').value = '';
             document.getElementById('previewImagensProduto').innerHTML = '';
             imagensProdutoTemp = [];
-            
-            document.getElementById('btnAdicionarProduto').style.display = 'inline-flex';
-            document.getElementById('btnSalvarProduto').style.display = 'none';
-            document.getElementById('btnCancelarProduto').style.display = 'none';
-            
-            produtoEditando = null;
         }
 
         // Sistema do banner
@@ -1585,15 +1389,12 @@
             config.banner = {
                 titulo: document.getElementById('bannerTitulo').value,
                 subtitulo: document.getElementById('bannerSubtitulo').value,
-                botao: document.getElementById('bannerBotao').value,
-                corTexto: document.getElementById('bannerCorTexto').value,
-                corBotao: document.getElementById('bannerCorBotao').value
+                botao: document.getElementById('bannerBotao').value
             };
             
             localStorage.setItem('lojaConfig', JSON.stringify(config));
             mostrarToast('Configurações do banner salvas!');
             
-            // Sincronizar com a loja
             sincronizarComLoja();
         }
 
@@ -1617,8 +1418,6 @@
             
             if (files.length > 0) {
                 mostrarToast(files.length + ' imagem(ns) adicionada(s) ao banner!');
-                
-                // Sincronizar com a loja
                 sincronizarComLoja();
             }
         }
@@ -1643,7 +1442,6 @@
             mostrarToast('Imagem adicionada ao banner!');
             atualizarDashboard();
             
-            // Sincronizar com a loja
             sincronizarComLoja();
         }
 
@@ -1674,7 +1472,6 @@
             mostrarToast('Imagem removida do banner!');
             atualizarDashboard();
             
-            // Sincronizar com a loja
             sincronizarComLoja();
         }
 
@@ -1686,7 +1483,6 @@
                 mostrarToast('Todas as imagens do banner foram removidas!');
                 atualizarDashboard();
                 
-                // Sincronizar com a loja
                 sincronizarComLoja();
             }
         }
@@ -1700,138 +1496,9 @@
                     <p style="text-align: center; color: var(--gray); padding: 40px;">
                         <i class="fas fa-shopping-bag" style="font-size: 3rem; margin-bottom: 15px; display: block;"></i>
                         Nenhum pedido recebido ainda.
-                        <br><br>
-                        <button class="btn btn-sm" onclick="simularPedido()">
-                            <i class="fas fa-plus"></i> Simular Pedido de Teste
-                        </button>
                     </p>
                 `;
                 return;
-            }
-            
-            // Ordenar por data (mais recente primeiro)
-            const pedidosOrdenados = [...pedidos].sort((a, b) => new Date(b.data) - new Date(a.data));
-            
-            container.innerHTML = pedidosOrdenados.map(pedido => {
-                const dataFormatada = new Date(pedido.data).toLocaleDateString('pt-BR', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
-                
-                const statusClass = `status-${pedido.status}`;
-                const statusText = {
-                    'pendente': 'Pendente',
-                    'confirmado': 'Confirmado',
-                    'enviado': 'Enviado',
-                    'entregue': 'Entregue',
-                    'cancelado': 'Cancelado'
-                }[pedido.status];
-                
-                return `
-                    <div class="product-card">
-                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
-                            <div>
-                                <h3>Pedido #${pedido.numero}</h3>
-                                <p><strong>Cliente:</strong> ${pedido.cliente.nome}</p>
-                                <p><strong>Data:</strong> ${dataFormatada}</p>
-                                <p><strong>Total:</strong> R$ ${pedido.total.toFixed(2)}</p>
-                            </div>
-                            <div style="padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; 
-                                ${pedido.status === 'pendente' ? 'background: #fff3cd; color: #856404;' : ''}
-                                ${pedido.status === 'confirmado' ? 'background: #d1ecf1; color: #0c5460;' : ''}
-                                ${pedido.status === 'entregue' ? 'background: #d4edda; color: #155724;' : ''}">
-                                ${statusText}
-                            </div>
-                        </div>
-                        
-                        <div style="margin: 15px 0;">
-                            ${pedido.itens.map(item => `
-                                <div style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #f8f9fa;">
-                                    <span>${item.quantidade}x ${item.nome}</span>
-                                    <span>R$ ${(item.preco * item.quantidade).toFixed(2)}</span>
-                                </div>
-                            `).join('')}
-                        </div>
-                        
-                        <div class="product-actions">
-                            ${pedido.status === 'pendente' ? `
-                                <button class="btn btn-sm btn-success" onclick="atualizarStatusPedido(${pedido.id}, 'confirmado')">
-                                    <i class="fas fa-check"></i> Confirmar
-                                </button>
-                            ` : ''}
-                            
-                            ${pedido.status === 'confirmado' ? `
-                                <button class="btn btn-sm btn-warning" onclick="atualizarStatusPedido(${pedido.id}, 'enviado')">
-                                    <i class="fas fa-shipping-fast"></i> Enviar
-                                </button>
-                            ` : ''}
-                            
-                            <button class="btn btn-sm btn-danger" onclick="excluirPedido(${pedido.id})">
-                                <i class="fas fa-trash"></i> Excluir
-                            </button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function simularPedido() {
-            const novoPedido = {
-                id: Date.now(),
-                numero: `PED${Date.now().toString().slice(-6)}`,
-                data: new Date().toISOString(),
-                status: 'pendente',
-                cliente: {
-                    nome: 'Cliente Teste ' + Math.floor(Math.random() * 100),
-                    telefone: '(11) 9' + Math.floor(Math.random() * 9000) + '-' + Math.floor(Math.random() * 9000),
-                    email: 'cliente' + Math.floor(Math.random() * 100) + '@exemplo.com'
-                },
-                itens: [
-                    {
-                        id: 1,
-                        nome: 'Tênis Esportivo Masculino',
-                        preco: 199.90,
-                        quantidade: 1
-                    },
-                    {
-                        id: 2,
-                        nome: 'Meias Esportivas',
-                        preco: 29.90,
-                        quantidade: 2
-                    }
-                ],
-                total: 259.70,
-                observacoes: 'Pedido de teste gerado automaticamente'
-            };
-            
-            pedidos.push(novoPedido);
-            localStorage.setItem('lojaPedidos', JSON.stringify(pedidos));
-            carregarPedidos();
-            atualizarDashboard();
-            mostrarToast('Pedido de teste criado!');
-        }
-
-        function atualizarStatusPedido(id, novoStatus) {
-            const pedidoIndex = pedidos.findIndex(p => p.id === id);
-            if (pedidoIndex === -1) return;
-            
-            pedidos[pedidoIndex].status = novoStatus;
-            localStorage.setItem('lojaPedidos', JSON.stringify(pedidos));
-            carregarPedidos();
-            atualizarDashboard();
-            mostrarToast(`Pedido ${novoStatus} com sucesso!`);
-        }
-
-        function excluirPedido(id) {
-            if (confirm('Tem certeza que deseja excluir este pedido?')) {
-                pedidos = pedidos.filter(p => p.id !== id);
-                localStorage.setItem('lojaPedidos', JSON.stringify(pedidos));
-                carregarPedidos();
-                atualizarDashboard();
-                mostrarToast('Pedido excluído com sucesso!');
             }
         }
 
@@ -1893,7 +1560,6 @@
                     
                     mostrarToast('Configurações importadas com sucesso!');
                     
-                    // Sincronizar com a loja
                     sincronizarComLoja();
                 } catch (error) {
                     mostrarToast('Erro ao importar configurações. Verifique o arquivo.', 'error');
@@ -1919,14 +1585,15 @@
                 
                 mostrarToast('Todas as configurações foram resetadas!');
                 
-                // Sincronizar com a loja
                 sincronizarComLoja();
             }
         }
 
-        // Sistema de comunicação com a loja
+        // ===== SISTEMA DE COMUNICAÇÃO COM A LOJA =====
         function sincronizarComLoja() {
-            // Atualizar dados da loja
+            console.log('🔄 Sincronizando dados com a loja...');
+            
+            // Preparar dados para a loja
             const lojaData = {
                 config: JSON.parse(localStorage.getItem('lojaConfig')) || {},
                 produtos: JSON.parse(localStorage.getItem('lojaProdutos')) || [],
@@ -1934,10 +1601,26 @@
                 ultimaSincronizacao: new Date().toISOString()
             };
             
+            // Salvar nos dois formatos para compatibilidade
             localStorage.setItem('lojaData', JSON.stringify(lojaData));
             
-            // Disparar evento customizado para a loja (se estiver aberta)
-            window.dispatchEvent(new CustomEvent('lojaAtualizada'));
+            // Também salvar no formato que a loja espera
+            const configLoja = {
+                cores: lojaData.config.cores,
+                textos: lojaData.config.textos,
+                banner: lojaData.config.banner,
+                produtos: lojaData.produtos,
+                bannerImages: lojaData.bannerImagens.map(img => img.src),
+                tipografia: lojaData.config.tipografia
+            };
+            
+            localStorage.setItem('loloModasConfig', JSON.stringify(configLoja));
+            
+            console.log('✅ Dados sincronizados:', {
+                produtos: lojaData.produtos.length,
+                imagensBanner: lojaData.bannerImagens.length,
+                config: !!lojaData.config
+            });
             
             mostrarToast('Dados sincronizados com a loja!');
             atualizarDashboard();
@@ -1962,10 +1645,6 @@
             salvarConfigBanner();
             sincronizarComLoja();
             mostrarToast('Todas as configurações salvas e sincronizadas!');
-        }
-
-        function testarLoja() {
-            window.open('index.html', '_blank');
         }
 
         function atualizarDados() {
@@ -1994,7 +1673,7 @@
             }, 3000);
         }
 
-        // Sincronização automática ao salvar
+        // Sincronização automática
         setInterval(() => {
             const lojaData = JSON.parse(localStorage.getItem('lojaData'));
             if (lojaData && lojaData.ultimaSincronizacao) {
@@ -2002,11 +1681,11 @@
                 const agora = new Date();
                 const diffMinutos = Math.floor((agora - ultimaSync) / (1000 * 60));
                 
-                if (diffMinutos > 2) { // Sincronizar a cada 2 minutos
+                if (diffMinutos > 2) {
                     sincronizarComLoja();
                 }
             }
-        }, 60000); // Verificar a cada minuto
+        }, 60000);
     </script>
 </body>
 </html>
