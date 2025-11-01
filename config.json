@@ -1,0 +1,24 @@
+{
+  "textos": {
+    "nomeLoja": "Lolo Modas",
+    "descricao": "Especializada em calçados masculinos e femininos de qualidade.",
+    "telefone": "(11) 9999-9999",
+    "email": "contato@lolomodas.com"
+  },
+  "cores": {
+    "primaria": "#8B4513",
+    "secundaria": "#D2691E",
+    "destaque": "#CD853F",
+    "texto": "#3E2723",
+    "fundo": "#fefaf6"
+  },
+  "banner": {
+    "titulo": "Calçados de Qualidade para Todos os Estilos",
+    "subtitulo": "Encontre os melhores calçados masculinos e femininos!",
+    "botao": "Ver Coleção",
+    "corTexto": "#ffffff",
+    "corBotao": "#CD853F"
+  },
+  "produtos": [],
+  "bannerImages": []
+}
