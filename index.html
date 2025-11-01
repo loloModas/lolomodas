@@ -1,122 +1,31 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lolo Modas</title>
-    <style>
-        /* SEU CSS ATUAL AQUI - mantenha seu design */
-        .produtos-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            padding: 20px;
-        }
-        .produto {
-            border: 1px solid #ddd;
-            padding: 15px;
-            border-radius: 8px;
-            width: 250px;
-        }
-        .produto img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-        .preco {
-            font-weight: bold;
-            color: #e91e63;
-            font-size: 1.2em;
-        }
-    </style>
-</head>
-<body>
-    <!-- SEU HEADER/MENU ATUAL AQUI -->
-    <header>
-        <h1>Lolo Modas</h1>
-        <nav>
-            <!-- Seu menu atual -->
-        </nav>
-    </header>
-
-    <!-- CONTAINER ONDE OS PRODUTOS VÃO APARECER -->
-    <div id="produtos-container" class="produtos-container">
-        <!-- Os produtos serão carregados aqui automaticamente -->
-    </div>
-
-    <!-- SCRIPT QUE CARREGA OS PRODUTOS DA PLANILHA -->
-    <script>
-        // URL DA SUA PLANILHA - JÁ TESTADA E FUNCIONANDO!
-        const PLANILHA_URL = 'https://docs.google.com/spreadsheets/d/13kJOibc0Ti2ur61cseIZJ7eDAO8kA2E0iXwYkdQUjP8/d/export?format=csv';
-
-        async function carregarProdutos() {
-            try {
-                console.log('Carregando produtos da planilha...');
-                const response = await fetch(PLANILHA_URL);
-                const csvData = await response.text();
-                console.log('Dados recebidos:', csvData);
-                
-                const produtos = converterCSVparaJSON(csvData);
-                console.log('Produtos convertidos:', produtos);
-                
-                mostrarProdutos(produtos);
-            } catch (error) {
-                console.error('Erro ao carregar produtos:', error);
-                document.getElementById('produtos-container').innerHTML = 
-                    '<p>Erro ao carregar produtos. Tente novamente.</p>';
-            }
-        }
-
-        function converterCSVparaJSON(csv) {
-            const linhas = csv.split('\n');
-            const resultado = [];
-            const headers = linhas[0].split(',');
-            
-            for (let i = 1; i < linhas.length; i++) {
-                if (!linhas[i].trim()) continue;
-                
-                const obj = {};
-                const linhaAtual = linhas[i].split(',');
-                
-                for (let j = 0; j < headers.length; j++) {
-                    obj[headers[j].trim()] = linhaAtual[j] ? linhaAtual[j].trim() : '';
-                }
-                
-                if (obj.Ativo && obj.Ativo.toUpperCase() === 'SIM') {
-                    resultado.push(obj);
-                }
-            }
-            
-            return resultado;
-        }
-
-        function mostrarProdutos(produtos) {
-            const container = document.getElementById('produtos-container');
-            container.innerHTML = ''; // Limpa container
-            
-            if (produtos.length === 0) {
-                container.innerHTML = '<p>Nenhum produto encontrado.</p>';
-                return;
-            }
-            
-            produtos.forEach(produto => {
-                const produtoHTML = `
-                    <div class="produto">
-                        <img src="${produto.Imagem}" alt="${produto.Nome}" onerror="this.src='https://via.placeholder.com/250x200?text=Imagem+Não+Encontrada'">
-                        <h3>${produto.Nome}</h3>
-                        <p class="preco">R$ ${produto.Preço}</p>
-                        <p><strong>Cor:</strong> ${produto.Cor}</p>
-                        <p><strong>Tamanho:</strong> ${produto.Tamanho}</p>
-                        <p><strong>Categoria:</strong> ${produto.Categoria}</p>
-                        <button>Comprar</button>
-                    </div>
-                `;
-                container.innerHTML += produtoHTML;
-            });
-        }
-
-        // Carregar produtos quando a página abrir
-        document.addEventListener('DOMContentLoaded', carregarProdutos);
-    </script>
-</body>
-</html>
+{
+  "produtos": [
+    {
+      "Nome": "Vestido Floral",
+      "Preço": "89.90",
+      "Cor": "Vermelho",
+      "Tamanho": "M",
+      "Categoria": "Vestidos",
+      "Imagem": "https://via.placeholder.com/250x300/FF6B6B/white?text=Vestido+Floral",
+      "Ativo": "SIM"
+    },
+    {
+      "Nome": "Calça Jeans",
+      "Preço": "129.90",
+      "Cor": "Azul",
+      "Tamanho": "42",
+      "Categoria": "Calças",
+      "Imagem": "https://via.placeholder.com/250x300/4ECDC4/white?text=Calça+Jeans",
+      "Ativo": "SIM"
+    },
+    {
+      "Nome": "Saia Plissada",
+      "Preço": "69.90",
+      "Cor": "Preta",
+      "Tamanho": "38",
+      "Categoria": "Saias",
+      "Imagem": "https://via.placeholder.com/250x300/45B7D1/white?text=Saia+Plissada",
+      "Ativo": "SIM"
+    }
+  ]
+}
