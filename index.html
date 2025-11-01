@@ -1,31 +1,123 @@
-{
-  "produtos": [
-    {
-      "Nome": "Vestido Floral",
-      "Preço": "89.90",
-      "Cor": "Vermelho",
-      "Tamanho": "M",
-      "Categoria": "Vestidos",
-      "Imagem": "https://via.placeholder.com/250x300/FF6B6B/white?text=Vestido+Floral",
-      "Ativo": "SIM"
-    },
-    {
-      "Nome": "Calça Jeans",
-      "Preço": "129.90",
-      "Cor": "Azul",
-      "Tamanho": "42",
-      "Categoria": "Calças",
-      "Imagem": "https://via.placeholder.com/250x300/4ECDC4/white?text=Calça+Jeans",
-      "Ativo": "SIM"
-    },
-    {
-      "Nome": "Saia Plissada",
-      "Preço": "69.90",
-      "Cor": "Preta",
-      "Tamanho": "38",
-      "Categoria": "Saias",
-      "Imagem": "https://via.placeholder.com/250x300/45B7D1/white?text=Saia+Plissada",
-      "Ativo": "SIM"
-    }
-  ]
-}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lolo Modas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        header {
+            background: #e91e63;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .produtos-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .produto {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            width: 250px;
+            text-align: center;
+        }
+        .produto img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .preco {
+            font-weight: bold;
+            color: #e91e63;
+            font-size: 1.2em;
+        }
+        button {
+            background: #e91e63;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛍️ Lolo Modas</h1>
+        <p>Sua loja de moda favorita</p>
+    </header>
+
+    <div id="produtos-container">
+        <p>Carregando produtos...</p>
+    </div>
+
+    <script>
+        // Função simplificada e testada
+        async function carregarProdutos() {
+            try {
+                console.log('🔍 Iniciando carregamento...');
+                const response = await fetch('produtos.json');
+                
+                if (!response.ok) {
+                    throw new Error('Erro ao carregar JSON: ' + response.status);
+                }
+                
+                const data = await response.json();
+                console.log('✅ Produtos carregados:', data.produtos);
+                
+                mostrarProdutos(data.produtos);
+                
+            } catch (error) {
+                console.error('❌ Erro:', error);
+                document.getElementById('produtos-container').innerHTML = 
+                    '<p style="color: red; text-align: center;">⚠️ Erro ao carregar produtos: ' + error.message + '</p>';
+            }
+        }
+
+        function mostrarProdutos(produtos) {
+            const container = document.getElementById('produtos-container');
+            
+            if (!produtos || produtos.length === 0) {
+                container.innerHTML = '<p>Nenhum produto disponível.</p>';
+                return;
+            }
+            
+            let html = '';
+            produtos.forEach(produto => {
+                if (produto.Ativo && produto.Ativo.toUpperCase() === 'SIM') {
+                    html += `
+                        <div class="produto">
+                            <img src="${produto.Imagem}" alt="${produto.Nome}">
+                            <h3>${produto.Nome}</h3>
+                            <p class="preco">R$ ${produto.Preço}</p>
+                            <p><strong>Cor:</strong> ${produto.Cor}</p>
+                            <p><strong>Tamanho:</strong> ${produto.Tamanho}</p>
+                            <p><strong>Categoria:</strong> ${produto.Categoria}</p>
+                            <button>Comprar</button>
+                        </div>
+                    `;
+                }
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // Iniciar quando a página carregar
+        document.addEventListener('DOMContentLoaded', carregarProdutos);
+    </script>
+</body>
+</html>
