@@ -1442,27 +1442,38 @@
         // FUNÇÕES DE PERSONALIZAÇÃO
         // =============================================
 
-        function salvarPersonalizacao() {
-            const config = JSON.parse(localStorage.getItem('loloModasConfig')) || {};
+       async function salvarPersonalizacao() {
+    // Pegar configuração atual
+    const configAtual = JSON.parse(localStorage.getItem('loloModasConfig')) || {};
+    
+    // Criar nova configuração
+    const novaConfig = {
+        textos: {
+            nomeLoja: document.getElementById('configNomeLoja').value,
+            descricao: document.getElementById('configDescricao').value,
+            telefone: document.getElementById('configTelefone').value,
+            email: document.getElementById('configEmail').value
+        },
+        cores: {
+            primaria: document.getElementById('corPrimaria').value,
+            secundaria: document.getElementById('corSecundaria').value,
+            destaque: document.getElementById('corDestaque').value,
+            texto: document.getElementById('corTexto').value,
+            fundo: document.getElementById('corFundo').value
+        },
+        // Manter produtos e bannerImages existentes
+        produtos: configAtual.produtos || [],
+        bannerImages: configAtual.bannerImages || [],
+        banner: configAtual.banner || {},
+        tipografia: configAtual.tipografia || {}
+    };
 
-            config.textos = {
-                nomeLoja: document.getElementById('configNomeLoja').value,
-                descricao: document.getElementById('configDescricao').value,
-                telefone: document.getElementById('configTelefone').value,
-                email: document.getElementById('configEmail').value
-            };
-
-            // Salvar cores
-            config.cores = {
-                primaria: document.getElementById('corPrimaria').value,
-                secundaria: document.getElementById('corSecundaria').value,
-                destaque: document.getElementById('corDestaque').value,
-                texto: document.getElementById('corTexto').value,
-                fundo: document.getElementById('corFundo').value
-            };
-
-            localStorage.setItem('loloModasConfig', JSON.stringify(config));
-            mostrarToast('Personalização salva com sucesso!');
+    // Salvar usando o novo sistema
+    const sucesso = await githubConfig.salvarConfiguracoes(novaConfig);
+    if (sucesso) {
+        mostrarToast('Configurações salvas! Siga as instruções para atualizar no GitHub.');
+    }
+}
         }
 
         function salvarBanner() {
@@ -1881,4 +1892,5 @@ const githubConfig = new GitHubConfig();
     </script>
 </body>
 </html>
+
 
