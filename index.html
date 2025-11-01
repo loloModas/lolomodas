@@ -2415,7 +2415,171 @@
             if (document.getElementById('finalizarModal').style.display === 'flex' && e.key === 'Escape') {
                 fecharFinalizar();
             }
+            // =============================================
+// SISTEMA DE EMERGÊNCIA - CARREGAR CONFIGURAÇÕES
+// =============================================
+
+// Função para forçar carregamento das configurações
+function carregarConfiguracoesEmergencia() {
+    console.log('🚨 INICIANDO CARREGAMENTO DE EMERGÊNCIA...');
+    
+    return fetch('https://raw.githubusercontent.com/loloModas/lolomodas/main/config.json?v=' + Date.now())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erro HTTP: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(config => {
+            console.log('✅ CONFIGURAÇÕES CARREGADAS COM SUCESSO:', config);
+            localStorage.setItem('loloModasConfig', JSON.stringify(config));
+            return config;
+        })
+        .catch(error => {
+            console.error('❌ ERRO AO CARREGAR CONFIGURAÇÕES:', error);
+            // Usar configurações locais como fallback
+            const localConfig = localStorage.getItem('loloModasConfig');
+            return localConfig ? JSON.parse(localConfig) : null;
+        });
+}
+
+// Substituir a função inicializarLoja por esta versão CORRIGIDA
+async function inicializarLojaCorrigida() {
+    console.log('🛍️ INICIANDO LOJA (VERSÃO CORRIGIDA)...');
+    
+    // 1. PRIMEIRO carregar configurações do GitHub
+    console.log('🔁 ETAPA 1: Carregando configurações do GitHub...');
+    const config = await carregarConfiguracoesEmergencia();
+    
+    if (config) {
+        console.log('🎨 ETAPA 2: Aplicando configurações carregadas...');
+        // Aplicar configurações imediatamente
+        aplicarConfiguracoesImediatas(config);
+    } else {
+        console.log('⚠️ Usando configurações locais');
+    }
+    
+    // 3. Depois inicializar o resto da loja
+    console.log('🔧 ETAPA 3: Inicializando componentes da loja...');
+    criarRolagemTenis();
+    carregarEstado();
+    carregarPersonalizacao();
+    carregarProdutosPersonalizados();
+    
+    // 4. Atualizar a cada 5 segundos
+    setInterval(() => {
+        carregarPersonalizacao();
+        carregarProdutosPersonalizados();
+        criarRolagemTenis();
+    }, 5000);
+    
+    console.log('✅ LOJA INICIALIZADA COM SUCESSO!');
+}
+
+// Função para aplicar configurações IMEDIATAMENTE
+function aplicarConfiguracoesImediatas(config) {
+    if (!config) return;
+    
+    console.log('🎯 APLICANDO CONFIGURAÇÕES IMEDIATAMENTE...');
+    
+    // Aplicar cores CSS IMEDIATAMENTE
+    if (config.cores) {
+        const root = document.documentElement;
+        if (config.cores.primaria) root.style.setProperty('--primary', config.cores.primaria);
+        if (config.cores.secundaria) root.style.setProperty('--secondary', config.cores.secundaria);
+        if (config.cores.destaque) root.style.setProperty('--accent', config.cores.destaque);
+        if (config.cores.texto) root.style.setProperty('--dark', config.cores.texto);
+        if (config.cores.fundo) {
+            root.style.setProperty('--light', config.cores.fundo);
+            document.body.style.backgroundColor = config.cores.fundo;
+        }
+    }
+    
+    // Aplicar textos IMEDIATAMENTE
+    if (config.textos) {
+        const elementos = {
+            'lojaNome': config.textos.nomeLoja,
+            'footerNome': config.textos.nomeLoja,
+            'footerCopy': config.textos.nomeLoja,
+            'footerDescricao': config.textos.descricao,
+            'footerTelefone': config.textos.telefone,
+            'footerEmail': config.textos.email,
+            'bannerTitulo': config.banner?.titulo,
+            'bannerSubtitulo': config.banner?.subtitulo,
+            'bannerBotao': config.banner?.botao
+        };
+        
+        for (const [id, valor] of Object.entries(elementos)) {
+            const elemento = document.getElementById(id);
+            if (elemento && valor) {
+                elemento.textContent = valor;
+            }
+        }
+    }
+    
+    // Aplicar cores do banner
+    if (config.banner) {
+        if (config.banner.corTexto) {
+            document.documentElement.style.setProperty('--banner-text-color', config.banner.corTexto);
+        }
+        if (config.banner.corBotao) {
+            document.documentElement.style.setProperty('--banner-button-color', config.banner.corBotao);
+        }
+    }
+}
+
+// Botão de emergência para forçar atualização
+function adicionarBotaoEmergencia() {
+    // Remover botão existente se houver
+    const botaoExistente = document.getElementById('botaoEmergencia');
+    if (botaoExistente) botaoExistente.remove();
+    
+    const botao = document.createElement('button');
+    botao.id = 'botaoEmergencia';
+    botao.innerHTML = '🔄 Atualizar Config';
+    botao.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        background: #e74c3c;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 25px;
+        cursor: pointer;
+        z-index: 10000;
+        font-size: 12px;
+        font-weight: bold;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    `;
+    botao.onclick = function() {
+        botao.innerHTML = '⏳ Carregando...';
+        botao.disabled = true;
+        
+        carregarConfiguracoesEmergencia()
+            .then(config => {
+                if (config) {
+                    aplicarConfiguracoesImediatas(config);
+                    botao.innerHTML = '✅ Atualizado!';
+                    setTimeout(() => {
+                        botao.innerHTML = '🔄 Atualizar Config';
+                        botao.disabled = false;
+                    }, 2000);
+                }
+            });
+    };
+    
+    document.body.appendChild(botao);
+}
+
+// SUBSTITUIR a inicialização original por esta
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🚀 INICIANDO SISTEMA CORRIGIDO...');
+    inicializarLojaCorrigida();
+    setTimeout(adicionarBotaoEmergencia, 3000);
+});
         });
     </script>
 </body>
 </html>
+
