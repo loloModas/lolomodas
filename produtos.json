@@ -1,0 +1,31 @@
+{
+  "produtos": [
+    {
+      "Nome": "Vestido Floral",
+      "Preço": "89.90",
+      "Cor": "Vermelho", 
+      "Tamanho": "M",
+      "Categoria": "Vestidos",
+      "Imagem": "https://via.placeholder.com/250x300/FF6B6B/white?text=Vestido+Floral",
+      "Ativo": "SIM"
+    },
+    {
+      "Nome": "Calça Jeans",
+      "Preço": "129.90",
+      "Cor": "Azul",
+      "Tamanho": "42", 
+      "Categoria": "Calças",
+      "Imagem": "https://via.placeholder.com/250x300/4ECDC4/white?text=Calça+Jeans",
+      "Ativo": "SIM"
+    },
+    {
+      "Nome": "Saia Plissada",
+      "Preço": "69.90", 
+      "Cor": "Preta",
+      "Tamanho": "38",
+      "Categoria": "Saias",
+      "Imagem": "https://via.placeholder.com/250x300/45B7D1/white?text=Saia+Plissada",
+      "Ativo": "SIM"
+    }
+  ]
+}
