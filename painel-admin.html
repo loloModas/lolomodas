@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel Admin - Lolo Modas</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -62,50 +62,25 @@
             gap: 10px;
         }
 
-        .header-actions {
-            display: flex;
-            gap: 15px;
-        }
-
-        .btn {
-            background: var(--primary);
+        .back-to-store {
             color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn:hover {
-            background: var(--secondary);
-            transform: translateY(-2px);
-        }
-
-        .btn-success {
-            background: var(--success);
-        }
-
-        .btn-outline {
-            background: transparent;
+            text-decoration: none;
+            padding: 8px 15px;
             border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 5px;
+            transition: all 0.3s;
         }
 
-        .btn-outline:hover {
+        .back-to-store:hover {
             background: rgba(255,255,255,0.1);
         }
 
-        /* Main Layout */
-        .admin-layout {
+        /* Main Content */
+        .admin-container {
             display: grid;
             grid-template-columns: 250px 1fr;
             gap: 30px;
             margin: 30px 0;
-            min-height: 70vh;
         }
 
         /* Sidebar */
@@ -114,6 +89,7 @@
             border-radius: 10px;
             padding: 20px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            height: fit-content;
         }
 
         .sidebar-menu {
@@ -127,7 +103,7 @@
         .sidebar-menu a {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             padding: 12px 15px;
             color: var(--dark);
             text-decoration: none;
@@ -141,49 +117,33 @@
             color: white;
         }
 
-        /* Main Content */
-        .main-content {
+        /* Content Area */
+        .content {
             background: white;
             border-radius: 10px;
             padding: 30px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
-        .content-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--border);
+        .tab-content {
+            display: none;
         }
 
-        .content-header h1 {
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
             color: var(--primary);
-            font-size: 1.8rem;
-        }
-
-        /* Cards */
-        .card {
-            background: white;
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-bottom: 25px;
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .card-header h2 {
-            color: var(--primary);
-            font-size: 1.4rem;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
         }
 
         /* Forms */
@@ -217,10 +177,292 @@
             min-height: 100px;
         }
 
-        .form-row {
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: var(--success);
+        }
+
+        .btn-warning {
+            background: var(--warning);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+        }
+
+        .btn-sm {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+        }
+
+        /* Upload Area */
+        .upload-area {
+            border: 2px dashed var(--border);
+            border-radius: 10px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: rgba(139, 69, 19, 0.05);
+        }
+
+        .upload-area i {
+            font-size: 3rem;
+            color: var(--gray);
+            margin-bottom: 15px;
+        }
+
+        .upload-area h3 {
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .upload-area p {
+            color: var(--gray);
+        }
+
+        /* Container para preview de múltiplas imagens */
+        .images-preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+            justify-content: flex-start;
+        }
+
+        .image-preview-thumb {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border: 2px solid var(--border);
+            border-radius: 5px;
+            background: white;
+            position: relative;
+        }
+
+        .image-preview-thumb:hover {
+            border-color: var(--primary);
+        }
+
+        .remove-image {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--danger);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .current-image {
+            max-width: 200px;
+            max-height: 200px;
+            border-radius: 5px;
+            margin: 10px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            object-fit: contain;
+        }
+
+        /* Banner Images Grid */
+        .banner-images-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .banner-image-card {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .banner-image-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .banner-image-card img {
+            width: 100%;
+            height: 120px;
+            object-fit: contain;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .banner-image-actions {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+        }
+
+        /* Form Actions */
+        .form-actions {
+            display: flex;
             gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn-cancel {
+            background: var(--gray);
+        }
+
+        .btn-cancel:hover {
+            background: #7a6c64;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--success);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: transform 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.error {
+            background: var(--danger);
+        }
+
+        .toast.warning {
+            background: var(--warning);
+        }
+
+        /* Preview Section */
+        .preview-section {
+            background: var(--light);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+
+        .preview-phone {
+            width: 300px;
+            height: 600px;
+            background: white;
+            border-radius: 25px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin: 0 auto;
+            border: 10px solid #333;
+        }
+
+        .preview-content {
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        /* Size Controls */
+        .size-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .size-controls input[type="range"] {
+            flex: 1;
+        }
+
+        .size-controls span {
+            min-width: 60px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .size-preview {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            border: 1px solid var(--border);
+        }
+
+        .size-preview img {
+            max-width: 100%;
+            max-height: 150px;
+            object-fit: contain;
+        }
+
+        /* Color Controls */
+        .color-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .color-controls input[type="color"] {
+            width: 60px;
+            height: 40px;
+            padding: 0;
+            border: 2px solid var(--border);
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .color-controls input[type="text"] {
+            flex: 1;
+        }
+
+        .color-preview {
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            border: 2px solid var(--border);
         }
 
         /* Product Grid */
@@ -228,7 +470,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 20px;
-            margin-top: 20px;
+            margin-top: 30px;
         }
 
         .product-card {
@@ -241,11 +483,12 @@
 
         .product-card:hover {
             border-color: var(--primary);
+            transform: translateY(-2px);
         }
 
         .product-card img {
             width: 100%;
-            height: 150px;
+            height: 180px;
             object-fit: contain;
             border-radius: 5px;
             margin-bottom: 15px;
@@ -268,91 +511,309 @@
             margin-top: 15px;
         }
 
-        .btn-sm {
-            padding: 8px 15px;
+        /* ========== NOVOS ESTILOS - PEDIDOS ========== */
+        .pedido-card {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+
+        .pedido-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .pedido-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .pedido-info h3 {
+            margin: 0;
+            color: var(--primary);
+        }
+
+        .pedido-numero {
+            font-weight: bold;
+            color: var(--dark);
+        }
+
+        .pedido-data {
+            color: var(--gray);
             font-size: 0.9rem;
         }
 
-        /* Stats */
-        .stats-grid {
+        .pedido-status {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .status-pendente {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-confirmado {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .status-enviado {
+            background: #d1e7ff;
+            color: #004085;
+        }
+
+        .status-entregue {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-cancelado {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .pedido-cliente {
+            margin-bottom: 15px;
+        }
+
+        .pedido-cliente strong {
+            color: var(--dark);
+        }
+
+        .pedido-itens {
+            margin-bottom: 15px;
+        }
+
+        .pedido-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #f8f9fa;
+        }
+
+        .pedido-item:last-child {
+            border-bottom: none;
+        }
+
+        .pedido-total {
+            background: var(--light);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: right;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .pedido-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .pedido-observacoes {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 0.9rem;
+        }
+
+        .pedido-timeline {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .timeline-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .timeline-item.pendente i {
+            color: var(--warning);
+        }
+
+        .timeline-item.confirmado i {
+            color: var(--success);
+        }
+
+        .timeline-item.enviado i {
+            color: var(--primary);
+        }
+
+        .timeline-item.entregue i {
+            color: var(--success);
+        }
+
+        .timeline-item.cancelado i {
+            color: var(--danger);
+        }
+
+        /* Modal de Detalhes do Pedido */
+        .pedido-modal-content {
+            max-width: 600px;
+        }
+
+        .pedido-detalhes {
+            padding: 20px;
+        }
+
+        .pedido-produtos {
+            margin: 15px 0;
+        }
+
+        .pedido-produto {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .pedido-produto:last-child {
+            border-bottom: none;
+        }
+
+        .pedido-produto img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .pedido-produto-info {
+            flex: 1;
+        }
+
+        .pedido-produto-nome {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .pedido-produto-preco {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Filtros de Pedidos */
+        .filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .filter-btn {
+            background: white;
+            border: 2px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .pedidos-stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+            gap: 15px;
             margin-bottom: 30px;
         }
 
         .stat-card {
             background: white;
-            padding: 25px;
+            padding: 20px;
             border-radius: 10px;
             text-align: center;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            border-left: 4px solid var(--primary);
         }
 
         .stat-number {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: bold;
             margin-bottom: 5px;
-            color: var(--primary);
         }
 
-        .stat-label {
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-
-        /* Sections */
-        .secao {
-            display: none;
-        }
-
-        .secao.active {
-            display: block;
-            animation: fadeIn 0.3s ease-in;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Toast */
-        .toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: var(--success);
-            color: white;
-            padding: 15px 20px;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            z-index: 1000;
-            transform: translateX(400px);
-            transition: transform 0.3s;
-        }
-
-        .toast.show {
-            transform: translateX(0);
-        }
+        .stat-total { color: var(--primary); }
+        .stat-pendentes { color: var(--warning); }
+        .stat-confirmados { color: var(--success); }
+        .stat-entregues { color: var(--success); }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .admin-layout {
+            .admin-container {
                 grid-template-columns: 1fr;
             }
 
-            .form-row {
-                grid-template-columns: 1fr;
+            .sidebar {
+                order: 2;
+            }
+
+            .content {
+                order: 1;
+            }
+
+            .banner-images-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .color-controls {
+                flex-direction: column;
+                align-items: flex-start;
             }
 
             .products-grid {
                 grid-template-columns: 1fr;
             }
 
-            .header-content {
+            .pedido-header {
                 flex-direction: column;
-                gap: 15px;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .pedido-actions {
+                flex-direction: column;
+            }
+
+            .filters {
+                justify-content: center;
+            }
+
+            .pedidos-stats {
+                grid-template-columns: 1fr 1fr;
             }
         }
     </style>
@@ -366,352 +827,744 @@
                     <i class="fas fa-cog"></i>
                     <span>Painel Admin - Lolo Modas</span>
                 </div>
-                <div class="header-actions">
-                    <a href="index.html" class="btn btn-outline">
-                        <i class="fas fa-store"></i> Ver Loja
-                    </a>
-                    <button class="btn btn-success" onclick="sincronizarDados()">
-                        <i class="fas fa-sync-alt"></i> Sincronizar
-                    </button>
-                </div>
+                <a href="index.html" class="back-to-store">
+                    <i class="fas fa-store"></i> Voltar para Loja
+                </a>
             </div>
         </div>
     </header>
 
     <div class="container">
-        <div class="admin-layout">
+        <div class="admin-container">
             <!-- Sidebar -->
             <div class="sidebar">
                 <ul class="sidebar-menu">
-                    <li><a href="#" class="active" onclick="mostrarSecao('dashboard')">
-                        <i class="fas fa-tachometer-alt"></i> Dashboard
-                    </a></li>
-                    <li><a href="#" onclick="mostrarSecao('personalizacao')">
+                    <li><a href="#" class="active" onclick="showTab('personalizacao')">
                         <i class="fas fa-palette"></i> Personalização
                     </a></li>
-                    <li><a href="#" onclick="mostrarSecao('produtos')">
-                        <i class="fas fa-shoe-prints"></i> Produtos
+                    <li><a href="#" onclick="showTab('produtos')">
+                        <i class="fas fa-shoe-prints"></i> Gerenciar Produtos
+                    </a></li>
+                    <li><a href="#" onclick="showTab('pedidos')">
+                        <i class="fas fa-shopping-bag"></i> Gerenciar Pedidos
+                    </a></li>
+                    <li><a href="#" onclick="showTab('banner')">
+                        <i class="fas fa-image"></i> Banner Principal
+                    </a></li>
+                    <li><a href="#" onclick="showTab('banner-imagens')">
+                        <i class="fas fa-sliders-h"></i> Imagens do Banner
+                    </a></li>
+                    <li><a href="#" onclick="showTab('tipografia')">
+                        <i class="fas fa-font"></i> Tipografia
+                    </a></li>
+                    <li><a href="#" onclick="showTab('configuracoes')">
+                        <i class="fas fa-cogs"></i> Configurações
                     </a></li>
                 </ul>
             </div>
 
-            <!-- Main Content -->
-            <div class="main-content">
-                <!-- Dashboard -->
-                <div id="dashboard" class="secao active">
-                    <div class="content-header">
-                        <h1><i class="fas fa-tachometer-alt"></i> Dashboard</h1>
-                    </div>
-
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-number" id="totalProdutos">0</div>
-                            <div class="stat-label">Produtos Cadastrados</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number" id="configSalvas">0</div>
-                            <div class="stat-label">Configurações Salvas</div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <h2><i class="fas fa-rocket"></i> Ações Rápidas</h2>
-                        </div>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
-                            <button class="btn" onclick="mostrarSecao('produtos')">
-                                <i class="fas fa-plus"></i> Adicionar Produto
-                            </button>
-                            <button class="btn" onclick="mostrarSecao('personalizacao')">
-                                <i class="fas fa-palette"></i> Personalizar Loja
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
+            <!-- Content Area -->
+            <div class="content">
                 <!-- Personalização -->
-                <div id="personalizacao" class="secao">
-                    <div class="content-header">
-                        <h1><i class="fas fa-palette"></i> Personalização da Loja</h1>
+                <div id="personalizacao" class="tab-content active">
+                    <h2><i class="fas fa-palette"></i> Personalização da Loja</h2>
+                    
+                    <div class="form-group">
+                        <label>Nome da Loja</label>
+                        <input type="text" id="configNomeLoja" placeholder="Ex: Lolo Modas">
                     </div>
 
-                    <div class="card">
-                        <div class="card-header">
-                            <h2><i class="fas fa-store"></i> Informações da Loja</h2>
-                        </div>
-                        <div class="form-group">
-                            <label>Nome da Loja</label>
-                            <input type="text" id="nomeLoja" placeholder="Ex: Lolo Modas">
-                        </div>
-                        <div class="form-group">
-                            <label>Descrição da Loja</label>
-                            <textarea id="descricaoLoja" placeholder="Descrição que aparecerá no rodapé"></textarea>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Telefone</label>
-                                <input type="text" id="telefoneLoja" placeholder="(11) 9999-9999">
-                            </div>
-                            <div class="form-group">
-                                <label>E-mail</label>
-                                <input type="email" id="emailLoja" placeholder="contato@loja.com">
-                            </div>
-                        </div>
+                    <div class="form-group">
+                        <label>Descrição da Loja</label>
+                        <textarea id="configDescricao" placeholder="Descrição que aparecerá no rodapé"></textarea>
                     </div>
 
-                    <div class="card">
-                        <div class="card-header">
-                            <h2><i class="fas fa-paint-brush"></i> Cores da Loja</h2>
+                    <div class="form-group">
+                        <label>Telefone</label>
+                        <input type="text" id="configTelefone" placeholder="(11) 9999-9999">
+                    </div>
+
+                    <div class="form-group">
+                        <label>E-mail</label>
+                        <input type="email" id="configEmail" placeholder="contato@loja.com">
+                    </div>
+
+                    <!-- Controles de Cores -->
+                    <h3 style="margin-top: 30px; margin-bottom: 15px;">Cores da Loja</h3>
+                    
+                    <div class="form-group">
+                        <label>Cor Primária</label>
+                        <div class="color-controls">
+                            <input type="color" id="corPrimaria" value="#8B4513">
+                            <input type="text" id="corPrimariaTexto" value="#8B4513" placeholder="#8B4513">
+                            <div class="color-preview" id="previewPrimaria" style="background-color: #8B4513;"></div>
                         </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Cor Primária</label>
-                                <input type="color" id="corPrimaria" value="#8B4513">
-                            </div>
-                            <div class="form-group">
-                                <label>Cor Secundária</label>
-                                <input type="color" id="corSecundaria" value="#D2691E">
-                            </div>
+                        <p style="font-size: 0.8rem; color: var(--gray); margin-top: 5px;">
+                            Cor principal usada em botões, links e elementos de destaque
+                        </p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Cor Secundária</label>
+                        <div class="color-controls">
+                            <input type="color" id="corSecundaria" value="#D2691E">
+                            <input type="text" id="corSecundariaTexto" value="#D2691E" placeholder="#D2691E">
+                            <div class="color-preview" id="previewSecundaria" style="background-color: #D2691E;"></div>
                         </div>
-                        <div class="form-group">
-                            <label>Cor de Destaque</label>
+                        <p style="font-size: 0.8rem; color: var(--gray); margin-top: 5px;">
+                            Cor secundária usada em hover states e elementos complementares
+                        </p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Cor de Destaque</label>
+                        <div class="color-controls">
                             <input type="color" id="corDestaque" value="#CD853F">
+                            <input type="text" id="corDestaqueTexto" value="#CD853F" placeholder="#CD853F">
+                            <div class="color-preview" id="previewDestaque" style="background-color: #CD853F;"></div>
                         </div>
+                        <p style="font-size: 0.8rem; color: var(--gray); margin-top: 5px;">
+                            Cor para elementos de destaque e badges
+                        </p>
                     </div>
 
-                    <div class="card">
-                        <div class="card-header">
-                            <h2><i class="fas fa-sliders-h"></i> Banner da Loja</h2>
+                    <div class="form-group">
+                        <label>Cor do Texto</label>
+                        <div class="color-controls">
+                            <input type="color" id="corTexto" value="#3E2723">
+                            <input type="text" id="corTextoTxt" value="#3E2723" placeholder="#3E2723">
+                            <div class="color-preview" id="previewTexto" style="background-color: #3E2723;"></div>
                         </div>
-                        <div class="form-group">
-                            <label>Título do Banner</label>
-                            <input type="text" id="bannerTitulo" placeholder="Título principal do banner">
-                        </div>
-                        <div class="form-group">
-                            <label>Subtítulo</label>
-                            <textarea id="bannerSubtitulo" placeholder="Texto descritivo do banner"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Texto do Botão</label>
-                            <input type="text" id="bannerBotao" placeholder="Texto do botão de ação">
-                        </div>
+                        <p style="font-size: 0.8rem; color: var(--gray); margin-top: 5px;">
+                            Cor principal do texto
+                        </p>
                     </div>
 
-                    <div class="card">
-                        <button class="btn btn-success" onclick="salvarPersonalizacao()" style="width: 100%;">
-                            <i class="fas fa-save"></i> Salvar Personalização
-                        </button>
+                    <div class="form-group">
+                        <label>Cor de Fundo</label>
+                        <div class="color-controls">
+                            <input type="color" id="corFundo" value="#fefaf6">
+                            <input type="text" id="corFundoTexto" value="#fefaf6" placeholder="#fefaf6">
+                            <div class="color-preview" id="previewFundo" style="background-color: #fefaf6; border: 1px solid #ccc;"></div>
+                        </div>
+                        <p style="font-size: 0.8rem; color: var(--gray); margin-top: 5px;">
+                            Cor de fundo da página
+                        </p>
                     </div>
+
+                    <button class="btn" onclick="salvarPersonalizacao()">
+                        <i class="fas fa-save"></i> Salvar Personalização
+                    </button>
                 </div>
 
-                <!-- Produtos -->
-                <div id="produtos" class="secao">
-                    <div class="content-header">
-                        <h1><i class="fas fa-shoe-prints"></i> Gerenciar Produtos</h1>
-                        <button class="btn" onclick="limparFormularioProduto()">
-                            <i class="fas fa-plus"></i> Novo Produto
-                        </button>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <h2><i class="fas fa-edit"></i> Adicionar Produto</h2>
-                        </div>
+                <!-- ✅✅✅ GERENCIAR PRODUTOS - CORRIGIDO ✅✅✅ -->
+                <div id="produtos" class="tab-content">
+                    <h2><i class="fas fa-shoe-prints"></i> Gerenciar Produtos</h2>
+                    
+                    <form id="formProduto">
+                        <input type="hidden" id="produtoId" value="">
+                        
                         <div class="form-group">
-                            <label>Nome do Produto *</label>
+                            <label>Nome do Produto</label>
                             <input type="text" id="produtoNome" placeholder="Ex: Tênis Esportivo Masculino" required>
                         </div>
+
                         <div class="form-group">
                             <label>Descrição</label>
                             <textarea id="produtoDescricao" placeholder="Descrição detalhada do produto"></textarea>
                         </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Preço *</label>
-                                <input type="number" id="produtoPreco" step="0.01" placeholder="99.90" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Preço Original (promoção)</label>
-                                <input type="number" id="produtoPrecoOriginal" step="0.01" placeholder="129.90">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Categoria *</label>
-                                <select id="produtoCategoria" required>
-                                    <option value="">Selecione...</option>
-                                    <option value="masculino">Masculino</option>
-                                    <option value="feminino">Feminino</option>
-                                    <option value="infantil">Infantil</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Estoque</label>
-                                <input type="number" id="produtoEstoque" value="10" min="0">
-                            </div>
-                        </div>
+
                         <div class="form-group">
-                            <button class="btn btn-success" onclick="adicionarProduto()" style="width: 100%;">
+                            <label>Preço</label>
+                            <input type="number" id="produtoPreco" step="0.01" placeholder="99.90" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Preço Original (para promoção)</label>
+                            <input type="number" id="produtoPrecoOriginal" step="0.01" placeholder="129.90">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Categoria</label>
+                            <select id="produtoCategoria" required>
+                                <option value="">Selecione...</option>
+                                <option value="masculino">Masculino</option>
+                                <option value="feminino">Feminino</option>
+                                <option value="infantil">Infantil</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Tags</label>
+                            <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                                <label style="display: flex; align-items: center; gap: 5px;">
+                                    <input type="checkbox" value="destaque" id="tagDestaque"> Destaque
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 5px;">
+                                    <input type="checkbox" value="novo" id="tagNovo"> Novo
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 5px;">
+                                    <input type="checkbox" value="promocao" id="tagPromocao"> Promoção
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Estoque</label>
+                            <input type="number" id="produtoEstoque" value="10" min="0">
+                        </div>
+
+                        <!-- ✅✅✅ ÁREA DE UPLOAD DE MÚLTIPLAS IMAGENS - CORRIGIDA ✅✅✅ -->
+                        <div class="form-group">
+                            <label>Imagens do Produto (Múltiplas)</label>
+                            <div class="upload-area" onclick="document.getElementById('multipleFileInput').click()">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <h3>Clique para adicionar imagens</h3>
+                                <p>Você pode selecionar várias imagens para o mesmo produto</p>
+                                <p><strong>Dica:</strong> Segure Ctrl para selecionar múltiplas imagens</p>
+                                <input type="file" id="multipleFileInput" accept="image/*" style="display: none;" 
+                                       multiple onchange="previewMultipleImages(this)">
+                            </div>
+                            <div id="multipleImagesPreview" class="images-preview-container"></div>
+                            <p style="font-size: 0.8rem; color: var(--gray); margin-top: 10px;">
+                                <strong>Instruções:</strong> As imagens aparecerão aqui. Você pode remover qualquer imagem clicando no X.
+                                Todas as imagens serão salvas para o produto.
+                            </p>
+                        </div>
+
+                        <!-- Controle de Tamanho das Imagens do Produto -->
+                        <div class="form-group">
+                            <label>Tamanho das Imagens dos Produtos</label>
+                            <div class="size-controls">
+                                <input type="range" id="produtoImageSize" min="200" max="400" value="300">
+                                <span id="produtoImageSizeValue">300px</span>
+                            </div>
+                            <div class="size-preview">
+                                <img src="https://via.placeholder.com/300x200/CCCCCC/666666?text=Preview" 
+                                     id="produtoSizePreview" alt="Preview do tamanho">
+                            </div>
+                            <p style="font-size: 0.8rem; color: var(--gray); margin-top: 5px;">
+                                Largura das imagens dos produtos na loja
+                            </p>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn" id="btnAdicionar" onclick="adicionarProduto()">
                                 <i class="fas fa-plus"></i> Adicionar Produto
+                            </button>
+                            <button type="button" class="btn btn-warning" id="btnSalvar" onclick="salvarEdicao()" style="display: none;">
+                                <i class="fas fa-save"></i> Salvar Alterações
+                            </button>
+                            <button type="button" class="btn btn-cancel" id="btnCancelar" onclick="cancelarEdicao()" style="display: none;">
+                                <i class="fas fa-times"></i> Cancelar Edição
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="products-grid" id="listaProdutos">
+                        <!-- Produtos serão listados aqui -->
+                    </div>
+                </div>
+
+                <!-- Gerenciar Pedidos -->
+                <div id="pedidos" class="tab-content">
+                    <h2><i class="fas fa-shopping-bag"></i> Gerenciar Pedidos</h2>
+                    
+                    <div class="filters" style="margin-bottom: 20px;">
+                        <button class="filter-btn active" onclick="filtrarPedidos('todos')">Todos</button>
+                        <button class="filter-btn" onclick="filtrarPedidos('pendente')">Pendentes</button>
+                        <button class="filter-btn" onclick="filtrarPedidos('confirmado')">Confirmados</button>
+                        <button class="filter-btn" onclick="filtrarPedidos('enviado')">Enviados</button>
+                        <button class="filter-btn" onclick="filtrarPedidos('entregue')">Entregues</button>
+                        <button class="filter-btn" onclick="filtrarPedidos('cancelado')">Cancelados</button>
+                    </div>
+                    
+                    <div class="pedidos-stats">
+                        <div class="stat-card">
+                            <div class="stat-number stat-total" id="statTotal">0</div>
+                            <div>Total de Pedidos</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number stat-pendentes" id="statPendentes">0</div>
+                            <div>Pendentes</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number stat-confirmados" id="statConfirmados">0</div>
+                            <div>Confirmados</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number stat-entregues" id="statEntregues">0</div>
+                            <div>Entregues</div>
+                        </div>
+                    </div>
+                    
+                    <div id="listaPedidos">
+                        <!-- Pedidos serão listados aqui -->
+                    </div>
+                    
+                    <div id="pedidosVazio" style="text-align: center; padding: 40px; color: var(--gray); display: none;">
+                        <i class="fas fa-shopping-bag" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                        <h3>Nenhum pedido recebido</h3>
+                        <p>Os pedidos feitos através do WhatsApp aparecerão aqui.</p>
+                    </div>
+                </div>
+
+                <!-- Banner Principal -->
+                <div id="banner" class="tab-content">
+                    <h2><i class="fas fa-image"></i> Banner Principal</h2>
+                    
+                    <div class="form-group">
+                        <label>Título do Banner</label>
+                        <input type="text" id="bannerTitulo" placeholder="Título principal do banner">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Subtítulo</label>
+                        <textarea id="bannerSubtitulo" placeholder="Texto descritivo do banner"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Texto do Botão</label>
+                        <input type="text" id="bannerBotao" placeholder="Texto do botão de ação">
+                    </div>
+
+                    <!-- Controles de Cores do Banner -->
+                    <h3 style="margin-top: 30px; margin-bottom: 15px;">Cores do Banner</h3>
+                    
+                    <div class="form-group">
+                        <label>Cor do Texto do Banner</label>
+                        <div class="color-controls">
+                            <input type="color" id="bannerCorTexto" value="#ffffff">
+                            <input type="text" id="bannerCorTextoTxt" value="#ffffff" placeholder="#ffffff">
+                            <div class="color-preview" id="previewBannerTexto" style="background-color: #ffffff; border: 1px solid #ccc;"></div>
+                        </div>
+                        <p style="font-size: 0.8rem; color: var(--gray); margin-top: 5px;">
+                            Cor do texto no banner (título, subtítulo e botão)
+                        </p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Cor do Botão do Banner</label>
+                        <div class="color-controls">
+                            <input type="color" id="bannerCorBotao" value="#CD853F">
+                            <input type="text" id="bannerCorBotaoTxt" value="#CD853F" placeholder="#CD853F">
+                            <div class="color-preview" id="previewBannerBotao" style="background-color: #CD853F;"></div>
+                        </div>
+                        <p style="font-size: 0.8rem; color: var(--gray); margin-top: 5px;">
+                            Cor de fundo do botão do banner
+                        </p>
+                    </div>
+
+                    <button class="btn" onclick="salvarBanner()">
+                        <i class="fas fa-save"></i> Salvar Banner
+                    </button>
+                </div>
+
+                <!-- Imagens do Banner -->
+                <div id="banner-imagens" class="tab-content">
+                    <h2><i class="fas fa-sliders-h"></i> Gerenciar Imagens do Banner</h2>
+                    
+                    <div class="form-group">
+                        <label>Adicionar Imagens para o Banner</label>
+                        <div class="upload-area" onclick="document.getElementById('bannerImagesInput').click()">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <h3>Clique para adicionar imagens</h3>
+                            <p>Adicione imagens dos seus tênis para aparecerem no banner</p>
+                            <p><strong>Recomendado:</strong> Imagens com fundo transparente ou branco</p>
+                            <input type="file" id="bannerImagesInput" accept="image/*" style="display: none;" 
+                                   multiple onchange="adicionarImagensBanner(this)">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Ou adicione URLs de imagens</label>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="text" id="bannerImageUrl" placeholder="https://exemplo.com/tenis.jpg" style="flex: 1;">
+                            <button type="button" class="btn btn-success" onclick="adicionarUrlBanner()">
+                                <i class="fas fa-plus"></i> Adicionar URL
                             </button>
                         </div>
                     </div>
 
-                    <div class="card">
-                        <div class="card-header">
-                            <h2><i class="fas fa-list"></i> Lista de Produtos</h2>
+                    <!-- Controle de Tamanho das Imagens do Banner -->
+                    <div class="form-group">
+                        <label>Tamanho das Imagens no Banner</label>
+                        <div class="size-controls">
+                            <input type="range" id="bannerImageSize" min="150" max="400" value="250">
+                            <span id="bannerImageSizeValue">250px</span>
                         </div>
-                        <div class="products-grid" id="listaProdutos">
-                            <!-- Produtos serão carregados aqui -->
+                        <div class="size-preview">
+                            <img src="https://via.placeholder.com/250x188/CCCCCC/666666?text=Preview+Banner" 
+                                 id="bannerSizePreview" alt="Preview do tamanho">
                         </div>
+                        <p style="font-size: 0.8rem; color: var(--gray); margin-top: 5px;">
+                            <strong>Novo:</strong> Aumentei o tamanho máximo para 400px. As imagens ficarão maiores na loja!
+                        </p>
+                    </div>
+
+                    <div class="form-group">
+                        <h3>Imagens Atuais do Banner</h3>
+                        <p>Estas imagens aparecerão na rolagem do banner da loja</p>
+                        
+                        <div class="banner-images-grid" id="bannerImagesGrid">
+                            <!-- Imagens do banner serão listadas aqui -->
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button class="btn" onclick="salvarImagensBanner()">
+                            <i class="fas fa-save"></i> Salvar Imagens do Banner
+                        </button>
+                        <button class="btn btn-danger" onclick="limparImagensBanner()">
+                            <i class="fas fa-trash"></i> Limpar Todas as Imagens
+                        </button>
+                    </div>
+
+                    <div class="preview-section">
+                        <h3>Pré-visualização do Banner</h3>
+                        <div class="preview-phone">
+                            <div class="preview-content" id="bannerPreview">
+                                <!-- Preview do banner será gerado aqui -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tipografia -->
+                <div id="tipografia" class="tab-content">
+                    <h2><i class="fas fa-font"></i> Personalização de Fontes</h2>
+                    
+                    <div class="form-group">
+                        <label>Fonte Principal</label>
+                        <select id="fontePrincipal" onchange="atualizarPreviewFontes()">
+                            <option value="'Inter', sans-serif">Inter (Moderno)</option>
+                            <option value="'Roboto', sans-serif">Roboto (Clean)</option>
+                            <option value="'Open Sans', sans-serif">Open Sans (Legível)</option>
+                            <option value="'Playfair Display', serif">Playfair Display (Elegante)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Fonte para Títulos</label>
+                        <select id="fonteTitulos" onchange="atualizarPreviewFontes()">
+                            <option value="'Playfair Display', serif">Playfair Display (Elegante)</option>
+                            <option value="'Inter', sans-serif">Inter (Moderno)</option>
+                            <option value="'Roboto', sans-serif">Roboto (Bold)</option>
+                            <option value="'Open Sans', sans-serif">Open Sans (Clean)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tamanho da Fonte Base</label>
+                        <div class="size-controls">
+                            <input type="range" id="tamanhoFonte" min="12" max="20" value="16">
+                            <span id="tamanhoFonteValue">16px</span>
+                        </div>
+                        <p style="font-size: 0.8rem; color: var(--gray); margin-top: 5px;">
+                            Tamanho base da fonte para toda a loja
+                        </p>
+                    </div>
+
+                    <button class="btn" onclick="salvarTipografia()">
+                        <i class="fas fa-save"></i> Salvar Configurações de Fonte
+                    </button>
+                </div>
+
+                <!-- Configurações -->
+                <div id="configuracoes" class="tab-content">
+                    <h2><i class="fas fa-cogs"></i> Configurações Gerais</h2>
+                    
+                    <div class="form-group">
+                        <label>Exportar Configurações</label>
+                        <button class="btn" onclick="exportarConfiguracoes()">
+                            <i class="fas fa-download"></i> Baixar Backup
+                        </button>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Importar Configurações</label>
+                        <input type="file" id="importFile" accept=".json" onchange="importarConfiguracoes(this)">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Limpar Todas as Configurações</label>
+                        <button class="btn btn-danger" onclick="limparConfiguracoes()">
+                            <i class="fas fa-trash"></i> Resetar Loja
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Toast -->
+    <!-- Toast Notification -->
     <div class="toast" id="toast">
         <i class="fas fa-check-circle"></i>
         <span id="toastMessage">Operação realizada com sucesso!</span>
     </div>
 
     <script>
-        // Sistema de dados
-        let produtos = [];
+        // CONFIGURAÇÃO INICIAL
+        let imagensProdutoBase64 = []; // ✅✅✅ VARIÁVEL GLOBAL PARA ARMAZENAR MÚLTIPLAS IMAGENS
+        let imagensBannerBase64 = [];
+        let produtoEditando = null;
+        let pedidos = [];
+        let filtroPedidosAtivo = 'todos';
 
-        // Inicialização
-        document.addEventListener('DOMContentLoaded', function() {
-            carregarDados();
-            atualizarDashboard();
-        });
+        // Estrutura de um pedido exemplo para teste
+        const PEDIDO_EXEMPLO = {
+            id: Date.now(),
+            numero: `PED${Date.now().toString().slice(-6)}`,
+            data: new Date().toISOString(),
+            status: 'pendente',
+            cliente: {
+                nome: 'João Silva',
+                whatsapp: '(11) 99999-9999',
+                endereco: 'Rua Exemplo, 123 - Centro - São Paulo/SP - 01234-567'
+            },
+            itens: [
+                {
+                    id: 1,
+                    nome: 'Tênis Masculino Esportivo Premium',
+                    preco: 199.90,
+                    quantidade: 1,
+                    imagem: 'https://via.placeholder.com/400x300/8B4513/FFFFFF?text=Tênis+Frontal'
+                },
+                {
+                    id: 2,
+                    nome: 'Salto Alto Feminino Elegante',
+                    preco: 159.90,
+                    quantidade: 2,
+                    imagem: 'https://via.placeholder.com/400x300/D2691E/FFFFFF?text=Salto+Frontal'
+                }
+            ],
+            observacoes: 'Entregar de tarde, por favor.',
+            total: 519.70,
+            timeline: [
+                {
+                    status: 'pendente',
+                    data: new Date().toISOString(),
+                    mensagem: 'Pedido recebido'
+                }
+            ]
+        };
 
-        // Navegação
-        function mostrarSecao(secao) {
-            document.querySelectorAll('.secao').forEach(sec => {
-                sec.classList.remove('active');
+        // ========== FUNÇÃO DE SINCRONIZAÇÃO FORÇADA ==========
+        function forcarSincronizacao() {
+            const config = JSON.parse(localStorage.getItem('loloModasConfig')) || {};
+            
+            // Forçar atualização de todos os componentes
+            if (config.produtos) {
+                console.log(`🔄 Sincronizando ${config.produtos.length} produtos...`);
+            }
+            
+            if (config.bannerImages) {
+                console.log(`🔄 Sincronizando ${config.bannerImages.length} imagens do banner...`);
+            }
+            
+            mostrarToast('Configurações sincronizadas com a loja!');
+            
+            // Abrir a loja em nova aba para verificar
+            window.open('index.html', '_blank');
+        }
+
+        // Adicionar botão de sincronização no painel
+        function adicionarBotaoSincronizacao() {
+            const syncBtn = document.createElement('button');
+            syncBtn.className = 'btn btn-success';
+            syncBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Sincronizar com Loja';
+            syncBtn.onclick = forcarSincronizacao;
+            syncBtn.style.position = 'fixed';
+            syncBtn.style.bottom = '80px';
+            syncBtn.style.right = '20px';
+            syncBtn.style.zIndex = '1000';
+            
+            document.body.appendChild(syncBtn);
+        }
+
+        // FUNÇÕES DE TAB
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
             });
             document.querySelectorAll('.sidebar-menu a').forEach(link => {
                 link.classList.remove('active');
             });
-            
-            document.getElementById(secao).classList.add('active');
+            document.getElementById(tabName).classList.add('active');
             event.target.classList.add('active');
 
-            if (secao === 'produtos') {
-                carregarProdutos();
+            if (tabName === 'produtos') {
+                carregarListaProdutos();
+            } else if (tabName === 'banner-imagens') {
+                carregarImagensBanner();
+                atualizarPreviewBanner();
+            } else if (tabName === 'pedidos') {
+                carregarPedidos();
             }
         }
 
-        // Carregar dados
-        function carregarDados() {
-            // Carregar configurações
-            const config = JSON.parse(localStorage.getItem('lojaConfig')) || {};
+        // =============================================
+        // SISTEMA DE PEDIDOS
+        // =============================================
+
+        // Carregar pedidos do localStorage
+        function carregarPedidos() {
+            const pedidosSalvos = localStorage.getItem('loloModasPedidos');
+            pedidos = pedidosSalvos ? JSON.parse(pedidosSalvos) : [];
+
+            // Se não houver pedidos, adicionar um exemplo
+            if (pedidos.length === 0) {
+                pedidos.push(PEDIDO_EXEMPLO);
+                salvarPedidos();
+            }
             
-            document.getElementById('nomeLoja').value = config.nome || 'Lolo Modas';
-            document.getElementById('descricaoLoja').value = config.descricao || '';
-            document.getElementById('telefoneLoja').value = config.telefone || '';
-            document.getElementById('emailLoja').value = config.email || '';
-            document.getElementById('corPrimaria').value = config.cores?.primaria || '#8B4513';
-            document.getElementById('corSecundaria').value = config.cores?.secundaria || '#D2691E';
-            document.getElementById('corDestaque').value = config.cores?.destaque || '#CD853F';
-            document.getElementById('bannerTitulo').value = config.banner?.titulo || '';
-            document.getElementById('bannerSubtitulo').value = config.banner?.subtitulo || '';
-            document.getElementById('bannerBotao').value = config.banner?.botao || '';
-            
-            // Carregar produtos
-            produtos = JSON.parse(localStorage.getItem('lojaProdutos')) || [];
+            atualizarEstatisticasPedidos();
+            carregarListaPedidos();
         }
 
-        // Atualizar dashboard
-        function atualizarDashboard() {
-            document.getElementById('totalProdutos').textContent = produtos.length;
-            
-            const config = JSON.parse(localStorage.getItem('lojaConfig'));
-            document.getElementById('configSalvas').textContent = config ? Object.keys(config).length : 0;
+        // Salvar pedidos no localStorage
+        function salvarPedidos() {
+            localStorage.setItem('loloModasPedidos', JSON.stringify(pedidos));
         }
 
-        // Salvar personalização
-        function salvarPersonalizacao() {
-            const config = {
-                nome: document.getElementById('nomeLoja').value,
-                descricao: document.getElementById('descricaoLoja').value,
-                telefone: document.getElementById('telefoneLoja').value,
-                email: document.getElementById('emailLoja').value,
-                cores: {
-                    primaria: document.getElementById('corPrimaria').value,
-                    secundaria: document.getElementById('corSecundaria').value,
-                    destaque: document.getElementById('corDestaque').value
-                },
-                banner: {
-                    titulo: document.getElementById('bannerTitulo').value,
-                    subtitulo: document.getElementById('bannerSubtitulo').value,
-                    botao: document.getElementById('bannerBotao').value
-                }
-            };
+        // Atualizar estatísticas dos pedidos
+        function atualizarEstatisticasPedidos() {
+            const total = pedidos.length;
+            const pendentes = pedidos.filter(p => p.status === 'pendente').length;
+            const confirmados = pedidos.filter(p => p.status === 'confirmado').length;
+            const entregues = pedidos.filter(p => p.status === 'entregue').length;
             
-            localStorage.setItem('lojaConfig', JSON.stringify(config));
-            mostrarToast('Personalização salva com sucesso!');
-            atualizarDashboard();
+            document.getElementById('statTotal').textContent = total;
+            document.getElementById('statPendentes').textContent = pendentes;
+            document.getElementById('statConfirmados').textContent = confirmados;
+            document.getElementById('statEntregues').textContent = entregues;
         }
 
-        // Sistema de produtos
-        function adicionarProduto() {
-            const nome = document.getElementById('produtoNome').value;
-            const descricao = document.getElementById('produtoDescricao').value;
-            const preco = parseFloat(document.getElementById('produtoPreco').value);
-            const precoOriginal = parseFloat(document.getElementById('produtoPrecoOriginal').value) || null;
-            const categoria = document.getElementById('produtoCategoria').value;
-            const estoque = parseInt(document.getElementById('produtoEstoque').value) || 0;
+        // Carregar lista de pedidos
+        function carregarListaPedidos() {
+            const container = document.getElementById('listaPedidos');
+            const vazio = document.getElementById('pedidosVazio');
             
-            if (!nome || !preco || !categoria) {
-                mostrarToast('Preencha todos os campos obrigatórios!', 'error');
+            let pedidosFiltrados = pedidos;
+            
+            if (filtroPedidosAtivo !== 'todos') {
+                pedidosFiltrados = pedidos.filter(pedido => pedido.status === filtroPedidosAtivo);
+            }
+            
+            if (pedidosFiltrados.length === 0) {
+                container.innerHTML = '';
+                vazio.style.display = 'block';
                 return;
             }
             
-            const produto = {
-                id: Date.now(),
-                nome,
-                descricao,
-                preco,
-                precoOriginal,
-                categoria,
-                estoque,
-                dataCriacao: new Date().toISOString()
-            };
+            vazio.style.display = 'none';
             
-            produtos.push(produto);
-            localStorage.setItem('lojaProdutos', JSON.stringify(produtos));
+            // Ordenar por data (mais recente primeiro)
+            pedidosFiltrados.sort((a, b) => new Date(b.data) - new Date(a.data));
             
-            limparFormularioProduto();
-            carregarProdutos();
-            mostrarToast('Produto adicionado com sucesso!');
-            atualizarDashboard();
-        }
-
-        function carregarProdutos() {
-            const container = document.getElementById('listaProdutos');
-            
-            if (produtos.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: var(--gray); grid-column: 1/-1;">Nenhum produto cadastrado.</p>';
-                return;
-            }
-            
-            container.innerHTML = produtos.map(produto => {
-                const precoFormatado = produto.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-                const precoOriginalFormatado = produto.precoOriginal ? 
-                    produto.precoOriginal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : '';
+            container.innerHTML = pedidosFiltrados.map(pedido => {
+                const dataFormatada = new Date(pedido.data).toLocaleDateString('pt-BR', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                const statusClass = `status-${pedido.status}`;
+                const statusText = {
+                    'pendente': 'Pendente',
+                    'confirmado': 'Confirmado',
+                    'enviado': 'Enviado',
+                    'entregue': 'Entregue',
+                    'cancelado': 'Cancelado'
+                }[pedido.status];
                 
                 return `
-                    <div class="product-card">
-                        <img src="https://via.placeholder.com/300x200/CCCCCC/666666?text=Produto" alt="${produto.nome}">
-                        <h3>${produto.nome}</h3>
-                        <p><strong>Categoria:</strong> ${produto.categoria}</p>
-                        <p><strong>Preço:</strong> ${precoFormatado}</p>
-                        ${precoOriginalFormatado ? `<p><strong>Preço Original:</strong> <s>${precoOriginalFormatado}</s></p>` : ''}
-                        <p><strong>Estoque:</strong> ${produto.estoque}</p>
-                        <div class="product-actions">
-                            <button class="btn btn-sm btn-danger" onclick="excluirProduto(${produto.id})">
+                    <div class="pedido-card">
+                        <div class="pedido-header">
+                            <div class="pedido-info">
+                                <h3 class="pedido-numero">${pedido.numero}</h3>
+                                <div class="pedido-data">${dataFormatada}</div>
+                                <div class="pedido-cliente">
+                                    <strong>Cliente:</strong> ${pedido.cliente.nome} | 
+                                    <strong>WhatsApp:</strong> ${pedido.cliente.whatsapp}
+                                </div>
+                            </div>
+                            <div class="pedido-status ${statusClass}">${statusText}</div>
+                        </div>
+                        
+                        <div class="pedido-itens">
+                            ${pedido.itens.map(item => `
+                                <div class="pedido-item">
+                                    <span>${item.quantidade}x ${item.nome}</span>
+                                    <span>R$ ${(item.preco * item.quantidade).toFixed(2)}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                        
+                        ${pedido.observacoes ? `
+                            <div class="pedido-observacoes">
+                                <strong>Observações:</strong> ${pedido.observacoes}
+                            </div>
+                        ` : ''}
+                        
+                        <div class="pedido-total">
+                            Total: R$ ${pedido.total.toFixed(2)}
+                        </div>
+                        
+                        <div class="pedido-timeline">
+                            ${pedido.timeline.map(evento => {
+                                const dataEvento = new Date(evento.data).toLocaleDateString('pt-BR', {
+                                    day: '2-digit',
+                                    month: '2-digit',
+                                    hour: '2-digit',
+                                    minute: '2-digit'
+                                });
+                                const icon = {
+                                    'pendente': 'fas fa-clock',
+                                    'confirmado': 'fas fa-check-circle',
+                                    'enviado': 'fas fa-shipping-fast',
+                                    'entregue': 'fas fa-box-open',
+                                    'cancelado': 'fas fa-times-circle'
+                                }[evento.status];
+                                
+                                return `
+                                    <div class="timeline-item ${evento.status}">
+                                        <i class="${icon}"></i>
+                                        <span>${dataEvento} - ${evento.mensagem}</span>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                        
+                        <div class="pedido-actions">
+                            ${pedido.status === 'pendente' ? `
+                                <button class="btn btn-success btn-sm" onclick="atualizarStatusPedido(${pedido.id}, 'confirmado')">
+                                    <i class="fas fa-check"></i> Confirmar
+                                </button>
+                                <button class="btn btn-warning btn-sm" onclick="atualizarStatusPedido(${pedido.id}, 'cancelado')">
+                                    <i class="fas fa-times"></i> Cancelar
+                                </button>
+                            ` : ''}
+                            
+                            ${pedido.status === 'confirmado' ? `
+                                <button class="btn btn-primary btn-sm" onclick="atualizarStatusPedido(${pedido.id}, 'enviado')">
+                                    <i class="fas fa-shipping-fast"></i> Marcar como Enviado
+                                </button>
+                            ` : ''}
+                            
+                            ${pedido.status === 'enviado' ? `
+                                <button class="btn btn-success btn-sm" onclick="atualizarStatusPedido(${pedido.id}, 'entregue')">
+                                    <i class="fas fa-box-open"></i> Marcar como Entregue
+                                </button>
+                            ` : ''}
+                            
+                            <button class="btn btn-sm" onclick="verDetalhesPedido(${pedido.id})">
+                                <i class="fas fa-eye"></i> Detalhes
+                            </button>
+                            
+                            <button class="btn btn-danger btn-sm" onclick="excluirPedido(${pedido.id})">
                                 <i class="fas fa-trash"></i> Excluir
                             </button>
                         </div>
@@ -720,74 +1573,1018 @@
             }).join('');
         }
 
-        function excluirProduto(id) {
-            if (confirm('Tem certeza que deseja excluir este produto?')) {
-                produtos = produtos.filter(p => p.id !== id);
-                localStorage.setItem('lojaProdutos', JSON.stringify(produtos));
-                carregarProdutos();
-                mostrarToast('Produto excluído com sucesso!');
-                atualizarDashboard();
+        // Filtrar pedidos por status
+        function filtrarPedidos(status) {
+            filtroPedidosAtivo = status;
+            
+            // Atualizar botões ativos
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            carregarListaPedidos();
+        }
+
+        // Atualizar status do pedido
+        function atualizarStatusPedido(id, novoStatus) {
+            const pedido = pedidos.find(p => p.id === id);
+            if (!pedido) return;
+            
+            const statusAnterior = pedido.status;
+            pedido.status = novoStatus;
+            
+            // Adicionar evento na timeline
+            const mensagens = {
+                'confirmado': 'Pedido confirmado',
+                'enviado': 'Pedido enviado para entrega',
+                'entregue': 'Pedido entregue',
+                'cancelado': 'Pedido cancelado'
+            };
+            
+            pedido.timeline.push({
+                status: novoStatus,
+                data: new Date().toISOString(),
+                mensagem: mensagens[novoStatus] || `Status alterado para ${novoStatus}`
+            });
+            
+            salvarPedidos();
+            carregarListaPedidos();
+            atualizarEstatisticasPedidos();
+            
+            mostrarToast(`Pedido ${pedido.numero} ${mensagens[novoStatus].toLowerCase()}`);
+        }
+
+        // Ver detalhes do pedido
+        function verDetalhesPedido(id) {
+            const pedido = pedidos.find(p => p.id === id);
+            if (!pedido) return;
+            
+            const modalContent = `
+                <div class="pedido-detalhes">
+                    <div class="pedido-header">
+                        <div class="pedido-info">
+                            <h3>Detalhes do Pedido</h3>
+                            <div class="pedido-numero">${pedido.numero}</div>
+                            <div class="pedido-data">${new Date(pedido.data).toLocaleDateString('pt-BR')}</div>
+                        </div>
+                        <div class="pedido-status status-${pedido.status}">
+                            ${{                            'pendente': 'Pendente',
+                            'confirmado': 'Confirmado', 
+                            'enviado': 'Enviado',
+                            'entregue': 'Entregue',
+                            'cancelado': 'Cancelado'
+                        }[pedido.status]}
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><strong>Cliente</strong></label>
+                        <div>${pedido.cliente.nome}</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><strong>WhatsApp</strong></label>
+                        <div>${pedido.cliente.whatsapp}</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><strong>Endereço de Entrega</strong></label>
+                        <div>${pedido.cliente.endereco}</div>
+                    </div>
+                    
+                    ${pedido.observacoes ? `
+                        <div class="form-group">
+                            <label><strong>Observações</strong></label>
+                            <div>${pedido.observacoes}</div>
+                        </div>
+                    ` : ''}
+                    
+                    <div class="pedido-produtos">
+                        <label><strong>Produtos</strong></label>
+                        ${pedido.itens.map(item => `
+                            <div class="pedido-produto">
+                                <img src="${item.imagem}" alt="${item.nome}" 
+                                     onerror="this.src='https://via.placeholder.com/60x60/CCCCCC/666666?text=Produto'">
+                                <div class="pedido-produto-info">
+                                    <div class="pedido-produto-nome">${item.nome}</div>
+                                    <div class="pedido-produto-preco">
+                                        ${item.quantidade} x R$ ${item.preco.toFixed(2)} = R$ ${(item.preco * item.quantidade).toFixed(2)}
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="pedido-total">
+                        Total do Pedido: R$ ${pedido.total.toFixed(2)}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><strong>Histórico do Pedido</strong></label>
+                        <div class="pedido-timeline">
+                            ${pedido.timeline.map(evento => {
+                                const dataEvento = new Date(evento.data).toLocaleDateString('pt-BR', {
+                                    day: '2-digit',
+                                    month: '2-digit',
+                                    year: 'numeric',
+                                    hour: '2-digit',
+                                    minute: '2-digit'
+                                });
+                                const icon = {
+                                    'pendente': 'fas fa-clock',
+                                    'confirmado': 'fas fa-check-circle',
+                                    'enviado': 'fas fa-shipping-fast',
+                                    'entregue': 'fas fa-box-open',
+                                    'cancelado': 'fas fa-times-circle'
+                                }[evento.status];
+                                
+                                return `
+                                    <div class="timeline-item ${evento.status}">
+                                        <i class="${icon}"></i>
+                                        <span><strong>${dataEvento}</strong> - ${evento.mensagem}</span>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Criar modal temporário
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.style.display = 'flex';
+            modal.innerHTML = `
+                <div class="modal-content pedido-modal-content">
+                    <button class="close-modal" onclick="this.parentElement.parentElement.remove()">&times;</button>
+                    ${modalContent}
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Fechar modal ao clicar fora
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.remove();
+                }
+            });
+        }
+
+        // Excluir pedido
+        function excluirPedido(id) {
+            if (!confirm('Tem certeza que deseja excluir este pedido? Esta ação não pode ser desfeita.')) {
+                return;
+            }
+            
+            pedidos = pedidos.filter(p => p.id !== id);
+            salvarPedidos();
+            carregarListaPedidos();
+            atualizarEstatisticasPedidos();
+            
+            mostrarToast('Pedido excluído com sucesso');
+        }
+
+        // Simular recebimento de novo pedido (para teste)
+        function simularNovoPedido() {
+            const novoPedido = {
+                id: Date.now(),
+                numero: `PED${Date.now().toString().slice(-6)}`,
+                data: new Date().toISOString(),
+                status: 'pendente',
+                cliente: {
+                    nome: 'Cliente Teste ' + Math.floor(Math.random() * 100),
+                    whatsapp: '(11) 9' + Math.floor(Math.random() * 9000) + '-' + Math.floor(Math.random() * 9000),
+                    endereco: 'Rua Teste, ' + Math.floor(Math.random() * 1000) + ' - Centro - São Paulo/SP'
+                },
+                itens: [
+                    {
+                        id: 1,
+                        nome: 'Tênis Masculino Esportivo Premium',
+                        preco: 199.90,
+                        quantidade: 1,
+                        imagem: 'https://via.placeholder.com/400x300/8B4513/FFFFFF?text=Tênis+Frontal'
+                    }
+                ],
+                observacoes: 'Pedido de teste gerado automaticamente',
+                total: 199.90,
+                timeline: [
+                    {
+                        status: 'pendente',
+                        data: new Date().toISOString(),
+                        mensagem: 'Pedido recebido'
+                    }
+                ]
+            };
+            
+            pedidos.unshift(novoPedido);
+            salvarPedidos();
+            carregarListaPedidos();
+            atualizarEstatisticasPedidos();
+            
+            mostrarToast('Novo pedido simulado recebido!');
+        }
+
+        // Adicionar botão de simulação (apenas para desenvolvimento)
+        function adicionarBotaoSimulacao() {
+            const btn = document.createElement('button');
+            btn.className = 'btn btn-warning';
+            btn.innerHTML = '<i class="fas fa-plus"></i> Simular Novo Pedido';
+            btn.onclick = simularNovoPedido;
+            btn.style.position = 'fixed';
+            btn.style.bottom = '20px';
+            btn.style.right = '20px';
+            btn.style.zIndex = '1000';
+            
+            document.body.appendChild(btn);
+        }
+
+        // =============================================
+        // ✅✅✅ FUNÇÕES CORRIGIDAS - MÚLTIPLAS IMAGENS ✅✅✅
+        // =============================================
+
+        // ✅✅✅ FUNÇÃO CORRIGIDA - PREVIEW DE MÚLTIPLAS IMAGENS
+        function previewMultipleImages(input) {
+            const previewContainer = document.getElementById('multipleImagesPreview');
+            const files = input.files;
+            
+            if (files.length > 0) {
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        // ✅✅✅ ADICIONAR À LISTA DE IMAGENS
+                        imagensProdutoBase64.push(e.target.result);
+                        
+                        const imgContainer = document.createElement('div');
+                        imgContainer.style.position = 'relative';
+                        imgContainer.style.display = 'inline-block';
+                        
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.className = 'image-preview-thumb';
+                        img.alt = `Imagem ${imagensProdutoBase64.length}`;
+                        
+                        const removeBtn = document.createElement('button');
+                        removeBtn.className = 'remove-image';
+                        removeBtn.innerHTML = '×';
+                        removeBtn.title = 'Remover imagem';
+                        removeBtn.onclick = function() {
+                            const index = imagensProdutoBase64.indexOf(e.target.result);
+                            if (index > -1) {
+                                imagensProdutoBase64.splice(index, 1);
+                            }
+                            imgContainer.remove();
+                            mostrarToast('Imagem removida do produto');
+                        };
+                        
+                        imgContainer.appendChild(img);
+                        imgContainer.appendChild(removeBtn);
+                        previewContainer.appendChild(imgContainer);
+                    }
+                    
+                    reader.readAsDataURL(file);
+                }
+                mostrarToast(`${files.length} imagem(ns) adicionada(s) ao produto`);
             }
         }
 
-        function limparFormularioProduto() {
-            document.getElementById('produtoNome').value = '';
-            document.getElementById('produtoDescricao').value = '';
-            document.getElementById('produtoPreco').value = '';
-            document.getElementById('produtoPrecoOriginal').value = '';
-            document.getElementById('produtoCategoria').value = '';
-            document.getElementById('produtoEstoque').value = '10';
+        // ✅✅✅ FUNÇÃO CORRIGIDA - ADICIONAR PRODUTO
+        function adicionarProduto() {
+            const nome = document.getElementById('produtoNome').value;
+            const descricao = document.getElementById('produtoDescricao').value;
+            const preco = parseFloat(document.getElementById('produtoPreco').value);
+            const precoOriginal = document.getElementById('produtoPrecoOriginal').value ? 
+                parseFloat(document.getElementById('produtoPrecoOriginal').value) : null;
+            const categoria = document.getElementById('produtoCategoria').value;
+            const estoque = parseInt(document.getElementById('produtoEstoque').value) || 0;
+
+            // Obter tags selecionadas
+            const tags = [];
+            if (document.getElementById('tagDestaque').checked) tags.push('destaque');
+            if (document.getElementById('tagNovo').checked) tags.push('novo');
+            if (document.getElementById('tagPromocao').checked) tags.push('promocao');
+
+            if (!nome || !preco || !categoria) {
+                mostrarToast('Preencha todos os campos obrigatórios', 'error');
+                return;
+            }
+
+            if (imagensProdutoBase64.length === 0) {
+                mostrarToast('Adicione pelo menos uma imagem para o produto', 'error');
+                return;
+            }
+
+            const novoProduto = {
+                id: Date.now(),
+                nome: nome,
+                descricao: descricao,
+                preco: preco,
+                precoOriginal: precoOriginal,
+                categoria: categoria,
+                tags: tags,
+                // ✅✅✅ SALVAR TODAS AS IMAGENS
+                imagens: [...imagensProdutoBase64],
+                rating: 4.0,
+                reviews: 0,
+                views: 0,
+                estoque: estoque
+            };
+
+            const config = JSON.parse(localStorage.getItem('loloModasConfig')) || {};
+            if (!config.produtos) config.produtos = [];
+
+            config.produtos.push(novoProduto);
+            localStorage.setItem('loloModasConfig', JSON.stringify(config));
+
+            // ✅✅✅ LIMPAR FORMULÁRIO E IMAGENS
+            limparFormulario();
+            carregarListaProdutos();
+            mostrarToast('Produto adicionado com sucesso!');
         }
 
-        // Sincronizar dados
-        function sincronizarDados() {
-            mostrarToast('Dados sincronizados com a loja!');
+        // ✅✅✅ FUNÇÃO CORRIGIDA - EDITAR PRODUTO
+        function editarProduto(id) {
+            const config = JSON.parse(localStorage.getItem('loloModasConfig')) || {};
+            const produto = config.produtos.find(p => p.id === id);
+            
+            if (!produto) {
+                mostrarToast('Produto não encontrado', 'error');
+                return;
+            }
+
+            // Preencher formulário
+            document.getElementById('produtoId').value = produto.id;
+            document.getElementById('produtoNome').value = produto.nome;
+            document.getElementById('produtoDescricao').value = produto.descricao || '';
+            document.getElementById('produtoPreco').value = produto.preco;
+            document.getElementById('produtoPrecoOriginal').value = produto.precoOriginal || '';
+            document.getElementById('produtoCategoria').value = produto.categoria;
+            document.getElementById('produtoEstoque').value = produto.estoque || 0;
+
+            // Preencher tags
+            document.getElementById('tagDestaque').checked = produto.tags?.includes('destaque') || false;
+            document.getElementById('tagNovo').checked = produto.tags?.includes('novo') || false;
+            document.getElementById('tagPromocao').checked = produto.tags?.includes('promocao') || false;
+
+            // ✅✅✅ PREENCHER IMAGENS - CORRIGIDO
+            imagensProdutoBase64 = [...(produto.imagens || [])];
+            const previewContainer = document.getElementById('multipleImagesPreview');
+            previewContainer.innerHTML = '';
+            
+            imagensProdutoBase64.forEach((imagem, index) => {
+                const imgContainer = document.createElement('div');
+                imgContainer.style.position = 'relative';
+                imgContainer.style.display = 'inline-block';
+                
+                const img = document.createElement('img');
+                img.src = imagem;
+                img.className = 'image-preview-thumb';
+                img.alt = `Imagem ${index + 1}`;
+                
+                const removeBtn = document.createElement('button');
+                removeBtn.className = 'remove-image';
+                removeBtn.innerHTML = '×';
+                removeBtn.title = 'Remover imagem';
+                removeBtn.onclick = function() {
+                    imagensProdutoBase64.splice(index, 1);
+                    imgContainer.remove();
+                    mostrarToast('Imagem removida do produto');
+                };
+                
+                imgContainer.appendChild(img);
+                imgContainer.appendChild(removeBtn);
+                previewContainer.appendChild(imgContainer);
+            });
+
+            // Mudar para modo edição
+            produtoEditando = produto;
+            document.getElementById('btnAdicionar').style.display = 'none';
+            document.getElementById('btnSalvar').style.display = 'inline-flex';
+            document.getElementById('btnCancelar').style.display = 'inline-flex';
+
+            // Scroll para o formulário
+            document.getElementById('formProduto').scrollIntoView({ behavior: 'smooth' });
+            
+            mostrarToast('Editando produto: ' + produto.nome, 'warning');
         }
 
-        // Toast
+        // ✅✅✅ FUNÇÃO CORRIGIDA - SALVAR EDIÇÃO
+        function salvarEdicao() {
+            const id = parseInt(document.getElementById('produtoId').value);
+            const nome = document.getElementById('produtoNome').value;
+            const descricao = document.getElementById('produtoDescricao').value;
+            const preco = parseFloat(document.getElementById('produtoPreco').value);
+            const precoOriginal = document.getElementById('produtoPrecoOriginal').value ? 
+                parseFloat(document.getElementById('produtoPrecoOriginal').value) : null;
+            const categoria = document.getElementById('produtoCategoria').value;
+            const estoque = parseInt(document.getElementById('produtoEstoque').value) || 0;
+
+            // Obter tags selecionadas
+            const tags = [];
+            if (document.getElementById('tagDestaque').checked) tags.push('destaque');
+            if (document.getElementById('tagNovo').checked) tags.push('novo');
+            if (document.getElementById('tagPromocao').checked) tags.push('promocao');
+
+            if (!nome || !preco || !categoria) {
+                mostrarToast('Preencha todos os campos obrigatórios', 'error');
+                return;
+            }
+
+            if (imagensProdutoBase64.length === 0) {
+                mostrarToast('Adicione pelo menos uma imagem para o produto', 'error');
+                return;
+            }
+
+            const config = JSON.parse(localStorage.getItem('loloModasConfig')) || {};
+            const produtoIndex = config.produtos.findIndex(p => p.id === id);
+            
+            if (produtoIndex === -1) {
+                mostrarToast('Produto não encontrado', 'error');
+                return;
+            }
+
+            // ✅✅✅ ATUALIZAR PRODUTO COM TODAS AS IMAGENS
+            config.produtos[produtoIndex] = {
+                ...config.produtos[produtoIndex],
+                nome: nome,
+                descricao: descricao,
+                preco: preco,
+                precoOriginal: precoOriginal,
+                categoria: categoria,
+                tags: tags,
+                // ✅✅✅ MANTER TODAS AS IMAGENS
+                imagens: [...imagensProdutoBase64],
+                estoque: estoque
+            };
+
+            localStorage.setItem('loloModasConfig', JSON.stringify(config));
+            cancelarEdicao();
+            carregarListaProdutos();
+            mostrarToast('Produto atualizado com sucesso!');
+        }
+
+        // ✅✅✅ FUNÇÃO CORRIGIDA - LIMPAR FORMULÁRIO
+        function limparFormulario() {
+            document.getElementById('formProduto').reset();
+            document.getElementById('produtoId').value = '';
+            document.getElementById('multipleImagesPreview').innerHTML = '';
+            // ✅✅✅ LIMPAR A LISTA DE IMAGENS
+            imagensProdutoBase64 = [];
+        }
+
+        function cancelarEdicao() {
+            produtoEditando = null;
+            document.getElementById('btnAdicionar').style.display = 'inline-flex';
+            document.getElementById('btnSalvar').style.display = 'none';
+            document.getElementById('btnCancelar').style.display = 'none';
+            limparFormulario();
+        }
+
+        // ✅✅✅ FUNÇÃO CORRIGIDA - CARREGAR LISTA DE PRODUTOS
+        function carregarListaProdutos() {
+            const container = document.getElementById('listaProdutos');
+            const config = JSON.parse(localStorage.getItem('loloModasConfig')) || {};
+            const produtos = config.produtos || [];
+
+            if (produtos.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: var(--gray); grid-column: 1 / -1;">
+                        <i class="fas fa-shoe-prints" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                        <h3>Nenhum produto cadastrado</h3>
+                        <p>Adicione seu primeiro produto usando o formulário acima.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = produtos.map(produto => {
+                // ✅✅✅ MOSTRAR QUANTIDADE DE IMAGENS
+                const imagemPrincipal = produto.imagens ? produto.imagens[0] : produto.imagem;
+                const quantidadeImagens = produto.imagens ? produto.imagens.length : 1;
+
+                return `
+                    <div class="product-card">
+                        <img src="${imagemPrincipal}" alt="${produto.nome}" 
+                             onerror="this.src='https://via.placeholder.com/300x200/CCCCCC/666666?text=Imagem+Indisponível'">
+                        <h3>${produto.nome}</h3>
+                        <p><strong>Preço:</strong> R$ ${produto.preco.toFixed(2)}</p>
+                        <p><strong>Categoria:</strong> ${produto.categoria}</p>
+                        <p><strong>Imagens:</strong> ${quantidadeImagens}</p>
+                        <p><strong>Estoque:</strong> ${produto.estoque} unidades</p>
+                        <div class="product-actions">
+                            <button class="btn btn-sm btn-warning" onclick="editarProduto(${produto.id})">
+                                <i class="fas fa-edit"></i> Editar
+                            </button>
+                            <button class="btn btn-sm btn-danger" onclick="removerProduto(${produto.id})">
+                                <i class="fas fa-trash"></i> Remover
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function removerProduto(id) {
+            if (!confirm('Tem certeza que deseja remover este produto?')) {
+                return;
+            }
+
+            const config = JSON.parse(localStorage.getItem('loloModasConfig')) || {};
+            if (config.produtos) {
+                config.produtos = config.produtos.filter(produto => produto.id !== id);
+                localStorage.setItem('loloModasConfig', JSON.stringify(config));
+                carregarListaProdutos();
+                mostrarToast('Produto removido com sucesso!');
+            }
+        }
+
+        // =============================================
+        // FUNÇÕES EXISTENTES DO PAINEL
+        // =============================================
+
+        // GERENCIAMENTO DE IMAGENS DO BANNER
+        function adicionarImagensBanner(input) {
+            const files = input.files;
+            
+            if (files.length > 0) {
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        imagensBannerBase64.push(e.target.result);
+                        carregarImagensBanner();
+                        atualizarPreviewBanner();
+                    }
+                    
+                    reader.readAsDataURL(file);
+                }
+                mostrarToast(`${files.length} imagem(ns) adicionada(s) ao banner!`);
+            }
+        }
+
+        function adicionarUrlBanner() {
+            const url = document.getElementById('bannerImageUrl').value.trim();
+            
+            if (url) {
+                // Validar URL
+                if (url.startsWith('http')) {
+                    imagensBannerBase64.push(url);
+                    document.getElementById('bannerImageUrl').value = '';
+                    carregarImagensBanner();
+                    atualizarPreviewBanner();
+                    mostrarToast('URL da imagem adicionada com sucesso!');
+                } else {
+                    mostrarToast('Por favor, insira uma URL válida começando com http ou https', 'error');
+                }
+            } else {
+                mostrarToast('Por favor, insira uma URL', 'error');
+            }
+        }
+
+        function carregarImagensBanner() {
+            const grid = document.getElementById('bannerImagesGrid');
+            
+            if (imagensBannerBase64.length === 0) {
+                grid.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: var(--gray); grid-column: 1 / -1;">
+                        <i class="fas fa-images" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                        <h3>Nenhuma imagem adicionada</h3>
+                        <p>Adicione imagens usando o upload acima ou insira URLs</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = imagensBannerBase64.map((img, index) => `
+                <div class="banner-image-card">
+                    <img src="${img}" alt="Imagem Banner ${index + 1}" 
+                         onerror="this.src='https://via.placeholder.com/180x120/CCCCCC/666666?text=Erro+Imagem'">
+                    <div class="banner-image-actions">
+                        <button class="btn btn-sm btn-danger" onclick="removerImagemBanner(${index})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                        <button class="btn btn-sm btn-warning" onclick="moverImagemBanner(${index}, -1)" ${index === 0 ? 'disabled' : ''}>
+                            <i class="fas fa-arrow-up"></i>
+                        </button>
+                        <button class="btn btn-sm btn-warning" onclick="moverImagemBanner(${index}, 1)" ${index === imagensBannerBase64.length - 1 ? 'disabled' : ''}>
+                            <i class="fas fa-arrow-down"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function removerImagemBanner(index) {
+            if (confirm('Tem certeza que deseja remover esta imagem do banner?')) {
+                imagensBannerBase64.splice(index, 1);
+                carregarImagensBanner();
+                atualizarPreviewBanner();
+                mostrarToast('Imagem removida do banner');
+            }
+        }
+
+        function moverImagemBanner(index, direcao) {
+            const novoIndex = index + direcao;
+            if (novoIndex >= 0 && novoIndex < imagensBannerBase64.length) {
+                // Trocar as posições
+                [imagensBannerBase64[index], imagensBannerBase64[novoIndex]] = 
+                [imagensBannerBase64[novoIndex], imagensBannerBase64[index]];
+                
+                carregarImagensBanner();
+                atualizarPreviewBanner();
+            }
+        }
+
+        function salvarImagensBanner() {
+            const config = JSON.parse(localStorage.getItem('loloModasConfig')) || {};
+            
+            config.bannerImages = imagensBannerBase64;
+            
+            // Salvar tamanho das imagens do banner
+            const bannerSize = document.getElementById('bannerImageSize').value;
+            config.bannerImageSize = parseInt(bannerSize);
+            
+            localStorage.setItem('loloModasConfig', JSON.stringify(config));
+            
+            mostrarToast('Imagens do banner salvas com sucesso!');
+        }
+
+        function limparImagensBanner() {
+            if (confirm('Tem certeza que deseja limpar TODAS as imagens do banner?')) {
+                imagensBannerBase64 = [];
+                carregarImagensBanner();
+                atualizarPreviewBanner();
+                
+                const config = JSON.parse(localStorage.getItem('loloModasConfig')) || {};
+                delete config.bannerImages;
+                localStorage.setItem('loloModasConfig', JSON.stringify(config));
+                
+                mostrarToast('Todas as imagens do banner foram removidas');
+            }
+        }
+
+        function atualizarPreviewBanner() {
+            const preview = document.getElementById('bannerPreview');
+            
+            if (imagensBannerBase64.length === 0) {
+                preview.innerHTML = `
+                    <div style="padding: 20px; text-align: center; color: var(--gray);">
+                        <i class="fas fa-shoe-prints" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                        <p>Adicione imagens para ver a pré-visualização do banner</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Pegar as primeiras 4 imagens para o preview
+            const previewImages = imagensBannerBase64.slice(0, 4);
+            
+            preview.innerHTML = `
+                <div style="padding: 15px; background: var(--primary); color: white; text-align: center; border-radius: 10px 10px 0 0;">
+                    <strong>Lolo Modas</strong>
+                </div>
+                <div style="padding: 20px; background: #fefaf6; height: 100%;">
+                    <div style="background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)); color: white; padding: 30px; border-radius: 10px; text-align: center; margin-bottom: 15px;">
+                        <h3 style="margin-bottom: 10px;">Calçados de Qualidade</h3>
+                        <p style="font-size: 0.9rem;">Encontre os melhores calçados</p>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        ${previewImages.map((img, index) => `
+                            <div style="background: white; border: 1px solid #ddd; border-radius: 5px; padding: 8px;">
+                                <div style="height: 60px; background: #f8f9fa; margin-bottom: 5px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                                    <img src="${img}" alt="Preview ${index + 1}" style="max-width: 100%; max-height: 100%; object-fit: contain;"
+                                         onerror="this.style.display='none'">
+                                </div>
+                                <div style="font-size: 0.6rem; color: #666;">Imagem ${index + 1}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div style="margin-top: 15px; text-align: center; font-size: 0.7rem; color: var(--gray);">
+                        ${imagensBannerBase64.length} imagens no total
+                    </div>
+                </div>
+            `;
+        }
+
+        // CONTROLES DE TAMANHO
+        function inicializarControlesTamanho() {
+            // Controle do tamanho das imagens do banner
+            const bannerSizeControl = document.getElementById('bannerImageSize');
+            const bannerSizeValue = document.getElementById('bannerImageSizeValue');
+            const bannerSizePreview = document.getElementById('bannerSizePreview');
+            
+            bannerSizeControl.addEventListener('input', function() {
+                const size = this.value;
+                bannerSizeValue.textContent = `${size}px`;
+                bannerSizePreview.style.width = `${size}px`;
+                bannerSizePreview.style.height = `${size * 0.75}px`;
+            });
+            
+            // Controle do tamanho das imagens dos produtos
+            const produtoSizeControl = document.getElementById('produtoImageSize');
+            const produtoSizeValue = document.getElementById('produtoImageSizeValue');
+            const produtoSizePreview = document.getElementById('produtoSizePreview');
+            
+            produtoSizeControl.addEventListener('input', function() {
+                const size = this.value;
+                produtoSizeValue.textContent = `${size}px`;
+                produtoSizePreview.style.width = `${size}px`;
+                produtoSizePreview.style.height = `${size * 0.67}px`;
+            });
+
+            // Controle do tamanho da fonte
+            const fonteSizeControl = document.getElementById('tamanhoFonte');
+            const fonteSizeValue = document.getElementById('tamanhoFonteValue');
+            
+            fonteSizeControl.addEventListener('input', function() {
+                const size = this.value;
+                fonteSizeValue.textContent = `${size}px`;
+            });
+        }
+
+        // CONTROLES DE CORES
+        function inicializarControlesCores() {
+            // Configurar eventos para os controles de cor
+            const cores = [
+                { id: 'corPrimaria', preview: 'previewPrimaria', texto: 'corPrimariaTexto' },
+                { id: 'corSecundaria', preview: 'previewSecundaria', texto: 'corSecundariaTexto' },
+                { id: 'corDestaque', preview: 'previewDestaque', texto: 'corDestaqueTexto' },
+                { id: 'corTexto', preview: 'previewTexto', texto: 'corTextoTxt' },
+                { id: 'corFundo', preview: 'previewFundo', texto: 'corFundoTexto' },
+                { id: 'bannerCorTexto', preview: 'previewBannerTexto', texto: 'bannerCorTextoTxt' },
+                { id: 'bannerCorBotao', preview: 'previewBannerBotao', texto: 'bannerCorBotaoTxt' }
+            ];
+
+            cores.forEach(cor => {
+                const inputColor = document.getElementById(cor.id);
+                const inputText = document.getElementById(cor.texto);
+                const preview = document.getElementById(cor.preview);
+
+                // Atualizar texto quando cor muda
+                inputColor.addEventListener('input', function() {
+                    inputText.value = this.value;
+                    preview.style.backgroundColor = this.value;
+                });
+
+                // Atualizar cor quando texto muda
+                inputText.addEventListener('input', function() {
+                    if (this.value.match(/^#[0-9A-F]{6}$/i)) {
+                        inputColor.value = this.value;
+                        preview.style.backgroundColor = this.value;
+                    }
+                });
+
+                // Atualizar preview inicial
+                preview.style.backgroundColor = inputColor.value;
+            });
+        }
+
+        // PERSONALIZAÇÃO
+        function salvarPersonalizacao() {
+            const config = JSON.parse(localStorage.getItem('loloModasConfig')) || {};
+
+            config.textos = {
+                nomeLoja: document.getElementById('configNomeLoja').value,
+                descricao: document.getElementById('configDescricao').value,
+                telefone: document.getElementById('configTelefone').value,
+                email: document.getElementById('configEmail').value
+            };
+
+            // Salvar cores
+            config.cores = {
+                primaria: document.getElementById('corPrimaria').value,
+                secundaria: document.getElementById('corSecundaria').value,
+                destaque: document.getElementById('corDestaque').value,
+                texto: document.getElementById('corTexto').value,
+                fundo: document.getElementById('corFundo').value
+            };
+
+            localStorage.setItem('loloModasConfig', JSON.stringify(config));
+            mostrarToast('Personalização salva com sucesso!');
+        }
+
+        // BANNER
+        function salvarBanner() {
+            const config = JSON.parse(localStorage.getItem('loloModasConfig')) || {};
+
+            config.banner = {
+                titulo: document.getElementById('bannerTitulo').value,
+                subtitulo: document.getElementById('bannerSubtitulo').value,
+                botao: document.getElementById('bannerBotao').value,
+                corTexto: document.getElementById('bannerCorTexto').value,
+                corBotao: document.getElementById('bannerCorBotao').value
+            };
+
+            localStorage.setItem('loloModasConfig', JSON.stringify(config));
+            mostrarToast('Banner salvo com sucesso!');
+        }
+
+        // TIPOGRAFIA
+        function salvarTipografia() {
+            const config = JSON.parse(localStorage.getItem('loloModasConfig')) || {};
+
+            config.tipografia = {
+                fontePrincipal: document.getElementById('fontePrincipal').value,
+                fonteTitulos: document.getElementById('fonteTitulos').value,
+                tamanhoFonte: document.getElementById('tamanhoFonte').value
+            };
+
+            localStorage.setItem('loloModasConfig', JSON.stringify(config));
+            mostrarToast('Configurações de fonte salvas com sucesso!');
+        }
+
+        function atualizarPreviewFontes() {
+            // Implementação se necessário
+        }
+
+        // CONFIGURAÇÕES GERAIS
+        function exportarConfiguracoes() {
+            const config = localStorage.getItem('loloModasConfig');
+            if (!config) {
+                mostrarToast('Nenhuma configuração para exportar', 'warning');
+                return;
+            }
+
+            const blob = new Blob([config], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'lolo-modas-backup.json';
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            mostrarToast('Backup exportado com sucesso!');
+        }
+
+        function importarConfiguracoes(input) {
+            const file = input.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const config = JSON.parse(e.target.result);
+                    localStorage.setItem('loloModasConfig', JSON.stringify(config));
+                    carregarConfiguracoes();
+                    carregarListaProdutos();
+                    mostrarToast('Configurações importadas com sucesso!');
+                } catch (error) {
+                    mostrarToast('Erro ao importar arquivo', 'error');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function limparConfiguracoes() {
+            if (!confirm('Tem certeza? Isso irá resetar toda a loja para as configurações padrão.')) {
+                return;
+            }
+
+            localStorage.removeItem('loloModasConfig');
+            carregarConfiguracoes();
+            carregarListaProdutos();
+            mostrarToast('Configurações resetadas com sucesso!');
+        }
+
+        // CARREGAR CONFIGURAÇÕES
+        function carregarConfiguracoes() {
+            const config = JSON.parse(localStorage.getItem('loloModasConfig')) || {};
+
+            // Personalização
+            if (config.textos) {
+                document.getElementById('configNomeLoja').value = config.textos.nomeLoja || '';
+                document.getElementById('configDescricao').value = config.textos.descricao || '';
+                document.getElementById('configTelefone').value = config.textos.telefone || '';
+                document.getElementById('configEmail').value = config.textos.email || '';
+            }
+
+            // Cores
+            if (config.cores) {
+                document.getElementById('corPrimaria').value = config.cores.primaria || '#8B4513';
+                document.getElementById('corPrimariaTexto').value = config.cores.primaria || '#8B4513';
+                document.getElementById('corSecundaria').value = config.cores.secundaria || '#D2691E';
+                document.getElementById('corSecundariaTexto').value = config.cores.secundaria || '#D2691E';
+                document.getElementById('corDestaque').value = config.cores.destaque || '#CD853F';
+                document.getElementById('corDestaqueTexto').value = config.cores.destaque || '#CD853F';
+                document.getElementById('corTexto').value = config.cores.texto || '#3E2723';
+                document.getElementById('corTextoTxt').value = config.cores.texto || '#3E2723';
+                document.getElementById('corFundo').value = config.cores.fundo || '#fefaf6';
+                document.getElementById('corFundoTexto').value = config.cores.fundo || '#fefaf6';
+            }
+
+            // Banner
+            if (config.banner) {
+                document.getElementById('bannerTitulo').value = config.banner.titulo || '';
+                document.getElementById('bannerSubtitulo').value = config.banner.subtitulo || '';
+                document.getElementById('bannerBotao').value = config.banner.botao || '';
+                document.getElementById('bannerCorTexto').value = config.banner.corTexto || '#ffffff';
+                document.getElementById('bannerCorTextoTxt').value = config.banner.corTexto || '#ffffff';
+                document.getElementById('bannerCorBotao').value = config.banner.corBotao || '#CD853F';
+                document.getElementById('bannerCorBotaoTxt').value = config.banner.corBotao || '#CD853F';
+            }
+
+            // Imagens do Banner
+            if (config.bannerImages) {
+                imagensBannerBase64 = config.bannerImages;
+            }
+
+            // Tamanho das imagens do banner
+            if (config.bannerImageSize) {
+                document.getElementById('bannerImageSize').value = config.bannerImageSize;
+                document.getElementById('bannerImageSizeValue').textContent = `${config.bannerImageSize}px`;
+                document.getElementById('bannerSizePreview').style.width = `${config.bannerImageSize}px`;
+                document.getElementById('bannerSizePreview').style.height = `${config.bannerImageSize * 0.75}px`;
+            }
+
+            // Tamanho das imagens dos produtos
+            if (config.produtoImageSize) {
+                document.getElementById('produtoImageSize').value = config.produtoImageSize;
+                document.getElementById('produtoImageSizeValue').textContent = `${config.produtoImageSize}px`;
+                document.getElementById('produtoSizePreview').style.width = `${config.produtoImageSize}px`;
+                document.getElementById('produtoSizePreview').style.height = `${config.produtoImageSize * 0.67}px`;
+            }
+
+            // Tipografia
+            if (config.tipografia) {
+                document.getElementById('fontePrincipal').value = config.tipografia.fontePrincipal || "'Inter', sans-serif";
+                document.getElementById('fonteTitulos').value = config.tipografia.fonteTitulos || "'Playfair Display', serif";
+                document.getElementById('tamanhoFonte').value = config.tipografia.tamanhoFonte || "16";
+                document.getElementById('tamanhoFonteValue').textContent = `${config.tipografia.tamanhoFonte || "16"}px`;
+            }
+        }
+
+        // TOAST NOTIFICATION
         function mostrarToast(mensagem, tipo = 'success') {
             const toast = document.getElementById('toast');
             const toastMessage = document.getElementById('toastMessage');
             
+            toast.className = `toast ${tipo}`;
             toastMessage.textContent = mensagem;
-            toast.className = 'toast';
             
-            setTimeout(() => {
-                toast.classList.add('show');
-            }, 100);
+            toast.classList.add('show');
             
             setTimeout(() => {
                 toast.classList.remove('show');
             }, 3000);
         }
 
-        // Adicionar produtos de exemplo
-        setTimeout(() => {
-            if (produtos.length === 0) {
-                produtos = [
-                    {
-                        id: 1,
-                        nome: "Tênis Masculino Esportivo",
-                        descricao: "Tênis confortável para atividades físicas",
-                        preco: 199.90,
-                        categoria: "masculino",
-                        estoque: 15
+        // INICIALIZAÇÃO
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🛠️ Iniciando Painel Admin...');
+            carregarConfiguracoes();
+            carregarListaProdutos();
+            carregarImagensBanner();
+            atualizarPreviewBanner();
+            inicializarControlesTamanho();
+            inicializarControlesCores();
+            
+            // ========== NOVO: Carregar sistema de pedidos ==========
+            carregarPedidos();
+            adicionarBotaoSimulacao(); // Remover esta linha em produção
+            adicionarBotaoSincronizacao();
+            
+            // Carregar dados iniciais se não existirem
+            const config = JSON.parse(localStorage.getItem('loloModasConfig'));
+            if (!config) {
+                const configPadrao = {
+                    textos: {
+                        nomeLoja: "Lolo Modas",
+                        descricao: "Especializada em calçados masculinos e femininos de qualidade.",
+                        telefone: "(11) 9999-9999",
+                        email: "contato@lolomodas.com"
                     },
-                    {
-                        id: 2,
-                        nome: "Salto Alto Feminino",
-                        descricao: "Salto elegante para ocasiões especiais",
-                        preco: 159.90,
-                        precoOriginal: 199.90,
-                        categoria: "feminino",
-                        estoque: 8
-                    }
-                ];
-                localStorage.setItem('lojaProdutos', JSON.stringify(produtos));
-                carregarProdutos();
-                atualizarDashboard();
+                    cores: {
+                        primaria: "#8B4513",
+                        secundaria: "#D2691E",
+                        destaque: "#CD853F",
+                        texto: "#3E2723",
+                        fundo: "#fefaf6"
+                    },
+                    banner: {
+                        titulo: "Calçados de Qualidade para Todos os Estilos",
+                        subtitulo: "Encontre os melhores calçados masculinos e femininos com conforto, estilo e preços incríveis!",
+                        botao: "Ver Coleção",
+                        corTexto: "#ffffff",
+                        corBotao: "#CD853F"
+                    },
+                    tipografia: {
+                        fontePrincipal: "'Inter', sans-serif",
+                        fonteTitulos: "'Playfair Display', serif",
+                        tamanhoFonte: "16"
+                    },
+                    produtos: [],
+                    bannerImages: [],
+                    bannerImageSize: 250,
+                    produtoImageSize: 300
+                };
+                localStorage.setItem('loloModasConfig', JSON.stringify(configPadrao));
+                carregarConfiguracoes();
             }
-        }, 1000);
+        });
     </script>
 </body>
 </html>
