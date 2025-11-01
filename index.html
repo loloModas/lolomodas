@@ -1382,6 +1382,97 @@
     </footer>
 
     <script>
+        // =============================================
+        // SISTEMA DE CONFIGURAÇÃO - CARREGAR DO GITHUB
+        // =============================================
+
+        // URL do config.json no GitHub
+        const CONFIG_URL = 'https://raw.githubusercontent.com/loloModas/lolomodas/main/config.json';
+
+        // Função para carregar configurações
+        async function carregarConfiguracoes() {
+            try {
+                console.log('🔄 Carregando configurações do GitHub...');
+                
+                // Tenta carregar do GitHub
+                const response = await fetch(CONFIG_URL + '?t=' + Date.now());
+                if (response.ok) {
+                    const config = await response.json();
+                    console.log('✅ Configurações carregadas do GitHub:', config);
+                    
+                    // Salva no localStorage para uso futuro
+                    localStorage.setItem('loloModasConfig', JSON.stringify(config));
+                    return config;
+                }
+            } catch (error) {
+                console.log('⚠️ Erro ao carregar do GitHub, usando configurações locais');
+            }
+            
+            // Fallback para localStorage
+            const localConfig = localStorage.getItem('loloModasConfig');
+            return localConfig ? JSON.parse(localConfig) : null;
+        }
+
+        // Função para aplicar configurações
+        function aplicarConfiguracoes(config) {
+            if (!config) return;
+            
+            console.log('🎨 Aplicando configurações:', config);
+            
+            // Aplicar cores CSS
+            if (config.cores) {
+                const root = document.documentElement;
+                if (config.cores.primaria) root.style.setProperty('--primary', config.cores.primaria);
+                if (config.cores.secundaria) root.style.setProperty('--secondary', config.cores.secundaria);
+                if (config.cores.destaque) root.style.setProperty('--accent', config.cores.destaque);
+                if (config.cores.texto) root.style.setProperty('--dark', config.cores.texto);
+                if (config.cores.fundo) root.style.setProperty('--light', config.cores.fundo);
+            }
+            
+            // Aplicar textos
+            if (config.textos) {
+                // Atualizar título da loja
+                const titulos = document.querySelectorAll('h1, .logo, .site-title');
+                titulos.forEach(titulo => {
+                    if (config.textos.nomeLoja && titulo.textContent.includes('Lolo')) {
+                        titulo.textContent = config.textos.nomeLoja;
+                    }
+                });
+            }
+        }
+
+        // Nova inicialização da loja
+        async function inicializarLoja() {
+            console.log('🛍️ Iniciando Lolo Modas...');
+            
+            // 1. Carregar configurações do GitHub
+            const config = await carregarConfiguracoes();
+            
+            // 2. Aplicar configurações (cores, textos)
+            aplicarConfiguracoes(config);
+            
+            // 3. Seu código original continua aqui
+            criarRolagemTenis();
+            carregarEstado();
+            carregarPersonalizacao();
+            carregarProdutosPersonalizados();
+            
+            // 4. Atualizar a cada 2 segundos para pegar mudanças do painel
+            setInterval(() => {
+                carregarPersonalizacao();
+                carregarProdutosPersonalizados();
+                criarRolagemTenis();
+            }, 2000);
+            
+            console.log('✅ Loja inicializada com sucesso!');
+        }
+
+        // Iniciar quando a página carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            inicializarLoja();
+        });
+
+        // ... (o resto do seu código JavaScript continua aqui exatamente como estava)
         // IMAGENS DE TÊNIS PARA A ROLAGEM
         const shoesImages = [
             'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=250&h=188&fit=crop',
@@ -2325,98 +2416,6 @@
                 fecharFinalizar();
             }
         });
-
-        // =============================================
-// SISTEMA DE CONFIGURAÇÃO - CARREGAR DO GITHUB
-// =============================================
-
-// URL do config.json no GitHub
-const CONFIG_URL = 'https://raw.githubusercontent.com/loloModas/lolomodas/main/config.json';
-
-// Função para carregar configurações
-async function carregarConfiguracoes() {
-    try {
-        console.log('🔄 Carregando configurações do GitHub...');
-        
-        // Tenta carregar do GitHub
-        const response = await fetch(CONFIG_URL + '?t=' + Date.now());
-        if (response.ok) {
-            const config = await response.json();
-            console.log('✅ Configurações carregadas do GitHub:', config);
-            
-            // Salva no localStorage para uso futuro
-            localStorage.setItem('loloModasConfig', JSON.stringify(config));
-            return config;
-        }
-    } catch (error) {
-        console.log('⚠️ Erro ao carregar do GitHub, usando configurações locais');
-    }
-    
-    // Fallback para localStorage
-    const localConfig = localStorage.getItem('loloModasConfig');
-    return localConfig ? JSON.parse(localConfig) : null;
-}
-
-// Função para aplicar configurações
-function aplicarConfiguracoes(config) {
-    if (!config) return;
-    
-    console.log('🎨 Aplicando configurações:', config);
-    
-    // Aplicar cores CSS
-    if (config.cores) {
-        const root = document.documentElement;
-        if (config.cores.primaria) root.style.setProperty('--primary', config.cores.primaria);
-        if (config.cores.secundaria) root.style.setProperty('--secondary', config.cores.secundaria);
-        if (config.cores.destaque) root.style.setProperty('--accent', config.cores.destaque);
-        if (config.cores.texto) root.style.setProperty('--dark', config.cores.texto);
-        if (config.cores.fundo) root.style.setProperty('--light', config.cores.fundo);
-    }
-    
-    // Aplicar textos
-    if (config.textos) {
-        // Atualizar título da loja
-        const titulos = document.querySelectorAll('h1, .logo, .site-title');
-        titulos.forEach(titulo => {
-            if (config.textos.nomeLoja && titulo.textContent.includes('Lolo')) {
-                titulo.textContent = config.textos.nomeLoja;
-            }
-        });
-    }
-}
-
-// Nova inicialização da loja
-async function inicializarLoja() {
-    console.log('🛍️ Iniciando Lolo Modas...');
-    
-    // 1. Carregar configurações do GitHub
-    const config = await carregarConfiguracoes();
-    
-    // 2. Aplicar configurações (cores, textos)
-    aplicarConfiguracoes(config);
-    
-    // 3. Seu código original continua aqui
-    criarRolagemTenis();
-    carregarEstado();
-    carregarPersonalizacao();
-    carregarProdutosPersonalizados();
-    
-    // 4. Atualizar a cada 2 segundos para pegar mudanças do painel
-    setInterval(() => {
-        carregarPersonalizacao();
-        carregarProdutosPersonalizados();
-        criarRolagemTenis();
-    }, 2000);
-    
-    console.log('✅ Loja inicializada com sucesso!');
-}
-
-// Iniciar quando a página carregar
-document.addEventListener('DOMContentLoaded', function() {
-    inicializarLoja();
-});
-        });
     </script>
 </body>
 </html>
-
